@@ -8,10 +8,10 @@ from unittest import TestCase
 from cryptography import x509
 from cryptography.hazmat.backends.openssl.backend import Backend
 from cryptography.hazmat.backends.openssl.x509 import _CertificateSigningRequest
-from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
-from cryptography.hazmat.primitives.hashes import SHA256
 
+import autocsr.protos.csr_pb2 as protos
 from autocsr.csr import (
     Attribute,
     CertificateSigningRequest,
@@ -22,6 +22,8 @@ from autocsr.csr import (
     Subject,
 )
 from autocsr.utils import load_csr
+
+HashType = protos.CertificateSigningRequest.HashType
 
 
 class TestAttribute(TestCase):
@@ -80,6 +82,7 @@ class TestSubject(TestCase):
         "subject": TestAttribute.subject_dict,
         "key_path": "./fixtures/test.key",
         "output_path": "./fixtures/test.csr",
+        "hash_type": "SHA512",
     }
 
     def setUp(self):
@@ -130,6 +133,13 @@ class TestSigningKey(TestCase):
         self.write_key(self.dsa_key_path, self.dsa_private_key)
         self.write_key(self.ec_key_path, self.ec_private_key)
 
+        self.approved_hashes = {
+            HashType.SHA256: hashes.SHA256,
+            HashType.SHA512: hashes.SHA512,
+            HashType.SHA3_256: hashes.SHA3_256,
+            HashType.SHA3_512: hashes.SHA3_512,
+        }
+
     @staticmethod
     def create_rsa_key():
         """
@@ -156,7 +166,12 @@ class TestSigningKey(TestCase):
                 )
             )
 
-    def validate_signing_key(self, signing_key: SigningKey, key: PrivateKey):
+    def validate_signing_key(
+        self,
+        signing_key: SigningKey,
+        key: PrivateKey,
+        hash_type: HashType,
+    ):
         """
         A helper function for validating signing key objects
         """
@@ -173,8 +188,8 @@ class TestSigningKey(TestCase):
         )
         self.assertIsInstance(
             signing_key.algorithm,
-            SHA256,
-            "SHA256 is only currently supported hash algorithm",
+            self.approved_hashes[hash_type],
+            "Hash should match selected hash type",
         )
 
     def test_from_path(self):
@@ -182,13 +197,14 @@ class TestSigningKey(TestCase):
         Test the creation of a SigningKey from a key file
         """
 
-        rsa_signing_key = SigningKey.from_path(self.rsa_key_path)
-        dsa_signing_key = SigningKey.from_path(self.dsa_key_path)
-        ec_signing_key = SigningKey.from_path(self.ec_key_path)
+        for hash_type in self.approved_hashes:
+            rsa_signing_key = SigningKey.from_path(self.rsa_key_path, hash_type)
+            dsa_signing_key = SigningKey.from_path(self.dsa_key_path, hash_type)
+            ec_signing_key = SigningKey.from_path(self.ec_key_path, hash_type)
 
-        self.validate_signing_key(rsa_signing_key, self.rsa_private_key)
-        self.validate_signing_key(dsa_signing_key, self.dsa_private_key)
-        self.validate_signing_key(ec_signing_key, self.ec_private_key)
+            self.validate_signing_key(rsa_signing_key, self.rsa_private_key, hash_type)
+            self.validate_signing_key(dsa_signing_key, self.dsa_private_key, hash_type)
+            self.validate_signing_key(ec_signing_key, self.ec_private_key, hash_type)
 
 
 class TestCertificateSigningRequest(TestCase):
@@ -249,7 +265,7 @@ class TestMyBackend(TestCase):
         builder = x509.CertificateSigningRequestBuilder()
         self.builder = builder.subject_name(Subject.from_subject(csr.subject))
 
-        self.signing_key = SigningKey.from_path(csr.key_path)
+        self.signing_key = SigningKey.from_path(csr.key_path, csr.hash_type)
         self.backend = MyBackend()
 
     def test_create_x509_csr(self):

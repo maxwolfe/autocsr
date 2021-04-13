@@ -22,6 +22,7 @@ class TestUtils(TestCase):
         },
         "key_path": "./fixtures/test.key",
         "output_path": "./fixtures/test.csr",
+        "hash_type": "SHA512",
     }
     config_list = {0: config}
 

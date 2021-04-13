@@ -17,4 +17,13 @@ message CertificateSigningRequest {
   Subject subject = 1;
   string key_path = 2;
   string output_path = 3;
+
+  enum HashType {
+    SHA256 = 0;
+    SHA512 = 1;
+    SHA3_256 = 2;
+    SHA3_512 = 3;
+  }
+
+  optional HashType hash_type = 4;
 }

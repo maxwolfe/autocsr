@@ -2,16 +2,17 @@
 Build Certificate Signing Requests
 """
 
-from dataclasses import dataclass
-from typing import Optional, Union
+from __future__ import annotations
+
+from dataclasses import InitVar, dataclass
+from typing import Dict, Optional, Union
 
 from cryptography import x509
 from cryptography.hazmat._types import _PRIVATE_KEY_TYPES
 from cryptography.hazmat.backends.openssl.backend import Backend
 from cryptography.hazmat.backends.openssl.x509 import _CertificateSigningRequest
-from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
-from cryptography.hazmat.primitives.hashes import SHA256, HashAlgorithm
 from cryptography.hazmat.primitives.serialization import Encoding
 from cryptography.x509.oid import NameOID
 
@@ -22,6 +23,8 @@ PrivateKey = Union[
     dsa.DSAPrivateKey,
     ec.EllipticCurvePrivateKey,
 ]
+CsrSubject = proto.CertificateSigningRequest.Subject
+HashType = proto.CertificateSigningRequest.HashType
 
 
 class Attribute(x509.NameAttribute):
@@ -54,7 +57,7 @@ class Subject(x509.Name):
     ]
 
     @classmethod
-    def from_subject(cls, subject: proto.CertificateSigningRequest.Subject):
+    def from_subject(cls, subject: CsrSubject):
         """
         Build a x509 name object from dictionary
         """
@@ -77,10 +80,28 @@ class SigningKey:
     """
 
     private_key: PrivateKey
-    algorithm: HashAlgorithm
+    algorithm: hashes.HashAlgorithm = None
+    hash_type: InitVar[HashType] = None
+    approved_hashes: InitVar[Dict[HashType, hashes.HashAlgorithm]] = {
+        HashType.SHA256: hashes.SHA256,
+        HashType.SHA512: hashes.SHA512,
+        HashType.SHA3_256: hashes.SHA3_256,
+        HashType.SHA3_512: hashes.SHA3_512,
+    }
+
+    def __post_init__(
+        self,
+        hash_type: HashType,
+        approved_hashes: Dict[HashType, hashes.HashAlgorithm],
+    ):
+        """
+        Map HashType enums to hash algorithms
+        """
+
+        self.algorithm = approved_hashes[hash_type]()
 
     @classmethod
-    def from_path(cls, key_path: str):
+    def from_path(cls, key_path: str, hash_type: HashType):
         """
         Build a Signing Key from key type and file path
         """
@@ -90,7 +111,7 @@ class SigningKey:
                 private_key=serialization.load_pem_private_key(
                     key_file.read(), password=None
                 ),
-                algorithm=SHA256(),
+                hash_type=hash_type,
             )
 
 
@@ -125,7 +146,7 @@ class MyBackend(Backend):
         self,
         builder: x509.CertificateSigningRequestBuilder,
         private_key: _PRIVATE_KEY_TYPES,
-        algorithm: Optional[HashAlgorithm],
+        algorithm: Optional[hashes.HashAlgorithm],
     ) -> _CertificateSigningRequest:
         """
         Create custom Certificate Signing Requests
@@ -150,7 +171,8 @@ class CertificateSigningRequestBuilder:
         builder = x509.CertificateSigningRequestBuilder()
         builder = builder.subject_name(Subject.from_subject(csr.subject))
 
-        key = SigningKey.from_path(csr.key_path)
+        key = SigningKey.from_path(csr.key_path, csr.hash_type)
+
         return builder.sign(
             private_key=key.private_key,
             algorithm=key.algorithm,

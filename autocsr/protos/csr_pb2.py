@@ -19,10 +19,45 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tcsr.proto\x12\x07\x61utocsr\"\xe2\x03\n\x19\x43\x65rtificateSigningRequest\x12;\n\x07subject\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.Subject\x12\x10\n\x08key_path\x18\x02 \x01(\t\x12\x13\n\x0boutput_path\x18\x03 \x01(\t\x1a\xe0\x02\n\x07Subject\x12\x13\n\x0b\x63ommon_name\x18\x01 \x01(\t\x12\x19\n\x0c\x63ountry_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12#\n\x16state_or_province_name\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x1a\n\rlocality_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x1e\n\x11organization_name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12%\n\x18organizational_unit_name\x18\x06 \x01(\tH\x04\x88\x01\x01\x12\x1a\n\remail_address\x18\x07 \x01(\tH\x05\x88\x01\x01\x42\x0f\n\r_country_nameB\x19\n\x17_state_or_province_nameB\x10\n\x0e_locality_nameB\x14\n\x12_organization_nameB\x1b\n\x19_organizational_unit_nameB\x10\n\x0e_email_addressb\x06proto3'
+  serialized_pb=b'\n\tcsr.proto\x12\x07\x61utocsr\"\xf5\x04\n\x19\x43\x65rtificateSigningRequest\x12;\n\x07subject\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.Subject\x12\x10\n\x08key_path\x18\x02 \x01(\t\x12\x13\n\x0boutput_path\x18\x03 \x01(\t\x12\x43\n\thash_type\x18\x04 \x01(\x0e\x32+.autocsr.CertificateSigningRequest.HashTypeH\x00\x88\x01\x01\x1a\xe0\x02\n\x07Subject\x12\x13\n\x0b\x63ommon_name\x18\x01 \x01(\t\x12\x19\n\x0c\x63ountry_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12#\n\x16state_or_province_name\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x1a\n\rlocality_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x1e\n\x11organization_name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12%\n\x18organizational_unit_name\x18\x06 \x01(\tH\x04\x88\x01\x01\x12\x1a\n\remail_address\x18\x07 \x01(\tH\x05\x88\x01\x01\x42\x0f\n\r_country_nameB\x19\n\x17_state_or_province_nameB\x10\n\x0e_locality_nameB\x14\n\x12_organization_nameB\x1b\n\x19_organizational_unit_nameB\x10\n\x0e_email_address\">\n\x08HashType\x12\n\n\x06SHA256\x10\x00\x12\n\n\x06SHA512\x10\x01\x12\x0c\n\x08SHA3_256\x10\x02\x12\x0c\n\x08SHA3_512\x10\x03\x42\x0c\n\n_hash_typeb\x06proto3'
 )
 
 
+
+_CERTIFICATESIGNINGREQUEST_HASHTYPE = _descriptor.EnumDescriptor(
+  name='HashType',
+  full_name='autocsr.CertificateSigningRequest.HashType',
+  filename=None,
+  file=DESCRIPTOR,
+  create_key=_descriptor._internal_create_key,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='SHA256', index=0, number=0,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA512', index=1, number=1,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA3_256', index=2, number=2,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA3_512', index=3, number=3,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=576,
+  serialized_end=638,
+)
+_sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_HASHTYPE)
 
 
 _CERTIFICATESIGNINGREQUEST_SUBJECT = _descriptor.Descriptor(
@@ -124,8 +159,8 @@ _CERTIFICATESIGNINGREQUEST_SUBJECT = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=153,
-  serialized_end=505,
+  serialized_start=222,
+  serialized_end=574,
 )
 
 _CERTIFICATESIGNINGREQUEST = _descriptor.Descriptor(
@@ -157,20 +192,33 @@ _CERTIFICATESIGNINGREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='hash_type', full_name='autocsr.CertificateSigningRequest.hash_type', index=3,
+      number=4, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
   nested_types=[_CERTIFICATESIGNINGREQUEST_SUBJECT, ],
   enum_types=[
+    _CERTIFICATESIGNINGREQUEST_HASHTYPE,
   ],
   serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_hash_type', full_name='autocsr.CertificateSigningRequest._hash_type',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
   ],
   serialized_start=23,
-  serialized_end=505,
+  serialized_end=652,
 )
 
 _CERTIFICATESIGNINGREQUEST_SUBJECT.containing_type = _CERTIFICATESIGNINGREQUEST
@@ -193,6 +241,11 @@ _CERTIFICATESIGNINGREQUEST_SUBJECT.oneofs_by_name['_email_address'].fields.appen
   _CERTIFICATESIGNINGREQUEST_SUBJECT.fields_by_name['email_address'])
 _CERTIFICATESIGNINGREQUEST_SUBJECT.fields_by_name['email_address'].containing_oneof = _CERTIFICATESIGNINGREQUEST_SUBJECT.oneofs_by_name['_email_address']
 _CERTIFICATESIGNINGREQUEST.fields_by_name['subject'].message_type = _CERTIFICATESIGNINGREQUEST_SUBJECT
+_CERTIFICATESIGNINGREQUEST.fields_by_name['hash_type'].enum_type = _CERTIFICATESIGNINGREQUEST_HASHTYPE
+_CERTIFICATESIGNINGREQUEST_HASHTYPE.containing_type = _CERTIFICATESIGNINGREQUEST
+_CERTIFICATESIGNINGREQUEST.oneofs_by_name['_hash_type'].fields.append(
+  _CERTIFICATESIGNINGREQUEST.fields_by_name['hash_type'])
+_CERTIFICATESIGNINGREQUEST.fields_by_name['hash_type'].containing_oneof = _CERTIFICATESIGNINGREQUEST.oneofs_by_name['_hash_type']
 DESCRIPTOR.message_types_by_name['CertificateSigningRequest'] = _CERTIFICATESIGNINGREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
