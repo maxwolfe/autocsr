@@ -36,4 +36,12 @@ message CertificateSigningRequest {
   }
 
   optional HashType hash_type = 4;
+
+  message Attribute {
+    string oid = 1;
+    string b64_value = 2;
+  }
+
+  repeated Attribute attributes = 5;
+
 }

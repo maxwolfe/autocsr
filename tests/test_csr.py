@@ -2,6 +2,7 @@
 Unit tests for CSR creation objects
 """
 
+from base64 import b64decode
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
 
@@ -83,6 +84,10 @@ class TestSubject(TestCase):
         "key_path": "./fixtures/test.key",
         "output_path": "./fixtures/test.csr",
         "hash_type": "SHA512",
+        "attributes": [
+            {"oid": "2.5.29.17", "b64_value": "dGVzdA=="},
+            {"oid": "2.5.29.18", "b64_value": "aGk="},
+        ],
     }
 
     def setUp(self):
@@ -244,6 +249,13 @@ class TestCertificateSigningRequest(TestCase):
         """
 
         self.assertIsInstance(self.csr, _CertificateSigningRequest)
+
+        for attribute in TestSubject.config["attributes"]:
+            self.assertEqual(
+                self.csr.get_attribute_for_oid(x509.ObjectIdentifier(attribute["oid"])),
+                b64decode(attribute["b64_value"].encode()),
+                "Attributes should match config flie",
+            )
 
     def test_export(self):
         """

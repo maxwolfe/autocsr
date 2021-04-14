@@ -4,6 +4,7 @@ Build Certificate Signing Requests
 
 from __future__ import annotations
 
+from base64 import b64decode
 from dataclasses import InitVar, dataclass
 from functools import partial
 from typing import Dict, Optional, Union
@@ -179,6 +180,12 @@ class CertificateSigningRequestBuilder:
 
         builder = x509.CertificateSigningRequestBuilder()
         builder = builder.subject_name(Subject.from_subject(csr.subject))
+
+        for attribute in csr.attributes:
+            builder = builder.add_attribute(
+                oid=x509.ObjectIdentifier(attribute.oid),
+                value=b64decode(attribute.b64_value.encode()),
+            )
 
         key = SigningKey.from_path(csr.key_path, csr.hash_type)
 
