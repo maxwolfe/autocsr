@@ -20,9 +20,19 @@ message CertificateSigningRequest {
 
   enum HashType {
     SHA256 = 0;
-    SHA512 = 1;
-    SHA3_256 = 2;
-    SHA3_512 = 3;
+    SHA224 = 1;
+    SHA384 = 2;
+    SHA512 = 3;
+    SHA512_224 = 4;
+    SHA512_256 = 5;
+    BLAKE2b = 6;
+    BLAKE2s = 7;
+    SHA3_224 = 8;
+    SHA3_256 = 9;
+    SHA3_384 = 10;
+    SHA3_512 = 11;
+    SHAKE128 = 12;
+    SHAKE256 = 13;
   }
 
   optional HashType hash_type = 4;

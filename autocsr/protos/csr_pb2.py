@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tcsr.proto\x12\x07\x61utocsr\"\xf5\x04\n\x19\x43\x65rtificateSigningRequest\x12;\n\x07subject\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.Subject\x12\x10\n\x08key_path\x18\x02 \x01(\t\x12\x13\n\x0boutput_path\x18\x03 \x01(\t\x12\x43\n\thash_type\x18\x04 \x01(\x0e\x32+.autocsr.CertificateSigningRequest.HashTypeH\x00\x88\x01\x01\x1a\xe0\x02\n\x07Subject\x12\x13\n\x0b\x63ommon_name\x18\x01 \x01(\t\x12\x19\n\x0c\x63ountry_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12#\n\x16state_or_province_name\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x1a\n\rlocality_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x1e\n\x11organization_name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12%\n\x18organizational_unit_name\x18\x06 \x01(\tH\x04\x88\x01\x01\x12\x1a\n\remail_address\x18\x07 \x01(\tH\x05\x88\x01\x01\x42\x0f\n\r_country_nameB\x19\n\x17_state_or_province_nameB\x10\n\x0e_locality_nameB\x14\n\x12_organization_nameB\x1b\n\x19_organizational_unit_nameB\x10\n\x0e_email_address\">\n\x08HashType\x12\n\n\x06SHA256\x10\x00\x12\n\n\x06SHA512\x10\x01\x12\x0c\n\x08SHA3_256\x10\x02\x12\x0c\n\x08SHA3_512\x10\x03\x42\x0c\n\n_hash_typeb\x06proto3'
+  serialized_pb=b'\n\tcsr.proto\x12\x07\x61utocsr\"\x80\x06\n\x19\x43\x65rtificateSigningRequest\x12;\n\x07subject\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.Subject\x12\x10\n\x08key_path\x18\x02 \x01(\t\x12\x13\n\x0boutput_path\x18\x03 \x01(\t\x12\x43\n\thash_type\x18\x04 \x01(\x0e\x32+.autocsr.CertificateSigningRequest.HashTypeH\x00\x88\x01\x01\x1a\xe0\x02\n\x07Subject\x12\x13\n\x0b\x63ommon_name\x18\x01 \x01(\t\x12\x19\n\x0c\x63ountry_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12#\n\x16state_or_province_name\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x1a\n\rlocality_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x1e\n\x11organization_name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12%\n\x18organizational_unit_name\x18\x06 \x01(\tH\x04\x88\x01\x01\x12\x1a\n\remail_address\x18\x07 \x01(\tH\x05\x88\x01\x01\x42\x0f\n\r_country_nameB\x19\n\x17_state_or_province_nameB\x10\n\x0e_locality_nameB\x14\n\x12_organization_nameB\x1b\n\x19_organizational_unit_nameB\x10\n\x0e_email_address\"\xc8\x01\n\x08HashType\x12\n\n\x06SHA256\x10\x00\x12\n\n\x06SHA224\x10\x01\x12\n\n\x06SHA384\x10\x02\x12\n\n\x06SHA512\x10\x03\x12\x0e\n\nSHA512_224\x10\x04\x12\x0e\n\nSHA512_256\x10\x05\x12\x0b\n\x07\x42LAKE2b\x10\x06\x12\x0b\n\x07\x42LAKE2s\x10\x07\x12\x0c\n\x08SHA3_224\x10\x08\x12\x0c\n\x08SHA3_256\x10\t\x12\x0c\n\x08SHA3_384\x10\n\x12\x0c\n\x08SHA3_512\x10\x0b\x12\x0c\n\x08SHAKE128\x10\x0c\x12\x0c\n\x08SHAKE256\x10\rB\x0c\n\n_hash_typeb\x06proto3'
 )
 
 
@@ -37,25 +37,75 @@ _CERTIFICATESIGNINGREQUEST_HASHTYPE = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='SHA512', index=1, number=1,
+      name='SHA224', index=1, number=1,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='SHA3_256', index=2, number=2,
+      name='SHA384', index=2, number=2,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='SHA3_512', index=3, number=3,
+      name='SHA512', index=3, number=3,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA512_224', index=4, number=4,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA512_256', index=5, number=5,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='BLAKE2b', index=6, number=6,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='BLAKE2s', index=7, number=7,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA3_224', index=8, number=8,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA3_256', index=9, number=9,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA3_384', index=10, number=10,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHA3_512', index=11, number=11,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHAKE128', index=12, number=12,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SHAKE256', index=13, number=13,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=576,
-  serialized_end=638,
+  serialized_start=577,
+  serialized_end=777,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_HASHTYPE)
 
@@ -218,7 +268,7 @@ _CERTIFICATESIGNINGREQUEST = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=23,
-  serialized_end=652,
+  serialized_end=791,
 )
 
 _CERTIFICATESIGNINGREQUEST_SUBJECT.containing_type = _CERTIFICATESIGNINGREQUEST

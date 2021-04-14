@@ -5,6 +5,7 @@ Build Certificate Signing Requests
 from __future__ import annotations
 
 from dataclasses import InitVar, dataclass
+from functools import partial
 from typing import Dict, Optional, Union
 
 from cryptography import x509
@@ -84,8 +85,16 @@ class SigningKey:
     hash_type: InitVar[HashType] = None
     approved_hashes: InitVar[Dict[HashType, hashes.HashAlgorithm]] = {
         HashType.SHA256: hashes.SHA256,
+        HashType.SHA224: hashes.SHA224,
+        HashType.SHA384: hashes.SHA384,
         HashType.SHA512: hashes.SHA512,
+        HashType.SHA512_224: hashes.SHA512_224,
+        HashType.SHA512_256: hashes.SHA512_256,
+        HashType.BLAKE2b: partial(hashes.BLAKE2b, digest_size=64),
+        HashType.BLAKE2s: partial(hashes.BLAKE2s, digest_size=32),
+        HashType.SHA3_224: hashes.SHA3_224,
         HashType.SHA3_256: hashes.SHA3_256,
+        HashType.SHA3_384: hashes.SHA3_384,
         HashType.SHA3_512: hashes.SHA3_512,
     }
 

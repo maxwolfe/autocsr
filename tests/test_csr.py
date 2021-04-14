@@ -135,8 +135,16 @@ class TestSigningKey(TestCase):
 
         self.approved_hashes = {
             HashType.SHA256: hashes.SHA256,
+            HashType.SHA224: hashes.SHA224,
+            HashType.SHA384: hashes.SHA384,
             HashType.SHA512: hashes.SHA512,
+            HashType.SHA512_224: hashes.SHA512_224,
+            HashType.SHA512_256: hashes.SHA512_256,
+            HashType.BLAKE2b: hashes.BLAKE2b,
+            HashType.BLAKE2s: hashes.BLAKE2s,
+            HashType.SHA3_224: hashes.SHA3_224,
             HashType.SHA3_256: hashes.SHA3_256,
+            HashType.SHA3_384: hashes.SHA3_384,
             HashType.SHA3_512: hashes.SHA3_512,
         }
 
