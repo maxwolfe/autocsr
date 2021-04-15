@@ -44,4 +44,180 @@ message CertificateSigningRequest {
 
   repeated Attribute attributes = 5;
 
+  message Extension {
+    bool critical = 1;
+
+    enum ExtensionType {
+      OCSPNoCheck = 0;
+      PrecertPoison = 1;
+    }
+
+    message CRLNumber {
+      int32 crl_number = 1;
+    }
+
+    message SubjectKeyIdentifier {
+      string b64_digest = 1;
+    }
+
+    message BasicConstraints {
+      bool ca = 1;
+      optional int32 path_length = 2;
+    }
+
+    message DeltaCRLIndicator {
+      int32 crl_number = 1;
+    }
+
+    message PolicyConstraints {
+      optional int32 require_explicit_policy = 1;
+      optional int32 inhibit_policy_mapping = 2;
+    }
+
+    message CertificatePolicies {
+      message PolicyInformation {
+        message UserNotice {
+          message NoticeReference {
+            optional string organization = 1;
+            repeated int32 notice_numbers = 2;
+          }
+
+          optional NoticeReference notice_reference = 1;
+          optional string explicit_text = 2;
+        }
+
+        string policy_identifier = 1;
+        repeated string string_qualifiers = 2;
+        repeated UserNotice user_qualifiers = 3;
+      }
+
+      repeated PolicyInformation policies = 1;
+    }
+
+    message ExtendedKeyUsage {
+      repeated string usages = 1;
+    }
+
+    message TLSFeature {
+      enum TLSFeatureType {
+        status_request = 0;
+        status_request_v2 = 1;
+      }
+
+      repeated TLSFeatureType features = 1;
+    }
+
+    message InhibitAnyPolicy {
+      int32 skip_certs = 1;
+    }
+
+    message KeyUsage {
+      bool digital_signature = 1;
+      bool content_commitment = 2;
+      bool key_encipherment = 3;
+      bool data_encipherment = 4;
+      bool key_agreement = 5;
+      bool key_cert_sign = 6;
+      bool crl_sign = 7;
+      bool encipher_only = 8;
+      bool decipher_only = 9;
+    }
+
+    enum ReasonFlags {
+      unspecified = 0;
+      key_compromise = 1;
+      ca_compromise = 2;
+      afilliation_changed = 3;
+      superseded = 4;
+      cessation_of_operation = 5;
+      certificate_hold = 6;
+      privilege_withdrawn = 7;
+      aa_compromise = 8;
+      remove_from_crl = 9;
+    }
+
+    message CRLReason {
+
+      ReasonFlags reason = 1;
+    }
+
+    message InvalidityDate {
+      string invalidity_date = 1;
+    }
+
+    message SignedCertificateTimestamp {
+      enum Version {
+        v1 = 0;
+      }
+
+      Version version = 1;
+      string b64_log_id = 2;
+      string timestamp = 3;
+
+      enum LogEntryType {
+        X509_CERTIFICATE = 0;
+        PRE_CERTIFICATE = 1;
+      }
+
+      LogEntryType entry_type = 4;
+    }
+
+    message PrecertificateSignedCerticateTimestamps {
+      repeated SignedCertificateTimestamp signed_certificate_timestamps = 1;
+    }
+
+    message SignedCertificateTimestamps {
+      repeated SignedCertificateTimestamp signed_certificate_timestamps = 1;
+    }
+
+    message OCSPNonce {
+      string b64_nonce = 1;
+    }
+
+
+    message GeneralName {
+      oneof name {
+        string string_name = 1;
+        string b64_name = 2;
+      }
+    }
+
+    message AuthorityKeyIdentifier {
+      optional string key_identifier = 1;
+      repeated GeneralName authority_cert_issuer = 2;
+      optional int32 authority_cert_serial_number = 3;
+    }
+
+    message NameConstraints {
+      repeated GeneralName permitted_subtrees = 1;
+      repeated GeneralName excluded_subtrees = 2;
+    }
+
+    message SubjectAlternativeName {
+      repeated GeneralName general_names = 1;
+    }
+
+    message IssuerAlternativeName {
+      repeated GeneralName general_names = 1;
+    }
+
+    message CertificateIssuer {
+      repeated GeneralName general_names = 1;
+    }
+
+    message IssuingDistributionPoint {
+      repeated GeneralName full_name = 1;
+
+      message Name {
+        string oid = 1;
+        string b64_value = 2;
+      }
+      
+      optional Name relative_name = 2;
+      repeated ReasonFlags reasons = 3;
+      repeated GeneralName crl_issuer = 4;
+    }
+  }
+
+  repeated Extension extensions = 6;
 }

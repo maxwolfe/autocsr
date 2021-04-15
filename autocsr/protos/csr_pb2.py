@@ -19,10 +19,170 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tcsr.proto\x12\x07\x61utocsr\"\xef\x06\n\x19\x43\x65rtificateSigningRequest\x12;\n\x07subject\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.Subject\x12\x10\n\x08key_path\x18\x02 \x01(\t\x12\x13\n\x0boutput_path\x18\x03 \x01(\t\x12\x43\n\thash_type\x18\x04 \x01(\x0e\x32+.autocsr.CertificateSigningRequest.HashTypeH\x00\x88\x01\x01\x12@\n\nattributes\x18\x05 \x03(\x0b\x32,.autocsr.CertificateSigningRequest.Attribute\x1a\xe0\x02\n\x07Subject\x12\x13\n\x0b\x63ommon_name\x18\x01 \x01(\t\x12\x19\n\x0c\x63ountry_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12#\n\x16state_or_province_name\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x1a\n\rlocality_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x1e\n\x11organization_name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12%\n\x18organizational_unit_name\x18\x06 \x01(\tH\x04\x88\x01\x01\x12\x1a\n\remail_address\x18\x07 \x01(\tH\x05\x88\x01\x01\x42\x0f\n\r_country_nameB\x19\n\x17_state_or_province_nameB\x10\n\x0e_locality_nameB\x14\n\x12_organization_nameB\x1b\n\x19_organizational_unit_nameB\x10\n\x0e_email_address\x1a+\n\tAttribute\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\x11\n\tb64_value\x18\x02 \x01(\t\"\xc8\x01\n\x08HashType\x12\n\n\x06SHA256\x10\x00\x12\n\n\x06SHA224\x10\x01\x12\n\n\x06SHA384\x10\x02\x12\n\n\x06SHA512\x10\x03\x12\x0e\n\nSHA512_224\x10\x04\x12\x0e\n\nSHA512_256\x10\x05\x12\x0b\n\x07\x42LAKE2b\x10\x06\x12\x0b\n\x07\x42LAKE2s\x10\x07\x12\x0c\n\x08SHA3_224\x10\x08\x12\x0c\n\x08SHA3_256\x10\t\x12\x0c\n\x08SHA3_384\x10\n\x12\x0c\n\x08SHA3_512\x10\x0b\x12\x0c\n\x08SHAKE128\x10\x0c\x12\x0c\n\x08SHAKE256\x10\rB\x0c\n\n_hash_typeb\x06proto3'
+  serialized_pb=b'\n\tcsr.proto\x12\x07\x61utocsr\"\x94%\n\x19\x43\x65rtificateSigningRequest\x12;\n\x07subject\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.Subject\x12\x10\n\x08key_path\x18\x02 \x01(\t\x12\x13\n\x0boutput_path\x18\x03 \x01(\t\x12\x43\n\thash_type\x18\x04 \x01(\x0e\x32+.autocsr.CertificateSigningRequest.HashTypeH\x00\x88\x01\x01\x12@\n\nattributes\x18\x05 \x03(\x0b\x32,.autocsr.CertificateSigningRequest.Attribute\x12@\n\nextensions\x18\x06 \x03(\x0b\x32,.autocsr.CertificateSigningRequest.Extension\x1a\xe0\x02\n\x07Subject\x12\x13\n\x0b\x63ommon_name\x18\x01 \x01(\t\x12\x19\n\x0c\x63ountry_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12#\n\x16state_or_province_name\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x1a\n\rlocality_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x1e\n\x11organization_name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12%\n\x18organizational_unit_name\x18\x06 \x01(\tH\x04\x88\x01\x01\x12\x1a\n\remail_address\x18\x07 \x01(\tH\x05\x88\x01\x01\x42\x0f\n\r_country_nameB\x19\n\x17_state_or_province_nameB\x10\n\x0e_locality_nameB\x14\n\x12_organization_nameB\x1b\n\x19_organizational_unit_nameB\x10\n\x0e_email_address\x1a+\n\tAttribute\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\x11\n\tb64_value\x18\x02 \x01(\t\x1a\xe0\x1d\n\tExtension\x12\x10\n\x08\x63ritical\x18\x01 \x01(\x08\x1a\x1f\n\tCRLNumber\x12\x12\n\ncrl_number\x18\x01 \x01(\x05\x1a*\n\x14SubjectKeyIdentifier\x12\x12\n\nb64_digest\x18\x01 \x01(\t\x1aH\n\x10\x42\x61sicConstraints\x12\n\n\x02\x63\x61\x18\x01 \x01(\x08\x12\x18\n\x0bpath_length\x18\x02 \x01(\x05H\x00\x88\x01\x01\x42\x0e\n\x0c_path_length\x1a\'\n\x11\x44\x65ltaCRLIndicator\x12\x12\n\ncrl_number\x18\x01 \x01(\x05\x1a\x95\x01\n\x11PolicyConstraints\x12$\n\x17require_explicit_policy\x18\x01 \x01(\x05H\x00\x88\x01\x01\x12#\n\x16inhibit_policy_mapping\x18\x02 \x01(\x05H\x01\x88\x01\x01\x42\x1a\n\x18_require_explicit_policyB\x19\n\x17_inhibit_policy_mapping\x1a\xf7\x04\n\x13\x43\x65rtificatePolicies\x12\x64\n\x08policies\x18\x01 \x03(\x0b\x32R.autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation\x1a\xf9\x03\n\x11PolicyInformation\x12\x19\n\x11policy_identifier\x18\x01 \x01(\t\x12\x19\n\x11string_qualifiers\x18\x02 \x03(\t\x12v\n\x0fuser_qualifiers\x18\x03 \x03(\x0b\x32].autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice\x1a\xb5\x02\n\nUserNotice\x12\x8c\x01\n\x10notice_reference\x18\x01 \x01(\x0b\x32m.autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.NoticeReferenceH\x00\x88\x01\x01\x12\x1a\n\rexplicit_text\x18\x02 \x01(\tH\x01\x88\x01\x01\x1aU\n\x0fNoticeReference\x12\x19\n\x0corganization\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\x0enotice_numbers\x18\x02 \x03(\x05\x42\x0f\n\r_organizationB\x13\n\x11_notice_referenceB\x10\n\x0e_explicit_text\x1a\"\n\x10\x45xtendedKeyUsage\x12\x0e\n\x06usages\x18\x01 \x03(\t\x1a\xa3\x01\n\nTLSFeature\x12X\n\x08\x66\x65\x61tures\x18\x01 \x03(\x0e\x32\x46.autocsr.CertificateSigningRequest.Extension.TLSFeature.TLSFeatureType\";\n\x0eTLSFeatureType\x12\x12\n\x0estatus_request\x10\x00\x12\x15\n\x11status_request_v2\x10\x01\x1a&\n\x10InhibitAnyPolicy\x12\x12\n\nskip_certs\x18\x01 \x01(\x05\x1a\xe4\x01\n\x08KeyUsage\x12\x19\n\x11\x64igital_signature\x18\x01 \x01(\x08\x12\x1a\n\x12\x63ontent_commitment\x18\x02 \x01(\x08\x12\x18\n\x10key_encipherment\x18\x03 \x01(\x08\x12\x19\n\x11\x64\x61ta_encipherment\x18\x04 \x01(\x08\x12\x15\n\rkey_agreement\x18\x05 \x01(\x08\x12\x15\n\rkey_cert_sign\x18\x06 \x01(\x08\x12\x10\n\x08\x63rl_sign\x18\x07 \x01(\x08\x12\x15\n\rencipher_only\x18\x08 \x01(\x08\x12\x15\n\rdecipher_only\x18\t \x01(\x08\x1aU\n\tCRLReason\x12H\n\x06reason\x18\x01 \x01(\x0e\x32\x38.autocsr.CertificateSigningRequest.Extension.ReasonFlags\x1a)\n\x0eInvalidityDate\x12\x17\n\x0finvalidity_date\x18\x01 \x01(\t\x1a\xdd\x02\n\x1aSignedCertificateTimestamp\x12`\n\x07version\x18\x01 \x01(\x0e\x32O.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.Version\x12\x12\n\nb64_log_id\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\t\x12h\n\nentry_type\x18\x04 \x01(\x0e\x32T.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.LogEntryType\"\x11\n\x07Version\x12\x06\n\x02v1\x10\x00\"9\n\x0cLogEntryType\x12\x14\n\x10X509_CERTIFICATE\x10\x00\x12\x13\n\x0fPRE_CERTIFICATE\x10\x01\x1a\x99\x01\n\'PrecertificateSignedCerticateTimestamps\x12n\n\x1dsigned_certificate_timestamps\x18\x01 \x03(\x0b\x32G.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp\x1a\x8d\x01\n\x1bSignedCertificateTimestamps\x12n\n\x1dsigned_certificate_timestamps\x18\x01 \x03(\x0b\x32G.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp\x1a\x1e\n\tOCSPNonce\x12\x11\n\tb64_nonce\x18\x01 \x01(\t\x1a@\n\x0bGeneralName\x12\x15\n\x0bstring_name\x18\x01 \x01(\tH\x00\x12\x12\n\x08\x62\x36\x34_name\x18\x02 \x01(\tH\x00\x42\x06\n\x04name\x1a\xed\x01\n\x16\x41uthorityKeyIdentifier\x12\x1b\n\x0ekey_identifier\x18\x01 \x01(\tH\x00\x88\x01\x01\x12W\n\x15\x61uthority_cert_issuer\x18\x02 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12)\n\x1c\x61uthority_cert_serial_number\x18\x03 \x01(\x05H\x01\x88\x01\x01\x42\x11\n\x0f_key_identifierB\x1f\n\x1d_authority_cert_serial_number\x1a\xbc\x01\n\x0fNameConstraints\x12T\n\x12permitted_subtrees\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12S\n\x11\x65xcluded_subtrees\x18\x02 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1ai\n\x16SubjectAlternativeName\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1ah\n\x15IssuerAlternativeName\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1a\x64\n\x11\x43\x65rtificateIssuer\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1a\xa2\x03\n\x18IssuingDistributionPoint\x12K\n\tfull_name\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12\x66\n\rrelative_name\x18\x02 \x01(\x0b\x32J.autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.NameH\x00\x88\x01\x01\x12I\n\x07reasons\x18\x03 \x03(\x0e\x32\x38.autocsr.CertificateSigningRequest.Extension.ReasonFlags\x12L\n\ncrl_issuer\x18\x04 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1a&\n\x04Name\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\x11\n\tb64_value\x18\x02 \x01(\tB\x10\n\x0e_relative_name\"3\n\rExtensionType\x12\x0f\n\x0bOCSPNoCheck\x10\x00\x12\x11\n\rPrecertPoison\x10\x01\"\xe1\x01\n\x0bReasonFlags\x12\x0f\n\x0bunspecified\x10\x00\x12\x12\n\x0ekey_compromise\x10\x01\x12\x11\n\rca_compromise\x10\x02\x12\x17\n\x13\x61\x66illiation_changed\x10\x03\x12\x0e\n\nsuperseded\x10\x04\x12\x1a\n\x16\x63\x65ssation_of_operation\x10\x05\x12\x14\n\x10\x63\x65rtificate_hold\x10\x06\x12\x17\n\x13privilege_withdrawn\x10\x07\x12\x11\n\raa_compromise\x10\x08\x12\x13\n\x0fremove_from_crl\x10\t\"\xc8\x01\n\x08HashType\x12\n\n\x06SHA256\x10\x00\x12\n\n\x06SHA224\x10\x01\x12\n\n\x06SHA384\x10\x02\x12\n\n\x06SHA512\x10\x03\x12\x0e\n\nSHA512_224\x10\x04\x12\x0e\n\nSHA512_256\x10\x05\x12\x0b\n\x07\x42LAKE2b\x10\x06\x12\x0b\n\x07\x42LAKE2s\x10\x07\x12\x0c\n\x08SHA3_224\x10\x08\x12\x0c\n\x08SHA3_256\x10\t\x12\x0c\n\x08SHA3_384\x10\n\x12\x0c\n\x08SHA3_512\x10\x0b\x12\x0c\n\x08SHAKE128\x10\x0c\x12\x0c\n\x08SHAKE256\x10\rB\x0c\n\n_hash_typeb\x06proto3'
 )
 
 
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE_TLSFEATURETYPE = _descriptor.EnumDescriptor(
+  name='TLSFeatureType',
+  full_name='autocsr.CertificateSigningRequest.Extension.TLSFeature.TLSFeatureType',
+  filename=None,
+  file=DESCRIPTOR,
+  create_key=_descriptor._internal_create_key,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='status_request', index=0, number=0,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='status_request_v2', index=1, number=1,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=1904,
+  serialized_end=1963,
+)
+_sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE_TLSFEATURETYPE)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_VERSION = _descriptor.EnumDescriptor(
+  name='Version',
+  full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.Version',
+  filename=None,
+  file=DESCRIPTOR,
+  create_key=_descriptor._internal_create_key,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='v1', index=0, number=0,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=2640,
+  serialized_end=2657,
+)
+_sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_VERSION)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_LOGENTRYTYPE = _descriptor.EnumDescriptor(
+  name='LogEntryType',
+  full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.LogEntryType',
+  filename=None,
+  file=DESCRIPTOR,
+  create_key=_descriptor._internal_create_key,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='X509_CERTIFICATE', index=0, number=0,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='PRE_CERTIFICATE', index=1, number=1,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=2659,
+  serialized_end=2716,
+)
+_sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_LOGENTRYTYPE)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENSIONTYPE = _descriptor.EnumDescriptor(
+  name='ExtensionType',
+  full_name='autocsr.CertificateSigningRequest.Extension.ExtensionType',
+  filename=None,
+  file=DESCRIPTOR,
+  create_key=_descriptor._internal_create_key,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='OCSPNoCheck', index=0, number=0,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='PrecertPoison', index=1, number=1,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=4283,
+  serialized_end=4334,
+)
+_sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENSIONTYPE)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_REASONFLAGS = _descriptor.EnumDescriptor(
+  name='ReasonFlags',
+  full_name='autocsr.CertificateSigningRequest.Extension.ReasonFlags',
+  filename=None,
+  file=DESCRIPTOR,
+  create_key=_descriptor._internal_create_key,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='unspecified', index=0, number=0,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='key_compromise', index=1, number=1,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='ca_compromise', index=2, number=2,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='afilliation_changed', index=3, number=3,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='superseded', index=4, number=4,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='cessation_of_operation', index=5, number=5,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='certificate_hold', index=6, number=6,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='privilege_withdrawn', index=7, number=7,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='aa_compromise', index=8, number=8,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='remove_from_crl', index=9, number=9,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=4337,
+  serialized_end=4562,
+)
+_sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_REASONFLAGS)
 
 _CERTIFICATESIGNINGREQUEST_HASHTYPE = _descriptor.EnumDescriptor(
   name='HashType',
@@ -104,8 +264,8 @@ _CERTIFICATESIGNINGREQUEST_HASHTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=688,
-  serialized_end=888,
+  serialized_start=4565,
+  serialized_end=4765,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_HASHTYPE)
 
@@ -209,8 +369,8 @@ _CERTIFICATESIGNINGREQUEST_SUBJECT = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=288,
-  serialized_end=640,
+  serialized_start=354,
+  serialized_end=706,
 )
 
 _CERTIFICATESIGNINGREQUEST_ATTRIBUTE = _descriptor.Descriptor(
@@ -247,8 +407,1106 @@ _CERTIFICATESIGNINGREQUEST_ATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=642,
-  serialized_end=685,
+  serialized_start=708,
+  serialized_end=751,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CRLNUMBER = _descriptor.Descriptor(
+  name='CRLNumber',
+  full_name='autocsr.CertificateSigningRequest.Extension.CRLNumber',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='crl_number', full_name='autocsr.CertificateSigningRequest.Extension.CRLNumber.crl_number', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=785,
+  serialized_end=816,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTKEYIDENTIFIER = _descriptor.Descriptor(
+  name='SubjectKeyIdentifier',
+  full_name='autocsr.CertificateSigningRequest.Extension.SubjectKeyIdentifier',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='b64_digest', full_name='autocsr.CertificateSigningRequest.Extension.SubjectKeyIdentifier.b64_digest', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=818,
+  serialized_end=860,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS = _descriptor.Descriptor(
+  name='BasicConstraints',
+  full_name='autocsr.CertificateSigningRequest.Extension.BasicConstraints',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ca', full_name='autocsr.CertificateSigningRequest.Extension.BasicConstraints.ca', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='path_length', full_name='autocsr.CertificateSigningRequest.Extension.BasicConstraints.path_length', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_path_length', full_name='autocsr.CertificateSigningRequest.Extension.BasicConstraints._path_length',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=862,
+  serialized_end=934,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_DELTACRLINDICATOR = _descriptor.Descriptor(
+  name='DeltaCRLIndicator',
+  full_name='autocsr.CertificateSigningRequest.Extension.DeltaCRLIndicator',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='crl_number', full_name='autocsr.CertificateSigningRequest.Extension.DeltaCRLIndicator.crl_number', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=936,
+  serialized_end=975,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS = _descriptor.Descriptor(
+  name='PolicyConstraints',
+  full_name='autocsr.CertificateSigningRequest.Extension.PolicyConstraints',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='require_explicit_policy', full_name='autocsr.CertificateSigningRequest.Extension.PolicyConstraints.require_explicit_policy', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='inhibit_policy_mapping', full_name='autocsr.CertificateSigningRequest.Extension.PolicyConstraints.inhibit_policy_mapping', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_require_explicit_policy', full_name='autocsr.CertificateSigningRequest.Extension.PolicyConstraints._require_explicit_policy',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_inhibit_policy_mapping', full_name='autocsr.CertificateSigningRequest.Extension.PolicyConstraints._inhibit_policy_mapping',
+      index=1, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=978,
+  serialized_end=1127,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE = _descriptor.Descriptor(
+  name='NoticeReference',
+  full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.NoticeReference',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='organization', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.NoticeReference.organization', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='notice_numbers', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.NoticeReference.notice_numbers', index=1,
+      number=2, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_organization', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.NoticeReference._organization',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=1637,
+  serialized_end=1722,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE = _descriptor.Descriptor(
+  name='UserNotice',
+  full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='notice_reference', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.notice_reference', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='explicit_text', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.explicit_text', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_notice_reference', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice._notice_reference',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_explicit_text', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice._explicit_text',
+      index=1, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=1452,
+  serialized_end=1761,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION = _descriptor.Descriptor(
+  name='PolicyInformation',
+  full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='policy_identifier', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.policy_identifier', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='string_qualifiers', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.string_qualifiers', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='user_qualifiers', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.user_qualifiers', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1256,
+  serialized_end=1761,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES = _descriptor.Descriptor(
+  name='CertificatePolicies',
+  full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='policies', full_name='autocsr.CertificateSigningRequest.Extension.CertificatePolicies.policies', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1130,
+  serialized_end=1761,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENDEDKEYUSAGE = _descriptor.Descriptor(
+  name='ExtendedKeyUsage',
+  full_name='autocsr.CertificateSigningRequest.Extension.ExtendedKeyUsage',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='usages', full_name='autocsr.CertificateSigningRequest.Extension.ExtendedKeyUsage.usages', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1763,
+  serialized_end=1797,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE = _descriptor.Descriptor(
+  name='TLSFeature',
+  full_name='autocsr.CertificateSigningRequest.Extension.TLSFeature',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='features', full_name='autocsr.CertificateSigningRequest.Extension.TLSFeature.features', index=0,
+      number=1, type=14, cpp_type=8, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE_TLSFEATURETYPE,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1800,
+  serialized_end=1963,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_INHIBITANYPOLICY = _descriptor.Descriptor(
+  name='InhibitAnyPolicy',
+  full_name='autocsr.CertificateSigningRequest.Extension.InhibitAnyPolicy',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='skip_certs', full_name='autocsr.CertificateSigningRequest.Extension.InhibitAnyPolicy.skip_certs', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1965,
+  serialized_end=2003,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_KEYUSAGE = _descriptor.Descriptor(
+  name='KeyUsage',
+  full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='digital_signature', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.digital_signature', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='content_commitment', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.content_commitment', index=1,
+      number=2, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='key_encipherment', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.key_encipherment', index=2,
+      number=3, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='data_encipherment', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.data_encipherment', index=3,
+      number=4, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='key_agreement', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.key_agreement', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='key_cert_sign', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.key_cert_sign', index=5,
+      number=6, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='crl_sign', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.crl_sign', index=6,
+      number=7, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='encipher_only', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.encipher_only', index=7,
+      number=8, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='decipher_only', full_name='autocsr.CertificateSigningRequest.Extension.KeyUsage.decipher_only', index=8,
+      number=9, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2006,
+  serialized_end=2234,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CRLREASON = _descriptor.Descriptor(
+  name='CRLReason',
+  full_name='autocsr.CertificateSigningRequest.Extension.CRLReason',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='reason', full_name='autocsr.CertificateSigningRequest.Extension.CRLReason.reason', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2236,
+  serialized_end=2321,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_INVALIDITYDATE = _descriptor.Descriptor(
+  name='InvalidityDate',
+  full_name='autocsr.CertificateSigningRequest.Extension.InvalidityDate',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='invalidity_date', full_name='autocsr.CertificateSigningRequest.Extension.InvalidityDate.invalidity_date', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2323,
+  serialized_end=2364,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP = _descriptor.Descriptor(
+  name='SignedCertificateTimestamp',
+  full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='version', full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.version', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='b64_log_id', full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.b64_log_id', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='timestamp', full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.timestamp', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='entry_type', full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.entry_type', index=3,
+      number=4, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_VERSION,
+    _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_LOGENTRYTYPE,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2367,
+  serialized_end=2716,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_PRECERTIFICATESIGNEDCERTICATETIMESTAMPS = _descriptor.Descriptor(
+  name='PrecertificateSignedCerticateTimestamps',
+  full_name='autocsr.CertificateSigningRequest.Extension.PrecertificateSignedCerticateTimestamps',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='signed_certificate_timestamps', full_name='autocsr.CertificateSigningRequest.Extension.PrecertificateSignedCerticateTimestamps.signed_certificate_timestamps', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2719,
+  serialized_end=2872,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMPS = _descriptor.Descriptor(
+  name='SignedCertificateTimestamps',
+  full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamps',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='signed_certificate_timestamps', full_name='autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamps.signed_certificate_timestamps', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2875,
+  serialized_end=3016,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_OCSPNONCE = _descriptor.Descriptor(
+  name='OCSPNonce',
+  full_name='autocsr.CertificateSigningRequest.Extension.OCSPNonce',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='b64_nonce', full_name='autocsr.CertificateSigningRequest.Extension.OCSPNonce.b64_nonce', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3018,
+  serialized_end=3048,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME = _descriptor.Descriptor(
+  name='GeneralName',
+  full_name='autocsr.CertificateSigningRequest.Extension.GeneralName',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='string_name', full_name='autocsr.CertificateSigningRequest.Extension.GeneralName.string_name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='b64_name', full_name='autocsr.CertificateSigningRequest.Extension.GeneralName.b64_name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='name', full_name='autocsr.CertificateSigningRequest.Extension.GeneralName.name',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=3050,
+  serialized_end=3114,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER = _descriptor.Descriptor(
+  name='AuthorityKeyIdentifier',
+  full_name='autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifier',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key_identifier', full_name='autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifier.key_identifier', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='authority_cert_issuer', full_name='autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifier.authority_cert_issuer', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='authority_cert_serial_number', full_name='autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifier.authority_cert_serial_number', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_key_identifier', full_name='autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifier._key_identifier',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_authority_cert_serial_number', full_name='autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifier._authority_cert_serial_number',
+      index=1, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=3117,
+  serialized_end=3354,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_NAMECONSTRAINTS = _descriptor.Descriptor(
+  name='NameConstraints',
+  full_name='autocsr.CertificateSigningRequest.Extension.NameConstraints',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='permitted_subtrees', full_name='autocsr.CertificateSigningRequest.Extension.NameConstraints.permitted_subtrees', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='excluded_subtrees', full_name='autocsr.CertificateSigningRequest.Extension.NameConstraints.excluded_subtrees', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3357,
+  serialized_end=3545,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTALTERNATIVENAME = _descriptor.Descriptor(
+  name='SubjectAlternativeName',
+  full_name='autocsr.CertificateSigningRequest.Extension.SubjectAlternativeName',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='general_names', full_name='autocsr.CertificateSigningRequest.Extension.SubjectAlternativeName.general_names', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3547,
+  serialized_end=3652,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUERALTERNATIVENAME = _descriptor.Descriptor(
+  name='IssuerAlternativeName',
+  full_name='autocsr.CertificateSigningRequest.Extension.IssuerAlternativeName',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='general_names', full_name='autocsr.CertificateSigningRequest.Extension.IssuerAlternativeName.general_names', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3654,
+  serialized_end=3758,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEISSUER = _descriptor.Descriptor(
+  name='CertificateIssuer',
+  full_name='autocsr.CertificateSigningRequest.Extension.CertificateIssuer',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='general_names', full_name='autocsr.CertificateSigningRequest.Extension.CertificateIssuer.general_names', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3760,
+  serialized_end=3860,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT_NAME = _descriptor.Descriptor(
+  name='Name',
+  full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.Name',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='oid', full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.Name.oid', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='b64_value', full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.Name.b64_value', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4225,
+  serialized_end=4263,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT = _descriptor.Descriptor(
+  name='IssuingDistributionPoint',
+  full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='full_name', full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.full_name', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='relative_name', full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.relative_name', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='reasons', full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.reasons', index=2,
+      number=3, type=14, cpp_type=8, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='crl_issuer', full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.crl_issuer', index=3,
+      number=4, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT_NAME, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_relative_name', full_name='autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint._relative_name',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=3863,
+  serialized_end=4281,
+)
+
+_CERTIFICATESIGNINGREQUEST_EXTENSION = _descriptor.Descriptor(
+  name='Extension',
+  full_name='autocsr.CertificateSigningRequest.Extension',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='critical', full_name='autocsr.CertificateSigningRequest.Extension.critical', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_CERTIFICATESIGNINGREQUEST_EXTENSION_CRLNUMBER, _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTKEYIDENTIFIER, _CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS, _CERTIFICATESIGNINGREQUEST_EXTENSION_DELTACRLINDICATOR, _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS, _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES, _CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENDEDKEYUSAGE, _CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE, _CERTIFICATESIGNINGREQUEST_EXTENSION_INHIBITANYPOLICY, _CERTIFICATESIGNINGREQUEST_EXTENSION_KEYUSAGE, _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLREASON, _CERTIFICATESIGNINGREQUEST_EXTENSION_INVALIDITYDATE, _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP, _CERTIFICATESIGNINGREQUEST_EXTENSION_PRECERTIFICATESIGNEDCERTICATETIMESTAMPS, _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMPS, _CERTIFICATESIGNINGREQUEST_EXTENSION_OCSPNONCE, _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME, _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER, _CERTIFICATESIGNINGREQUEST_EXTENSION_NAMECONSTRAINTS, _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTALTERNATIVENAME, _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUERALTERNATIVENAME, _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEISSUER, _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT, ],
+  enum_types=[
+    _CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENSIONTYPE,
+    _CERTIFICATESIGNINGREQUEST_EXTENSION_REASONFLAGS,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=754,
+  serialized_end=4562,
 )
 
 _CERTIFICATESIGNINGREQUEST = _descriptor.Descriptor(
@@ -294,10 +1552,17 @@ _CERTIFICATESIGNINGREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='extensions', full_name='autocsr.CertificateSigningRequest.extensions', index=5,
+      number=6, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
-  nested_types=[_CERTIFICATESIGNINGREQUEST_SUBJECT, _CERTIFICATESIGNINGREQUEST_ATTRIBUTE, ],
+  nested_types=[_CERTIFICATESIGNINGREQUEST_SUBJECT, _CERTIFICATESIGNINGREQUEST_ATTRIBUTE, _CERTIFICATESIGNINGREQUEST_EXTENSION, ],
   enum_types=[
     _CERTIFICATESIGNINGREQUEST_HASHTYPE,
   ],
@@ -313,7 +1578,7 @@ _CERTIFICATESIGNINGREQUEST = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=23,
-  serialized_end=902,
+  serialized_end=4779,
 )
 
 _CERTIFICATESIGNINGREQUEST_SUBJECT.containing_type = _CERTIFICATESIGNINGREQUEST
@@ -336,9 +1601,95 @@ _CERTIFICATESIGNINGREQUEST_SUBJECT.oneofs_by_name['_email_address'].fields.appen
   _CERTIFICATESIGNINGREQUEST_SUBJECT.fields_by_name['email_address'])
 _CERTIFICATESIGNINGREQUEST_SUBJECT.fields_by_name['email_address'].containing_oneof = _CERTIFICATESIGNINGREQUEST_SUBJECT.oneofs_by_name['_email_address']
 _CERTIFICATESIGNINGREQUEST_ATTRIBUTE.containing_type = _CERTIFICATESIGNINGREQUEST
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CRLNUMBER.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTKEYIDENTIFIER.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS.oneofs_by_name['_path_length'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS.fields_by_name['path_length'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS.fields_by_name['path_length'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS.oneofs_by_name['_path_length']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_DELTACRLINDICATOR.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.oneofs_by_name['_require_explicit_policy'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.fields_by_name['require_explicit_policy'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.fields_by_name['require_explicit_policy'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.oneofs_by_name['_require_explicit_policy']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.oneofs_by_name['_inhibit_policy_mapping'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.fields_by_name['inhibit_policy_mapping'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.fields_by_name['inhibit_policy_mapping'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS.oneofs_by_name['_inhibit_policy_mapping']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE.oneofs_by_name['_organization'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE.fields_by_name['organization'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE.fields_by_name['organization'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE.oneofs_by_name['_organization']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.fields_by_name['notice_reference'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.oneofs_by_name['_notice_reference'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.fields_by_name['notice_reference'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.fields_by_name['notice_reference'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.oneofs_by_name['_notice_reference']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.oneofs_by_name['_explicit_text'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.fields_by_name['explicit_text'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.fields_by_name['explicit_text'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE.oneofs_by_name['_explicit_text']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION.fields_by_name['user_qualifiers'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES.fields_by_name['policies'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENDEDKEYUSAGE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE.fields_by_name['features'].enum_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE_TLSFEATURETYPE
+_CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE_TLSFEATURETYPE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE
+_CERTIFICATESIGNINGREQUEST_EXTENSION_INHIBITANYPOLICY.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_KEYUSAGE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CRLREASON.fields_by_name['reason'].enum_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_REASONFLAGS
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CRLREASON.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_INVALIDITYDATE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP.fields_by_name['version'].enum_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_VERSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP.fields_by_name['entry_type'].enum_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_LOGENTRYTYPE
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_VERSION.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_LOGENTRYTYPE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP
+_CERTIFICATESIGNINGREQUEST_EXTENSION_PRECERTIFICATESIGNEDCERTICATETIMESTAMPS.fields_by_name['signed_certificate_timestamps'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP
+_CERTIFICATESIGNINGREQUEST_EXTENSION_PRECERTIFICATESIGNEDCERTICATETIMESTAMPS.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMPS.fields_by_name['signed_certificate_timestamps'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMPS.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_OCSPNONCE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.oneofs_by_name['name'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.fields_by_name['string_name'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.fields_by_name['string_name'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.oneofs_by_name['name']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.oneofs_by_name['name'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.fields_by_name['b64_name'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.fields_by_name['b64_name'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME.oneofs_by_name['name']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.fields_by_name['authority_cert_issuer'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.oneofs_by_name['_key_identifier'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.fields_by_name['key_identifier'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.fields_by_name['key_identifier'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.oneofs_by_name['_key_identifier']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.oneofs_by_name['_authority_cert_serial_number'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.fields_by_name['authority_cert_serial_number'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.fields_by_name['authority_cert_serial_number'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER.oneofs_by_name['_authority_cert_serial_number']
+_CERTIFICATESIGNINGREQUEST_EXTENSION_NAMECONSTRAINTS.fields_by_name['permitted_subtrees'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_NAMECONSTRAINTS.fields_by_name['excluded_subtrees'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_NAMECONSTRAINTS.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTALTERNATIVENAME.fields_by_name['general_names'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTALTERNATIVENAME.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUERALTERNATIVENAME.fields_by_name['general_names'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUERALTERNATIVENAME.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEISSUER.fields_by_name['general_names'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEISSUER.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT_NAME.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.fields_by_name['full_name'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.fields_by_name['relative_name'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT_NAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.fields_by_name['reasons'].enum_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_REASONFLAGS
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.fields_by_name['crl_issuer'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.oneofs_by_name['_relative_name'].fields.append(
+  _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.fields_by_name['relative_name'])
+_CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.fields_by_name['relative_name'].containing_oneof = _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT.oneofs_by_name['_relative_name']
+_CERTIFICATESIGNINGREQUEST_EXTENSION.containing_type = _CERTIFICATESIGNINGREQUEST
+_CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENSIONTYPE.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
+_CERTIFICATESIGNINGREQUEST_EXTENSION_REASONFLAGS.containing_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
 _CERTIFICATESIGNINGREQUEST.fields_by_name['subject'].message_type = _CERTIFICATESIGNINGREQUEST_SUBJECT
 _CERTIFICATESIGNINGREQUEST.fields_by_name['hash_type'].enum_type = _CERTIFICATESIGNINGREQUEST_HASHTYPE
 _CERTIFICATESIGNINGREQUEST.fields_by_name['attributes'].message_type = _CERTIFICATESIGNINGREQUEST_ATTRIBUTE
+_CERTIFICATESIGNINGREQUEST.fields_by_name['extensions'].message_type = _CERTIFICATESIGNINGREQUEST_EXTENSION
 _CERTIFICATESIGNINGREQUEST_HASHTYPE.containing_type = _CERTIFICATESIGNINGREQUEST
 _CERTIFICATESIGNINGREQUEST.oneofs_by_name['_hash_type'].fields.append(
   _CERTIFICATESIGNINGREQUEST.fields_by_name['hash_type'])
@@ -361,6 +1712,202 @@ CertificateSigningRequest = _reflection.GeneratedProtocolMessageType('Certificat
     # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Attribute)
     })
   ,
+
+  'Extension' : _reflection.GeneratedProtocolMessageType('Extension', (_message.Message,), {
+
+    'CRLNumber' : _reflection.GeneratedProtocolMessageType('CRLNumber', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLNUMBER,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.CRLNumber)
+      })
+    ,
+
+    'SubjectKeyIdentifier' : _reflection.GeneratedProtocolMessageType('SubjectKeyIdentifier', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTKEYIDENTIFIER,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.SubjectKeyIdentifier)
+      })
+    ,
+
+    'BasicConstraints' : _reflection.GeneratedProtocolMessageType('BasicConstraints', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.BasicConstraints)
+      })
+    ,
+
+    'DeltaCRLIndicator' : _reflection.GeneratedProtocolMessageType('DeltaCRLIndicator', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_DELTACRLINDICATOR,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.DeltaCRLIndicator)
+      })
+    ,
+
+    'PolicyConstraints' : _reflection.GeneratedProtocolMessageType('PolicyConstraints', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.PolicyConstraints)
+      })
+    ,
+
+    'CertificatePolicies' : _reflection.GeneratedProtocolMessageType('CertificatePolicies', (_message.Message,), {
+
+      'PolicyInformation' : _reflection.GeneratedProtocolMessageType('PolicyInformation', (_message.Message,), {
+
+        'UserNotice' : _reflection.GeneratedProtocolMessageType('UserNotice', (_message.Message,), {
+
+          'NoticeReference' : _reflection.GeneratedProtocolMessageType('NoticeReference', (_message.Message,), {
+            'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE_NOTICEREFERENCE,
+            '__module__' : 'csr_pb2'
+            # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.NoticeReference)
+            })
+          ,
+          'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION_USERNOTICE,
+          '__module__' : 'csr_pb2'
+          # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice)
+          })
+        ,
+        'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES_POLICYINFORMATION,
+        '__module__' : 'csr_pb2'
+        # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation)
+        })
+      ,
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.CertificatePolicies)
+      })
+    ,
+
+    'ExtendedKeyUsage' : _reflection.GeneratedProtocolMessageType('ExtendedKeyUsage', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENDEDKEYUSAGE,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.ExtendedKeyUsage)
+      })
+    ,
+
+    'TLSFeature' : _reflection.GeneratedProtocolMessageType('TLSFeature', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.TLSFeature)
+      })
+    ,
+
+    'InhibitAnyPolicy' : _reflection.GeneratedProtocolMessageType('InhibitAnyPolicy', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_INHIBITANYPOLICY,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.InhibitAnyPolicy)
+      })
+    ,
+
+    'KeyUsage' : _reflection.GeneratedProtocolMessageType('KeyUsage', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_KEYUSAGE,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.KeyUsage)
+      })
+    ,
+
+    'CRLReason' : _reflection.GeneratedProtocolMessageType('CRLReason', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLREASON,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.CRLReason)
+      })
+    ,
+
+    'InvalidityDate' : _reflection.GeneratedProtocolMessageType('InvalidityDate', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_INVALIDITYDATE,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.InvalidityDate)
+      })
+    ,
+
+    'SignedCertificateTimestamp' : _reflection.GeneratedProtocolMessageType('SignedCertificateTimestamp', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp)
+      })
+    ,
+
+    'PrecertificateSignedCerticateTimestamps' : _reflection.GeneratedProtocolMessageType('PrecertificateSignedCerticateTimestamps', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_PRECERTIFICATESIGNEDCERTICATETIMESTAMPS,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.PrecertificateSignedCerticateTimestamps)
+      })
+    ,
+
+    'SignedCertificateTimestamps' : _reflection.GeneratedProtocolMessageType('SignedCertificateTimestamps', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMPS,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamps)
+      })
+    ,
+
+    'OCSPNonce' : _reflection.GeneratedProtocolMessageType('OCSPNonce', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_OCSPNONCE,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.OCSPNonce)
+      })
+    ,
+
+    'GeneralName' : _reflection.GeneratedProtocolMessageType('GeneralName', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.GeneralName)
+      })
+    ,
+
+    'AuthorityKeyIdentifier' : _reflection.GeneratedProtocolMessageType('AuthorityKeyIdentifier', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifier)
+      })
+    ,
+
+    'NameConstraints' : _reflection.GeneratedProtocolMessageType('NameConstraints', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_NAMECONSTRAINTS,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.NameConstraints)
+      })
+    ,
+
+    'SubjectAlternativeName' : _reflection.GeneratedProtocolMessageType('SubjectAlternativeName', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTALTERNATIVENAME,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.SubjectAlternativeName)
+      })
+    ,
+
+    'IssuerAlternativeName' : _reflection.GeneratedProtocolMessageType('IssuerAlternativeName', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUERALTERNATIVENAME,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.IssuerAlternativeName)
+      })
+    ,
+
+    'CertificateIssuer' : _reflection.GeneratedProtocolMessageType('CertificateIssuer', (_message.Message,), {
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEISSUER,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.CertificateIssuer)
+      })
+    ,
+
+    'IssuingDistributionPoint' : _reflection.GeneratedProtocolMessageType('IssuingDistributionPoint', (_message.Message,), {
+
+      'Name' : _reflection.GeneratedProtocolMessageType('Name', (_message.Message,), {
+        'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT_NAME,
+        '__module__' : 'csr_pb2'
+        # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint.Name)
+        })
+      ,
+      'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT,
+      '__module__' : 'csr_pb2'
+      # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension.IssuingDistributionPoint)
+      })
+    ,
+    'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST_EXTENSION,
+    '__module__' : 'csr_pb2'
+    # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest.Extension)
+    })
+  ,
   'DESCRIPTOR' : _CERTIFICATESIGNINGREQUEST,
   '__module__' : 'csr_pb2'
   # @@protoc_insertion_point(class_scope:autocsr.CertificateSigningRequest)
@@ -368,6 +1915,34 @@ CertificateSigningRequest = _reflection.GeneratedProtocolMessageType('Certificat
 _sym_db.RegisterMessage(CertificateSigningRequest)
 _sym_db.RegisterMessage(CertificateSigningRequest.Subject)
 _sym_db.RegisterMessage(CertificateSigningRequest.Attribute)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.CRLNumber)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.SubjectKeyIdentifier)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.BasicConstraints)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.DeltaCRLIndicator)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.PolicyConstraints)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.CertificatePolicies)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.CertificatePolicies.PolicyInformation.UserNotice.NoticeReference)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.ExtendedKeyUsage)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.TLSFeature)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.InhibitAnyPolicy)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.KeyUsage)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.CRLReason)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.InvalidityDate)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.SignedCertificateTimestamp)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.PrecertificateSignedCerticateTimestamps)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.SignedCertificateTimestamps)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.OCSPNonce)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.GeneralName)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.AuthorityKeyIdentifier)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.NameConstraints)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.SubjectAlternativeName)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.IssuerAlternativeName)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.CertificateIssuer)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.IssuingDistributionPoint)
+_sym_db.RegisterMessage(CertificateSigningRequest.Extension.IssuingDistributionPoint.Name)
 
 
 # @@protoc_insertion_point(module_scope)
