@@ -22,6 +22,7 @@ from autocsr.csr import (
     SigningKey,
     Subject,
 )
+from autocsr.oid import ObjectIdentifier
 from autocsr.utils import load_csr
 
 HashType = protos.CertificateSigningRequest.HashType
@@ -86,7 +87,7 @@ class TestSubject(TestCase):
         "hash_type": "SHA512",
         "attributes": [
             {"oid": "2.5.29.17", "b64_value": "dGVzdA=="},
-            {"oid": "2.5.29.18", "b64_value": "aGk="},
+            {"oid": "issuerAltName", "b64_value": "aGk="},
         ],
     }
 
@@ -252,7 +253,9 @@ class TestCertificateSigningRequest(TestCase):
 
         for attribute in TestSubject.config["attributes"]:
             self.assertEqual(
-                self.csr.get_attribute_for_oid(x509.ObjectIdentifier(attribute["oid"])),
+                self.csr.get_attribute_for_oid(
+                    ObjectIdentifier.from_string(attribute["oid"])
+                ),
                 b64decode(attribute["b64_value"].encode()),
                 "Attributes should match config flie",
             )
