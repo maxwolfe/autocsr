@@ -19,6 +19,7 @@ from cryptography.hazmat.primitives.serialization import Encoding
 from cryptography.x509.oid import NameOID
 
 import autocsr.protos.csr_pb2 as proto
+from autocsr.extensions import Extension
 from autocsr.oid import ObjectIdentifier
 
 PrivateKey = Union[
@@ -186,6 +187,12 @@ class CertificateSigningRequestBuilder:
             builder = builder.add_attribute(
                 oid=ObjectIdentifier.from_string(attribute.oid),
                 value=b64decode(attribute.b64_value.encode()),
+            )
+
+        for extension in csr.extensions:
+            builder = builder.add_extension(
+                extval=Extension.from_proto(extension),
+                critical=extension.critical,
             )
 
         key = SigningKey.from_path(csr.key_path, csr.hash_type)

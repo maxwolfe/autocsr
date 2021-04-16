@@ -74,23 +74,23 @@ message CertificateSigningRequest {
       optional int32 inhibit_policy_mapping = 2;
     }
 
+    message NoticeReference {
+      optional string organization = 1;
+      repeated int32 notice_numbers = 2;
+    }
+
+    message UserNotice {
+      optional NoticeReference notice_reference = 1;
+      optional string explicit_text = 2;
+    }
+
+    message PolicyInformation {
+      string policy_identifier = 1;
+      repeated string string_qualifiers = 2;
+      repeated UserNotice user_qualifiers = 3;
+    }
+
     message CertificatePolicies {
-      message PolicyInformation {
-        message UserNotice {
-          message NoticeReference {
-            optional string organization = 1;
-            repeated int32 notice_numbers = 2;
-          }
-
-          optional NoticeReference notice_reference = 1;
-          optional string explicit_text = 2;
-        }
-
-        string policy_identifier = 1;
-        repeated string string_qualifiers = 2;
-        repeated UserNotice user_qualifiers = 3;
-      }
-
       repeated PolicyInformation policies = 1;
     }
 
@@ -98,12 +98,12 @@ message CertificateSigningRequest {
       repeated string usages = 1;
     }
 
-    message TLSFeature {
-      enum TLSFeatureType {
-        status_request = 0;
-        status_request_v2 = 1;
-      }
+    enum TLSFeatureType {
+      status_request = 0;
+      status_request_v2 = 1;
+    }
 
+    message TLSFeature {
       repeated TLSFeatureType features = 1;
     }
 
@@ -137,7 +137,6 @@ message CertificateSigningRequest {
     }
 
     message CRLReason {
-
       ReasonFlags reason = 1;
     }
 
@@ -174,7 +173,6 @@ message CertificateSigningRequest {
       string b64_nonce = 1;
     }
 
-
     message GeneralName {
       oneof name {
         string string_name = 1;
@@ -205,19 +203,79 @@ message CertificateSigningRequest {
       repeated GeneralName general_names = 1;
     }
 
-    message IssuingDistributionPoint {
-      repeated GeneralName full_name = 1;
+    message Name {
+      string oid = 1;
+      string b64_value = 2;
+    }
 
-      message Name {
-        string oid = 1;
-        string b64_value = 2;
-      }
-      
-      optional Name relative_name = 2;
+    message AccessDescription {
+      string access_method = 1;
+      GeneralName access_location = 2;
+    }
+
+    message AuthorityInformationAccess {
+      repeated AccessDescription descriptions = 1;
+    }
+
+    message SubjectInformationAccess {
+      repeated AccessDescription descriptions = 1;
+    }
+
+    message DistributionPoint {
+      repeated GeneralName full_name = 1;
+      repeated Name relative_name = 2;
       repeated ReasonFlags reasons = 3;
       repeated GeneralName crl_issuer = 4;
+    }
+
+    message CRLDistributionPoints {
+      repeated DistributionPoint distribution_points = 1;
+    }
+
+    message FreshestCRL {
+      repeated DistributionPoint distribution_points = 1;
+    }
+
+    message IssuingDistributionPoint {
+      repeated GeneralName full_name = 1;
+      repeated Name relative_name = 2;
+      bool only_contains_user_certs = 3;
+      bool only_contains_ca_certs = 4;
+      repeated ReasonFlags only_some_reasons = 5;
+      bool indirect_crl = 6;
+      bool only_contains_attribute_certs = 7;
+    }
+
+    oneof extension {
+      ExtensionType extension_type = 2;
+      CRLNumber crl_number = 3;
+      SubjectKeyIdentifier subject_key_identifier = 4;
+      BasicConstraints basic_constraints = 5;
+      DeltaCRLIndicator delta_crl_indicator = 6;
+      PolicyConstraints policy_constraints = 7;
+      CertificatePolicies certificate_policies = 8;
+      ExtendedKeyUsage extended_key_usage = 9;
+      TLSFeature tls_feature = 10;
+      InhibitAnyPolicy inhibit_any_policy = 11;
+      KeyUsage key_usage = 12;
+      CRLReason crl_reason = 13;
+      InvalidityDate invalidity_date = 14;
+      PrecertificateSignedCerticateTimestamps precertificate_signed_certificate_timestamps = 15;
+      SignedCertificateTimestamps signed_certificate_timestamps = 16;
+      OCSPNonce ocsp_nonce = 17;
+      AuthorityKeyIdentifier authority_key_identifier = 18;
+      AuthorityInformationAccess authority_information_access = 19;
+      SubjectInformationAccess subject_information_access = 20;
+      CRLDistributionPoints crl_disribution_points = 21;
+      FreshestCRL freshest_crl = 22;
+      NameConstraints name_constraints = 23;
+      SubjectAlternativeName subject_alternative_name = 24;
+      IssuerAlternativeName issuer_alternative_name = 25;
+      CertificateIssuer certificate_issuer = 26;
+      IssuingDistributionPoint issuing_distribution_point = 27;
     }
   }
 
   repeated Extension extensions = 6;
-}
+
+  }
