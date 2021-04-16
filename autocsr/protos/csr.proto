@@ -99,8 +99,9 @@ message CertificateSigningRequest {
     }
 
     enum TLSFeatureType {
-      status_request = 0;
-      status_request_v2 = 1;
+      unused = 0;
+      status_request = 5;
+      status_request_v2 = 17;
     }
 
     message TLSFeature {
@@ -127,7 +128,7 @@ message CertificateSigningRequest {
       unspecified = 0;
       key_compromise = 1;
       ca_compromise = 2;
-      afilliation_changed = 3;
+      affiliation_changed = 3;
       superseded = 4;
       cessation_of_operation = 5;
       certificate_hold = 6;

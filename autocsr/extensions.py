@@ -3,6 +3,7 @@ Wrappers to turn configs into x509 Extensions
 """
 
 from base64 import b64decode
+from datetime import datetime
 from typing import Iterable
 
 from cryptography.x509 import extensions
@@ -10,7 +11,31 @@ from cryptography.x509 import extensions
 import autocsr.protos.csr_pb2 as proto
 from autocsr.oid import ObjectIdentifier
 
+DATE_FMT = "%d/%m/%Y %H:%M:%S"
+
 CSR_EXTENSION = proto.CertificateSigningRequest.Extension
+
+
+class ExtensionType:
+    """
+    Factory for returning a parameter-less extension from a protobuf
+    """
+
+    @staticmethod
+    def from_proto(extension: CSR_EXTENSION) -> extensions.ExtensionType:
+        """
+        Return an extension instance based on enum extension type
+        """
+
+        this_extension = extension.extension_type
+
+        if this_extension == extension.ExtensionType.OCSPNoCheck:
+            return extensions.OCSPNoCheck()
+
+        if this_extension == extension.ExtensionType.PrecertPoison:
+            return extensions.PrecertPoison()
+
+        raise TypeError(f"No known extension: {this_extension}")
 
 
 # Unsupported by cryptography
@@ -222,6 +247,63 @@ class CertificatePolicies(extensions.CertificatePolicies):
         return cls(policies=PolicyInformation.from_proto(this_extension.policies))
 
 
+class ExtendedKeyUsage(extensions.ExtendedKeyUsage):
+    """
+    Wrapper for ExtendedKeyUsage extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a ExtendedKeyUsage extension from a protobuf
+        """
+
+        this_extension = extension.extended_key_usage
+
+        return cls(
+            usages=(ObjectIdentifier.from_string(oid) for oid in this_extension.usages),
+        )
+
+
+class TLSFeature(extensions.TLSFeature):
+    """
+    Wrapper for TLSFeature Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a TLSFeature extension from a protobuf
+        """
+
+        this_extension = extension.tls_feature
+
+        return cls(
+            features=(
+                extensions.TLSFeatureType(feature)
+                for feature in this_extension.features
+            )
+        )
+
+
+class InhibitAnyPolicy(extensions.InhibitAnyPolicy):
+    """
+    Wrapper for InhibitAnyPolicy Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a InhibitAnyPolicy extension from a protobuf
+        """
+
+        this_extension = extension.inhibit_any_policy
+
+        return cls(
+            skip_certs=this_extension.skip_certs,
+        )
+
+
 class KeyUsage(extensions.KeyUsage):
     """
     Wrapper for KeyUsage Extension from config file
@@ -248,19 +330,91 @@ class KeyUsage(extensions.KeyUsage):
         )
 
 
+class ReasonFlags:
+    """
+    Map int enum ReasonFlags to exceptions.ReasonFlag enums
+    """
+
+    ProtoFlag = CSR_EXTENSION.ReasonFlags
+    ExtFlag = extensions.ReasonFlags
+
+    flags = {
+        ProtoFlag.unspecified: ExtFlag.unspecified,
+        ProtoFlag.key_compromise: ExtFlag.key_compromise,
+        ProtoFlag.ca_compromise: ExtFlag.ca_compromise,
+        ProtoFlag.affiliation_changed: ExtFlag.affiliation_changed,
+        ProtoFlag.superseded: ExtFlag.superseded,
+        ProtoFlag.cessation_of_operation: ExtFlag.cessation_of_operation,
+        ProtoFlag.privilege_withdrawn: ExtFlag.privilege_withdrawn,
+        ProtoFlag.aa_compromise: ExtFlag.aa_compromise,
+        ProtoFlag.remove_from_crl: ExtFlag.remove_from_crl,
+    }
+
+    @staticmethod
+    def from_proto(reason: ProtoFlag) -> ExtFlag:
+        """
+        Convert a protobuf version ReasonFlag into the extensions version
+        """
+
+        return ReasonFlags.flags[reason]
+
+
+# Unsupported by cryptography
+class CRLReason(extensions.CRLReason):
+    """
+    Wrapper for CRLReason Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a CRLReason extension from a protobuf
+        """
+
+        this_extension = extension.crl_reason
+
+        return cls(
+            reason=ReasonFlags.from_proto(this_extension.reason),
+        )
+
+
+# Unsupported by cryptography
+class InvalidityDate(extensions.InvalidityDate):
+    """
+    Wrapper for InvalidityDate Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a InvalidityDate from a protobuf
+        """
+
+        this_extension = extension.invalidity_date
+        return cls(
+            invalidity_date=datetime.strptime(this_extension.invalidity_date, DATE_FMT),
+        )
+
+
 class Extension:
     """
     A factory for creating x509 Extensions from config
     """
 
     extension_list = {
-        "crl_number": CRLNumber,
+        "extension_type": ExtensionType,
+        #  "crl_number": CRLNumber,
         "key_usage": KeyUsage,
         "subject_key_identifier": SubjectKeyIdentifier,
         "basic_constraints": BasicConstraints,
-        "delta_crl_indicator": DeltaCRLIndicator,
+        #  "delta_crl_indicator": DeltaCRLIndicator,
         "policy_constraints": PolicyConstraints,
         "certificate_policies": CertificatePolicies,
+        "extended_key_usage": ExtendedKeyUsage,
+        "tls_feature": TLSFeature,
+        "inhibit_any_policy": InhibitAnyPolicy,
+        #  "crl_reason": CRLReason,
+        #  "invalidity_date": InvalidityDate,
     }
 
     @staticmethod

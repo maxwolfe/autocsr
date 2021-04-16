@@ -116,19 +116,21 @@ class CertificateSigningRequest(google.protobuf.message.Message):
 
         class _TLSFeatureType(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[TLSFeatureType.V], builtins.type):
             DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
-            status_request = CertificateSigningRequest.Extension.TLSFeatureType.V(0)
-            status_request_v2 = CertificateSigningRequest.Extension.TLSFeatureType.V(1)
+            unused = CertificateSigningRequest.Extension.TLSFeatureType.V(0)
+            status_request = CertificateSigningRequest.Extension.TLSFeatureType.V(5)
+            status_request_v2 = CertificateSigningRequest.Extension.TLSFeatureType.V(17)
         class TLSFeatureType(metaclass=_TLSFeatureType):
             V = typing.NewType('V', builtins.int)
-        status_request = CertificateSigningRequest.Extension.TLSFeatureType.V(0)
-        status_request_v2 = CertificateSigningRequest.Extension.TLSFeatureType.V(1)
+        unused = CertificateSigningRequest.Extension.TLSFeatureType.V(0)
+        status_request = CertificateSigningRequest.Extension.TLSFeatureType.V(5)
+        status_request_v2 = CertificateSigningRequest.Extension.TLSFeatureType.V(17)
 
         class _ReasonFlags(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[ReasonFlags.V], builtins.type):
             DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
             unspecified = CertificateSigningRequest.Extension.ReasonFlags.V(0)
             key_compromise = CertificateSigningRequest.Extension.ReasonFlags.V(1)
             ca_compromise = CertificateSigningRequest.Extension.ReasonFlags.V(2)
-            afilliation_changed = CertificateSigningRequest.Extension.ReasonFlags.V(3)
+            affiliation_changed = CertificateSigningRequest.Extension.ReasonFlags.V(3)
             superseded = CertificateSigningRequest.Extension.ReasonFlags.V(4)
             cessation_of_operation = CertificateSigningRequest.Extension.ReasonFlags.V(5)
             certificate_hold = CertificateSigningRequest.Extension.ReasonFlags.V(6)
@@ -140,7 +142,7 @@ class CertificateSigningRequest(google.protobuf.message.Message):
         unspecified = CertificateSigningRequest.Extension.ReasonFlags.V(0)
         key_compromise = CertificateSigningRequest.Extension.ReasonFlags.V(1)
         ca_compromise = CertificateSigningRequest.Extension.ReasonFlags.V(2)
-        afilliation_changed = CertificateSigningRequest.Extension.ReasonFlags.V(3)
+        affiliation_changed = CertificateSigningRequest.Extension.ReasonFlags.V(3)
         superseded = CertificateSigningRequest.Extension.ReasonFlags.V(4)
         cessation_of_operation = CertificateSigningRequest.Extension.ReasonFlags.V(5)
         certificate_hold = CertificateSigningRequest.Extension.ReasonFlags.V(6)
