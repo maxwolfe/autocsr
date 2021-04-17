@@ -536,6 +536,24 @@ class Name(x509_name.Name):
         )
 
 
+class RelativeDistinguishedName(x509_name.RelativeDistinguishedName):
+    """
+    Wrapper for RelativeDistinguishedName from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.Name):
+        """
+        Create a Name from a config file
+        """
+
+        return cls(
+            attributes=(
+                NameAttribute.from_proto(attribute) for attribute in name.attributes
+            ),
+        )
+
+
 class DirectoryName(general_name.DirectoryName):
     """
     Wrapper for DirectoryName general name from config file
@@ -660,6 +678,122 @@ class AuthorityKeyIdentifier(extensions.AuthorityKeyIdentifier):
         )
 
 
+class AccessDescription(extensions.AccessDescription):
+    """
+    Wrapper for AccessDescription from a config file
+    """
+
+    @classmethod
+    def from_proto(cls, description: CSR_EXTENSION.AccessDescription):
+        """
+        Create a AccessDescription from a protobuf
+        """
+
+        return cls(
+            access_method=ObjectIdentifier.from_string(description.access_method),
+            access_location=GeneralName.from_proto(description.access_location),
+        )
+
+
+class AuthorityInformationAccess(extensions.AuthorityInformationAccess):
+    """
+    Wrapper for AuthorityInformationAccess Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a AuthorityInformationAccess from a protobuf
+        """
+
+        this_extension = extension.authority_information_access
+
+        return cls(
+            descriptions=(
+                AccessDescription.from_proto(description)
+                for description in this_extension.descriptions
+            )
+        )
+
+
+class SubjectInformationAccess(extensions.SubjectInformationAccess):
+    """
+    Wrapper for SubjectInformationAccess Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a SubjectInformationAccess from a protobuf
+        """
+
+        this_extension = extension.subject_information_access
+
+        return cls(
+            descriptions=(
+                AccessDescription.from_proto(description)
+                for description in this_extension.descriptions
+            )
+        )
+
+
+class DistributionPoint(extensions.DistributionPoint):
+    """
+    Wrapper for DistributionPoint from config file
+    """
+
+    @classmethod
+    def from_proto(cls, dist: CSR_EXTENSION.DistributionPoint):
+        """
+        Create a DistributionPoint from a protobuf
+        """
+
+        full_name = [GeneralName.from_proto(name) for name in dist.full_name]
+        relative_name = RelativeDistinguishedName.from_proto(dist.relative_name)
+        reasons = frozenset((ReasonFlags.from_proto(reason) for reason in dist.reasons))
+        crl_issuer = [GeneralName.from_proto(name) for name in dist.crl_issuer]
+
+        if not full_name:
+            full_name = None
+
+        if not relative_name:
+            relative_name = None
+
+        if not reasons:
+            reasons = None
+
+        if not crl_issuer:
+            crl_issuer = None
+
+        return cls(
+            full_name=full_name,
+            relative_name=relative_name,
+            reasons=reasons,
+            crl_issuer=crl_issuer,
+        )
+
+
+class CRLDistributionPoints(extensions.CRLDistributionPoints):
+    """
+    Wrapper for CRLDistributionPoints Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a CRLDistributionPoints from a protobuf
+        """
+
+        this_extension = extension.crl_distribution_points
+
+        return cls(
+            distribution_points=(
+                DistributionPoint.from_proto(dist)
+                for dist in this_extension.distribution_points
+            )
+        )
+
+
 class Extension:
     """
     A factory for creating x509 Extensions from config
@@ -683,6 +817,9 @@ class Extension:
         # 'signed_certificate_timestamps': SignedCertificateTimestamps,
         # "ocsp_nonce": OCSPNonce,
         "authority_key_identifier": AuthorityKeyIdentifier,
+        "authority_information_access": AuthorityInformationAccess,
+        "subject_information_access": SubjectInformationAccess,
+        "crl_distribution_points": CRLDistributionPoints,
     }
 
     @staticmethod
