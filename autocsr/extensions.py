@@ -4,9 +4,11 @@ Wrappers to turn configs into x509 Extensions
 
 from base64 import b64decode
 from datetime import datetime
+from ipaddress import ip_address
 from typing import Iterable
 
-from cryptography.x509 import extensions
+from cryptography.x509 import extensions, general_name
+from cryptography.x509 import name as x509_name
 
 import autocsr.protos.csr_pb2 as proto
 from autocsr.oid import ObjectIdentifier
@@ -391,8 +393,270 @@ class InvalidityDate(extensions.InvalidityDate):
         """
 
         this_extension = extension.invalidity_date
+
         return cls(
             invalidity_date=datetime.strptime(this_extension.invalidity_date, DATE_FMT),
+        )
+
+
+# Currently unsupported by autocsr
+class PrecertificateSignedCertificateTimestamps(
+    extensions.PrecertificateSignedCertificateTimestamps
+):
+    """
+    Wrapper for PrecertificateSignedCertificateTimestamps Extension from config
+    file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a PrecertificateSignedCertificateTimestamps from a protobuf
+        """
+
+        raise TypeError(
+            "autocsr currently does not support signed certificate timestamps"
+        )
+
+
+# Currently unsupported by autocsr
+class SignedCertificateTimestamps(extensions.SignedCertificateTimestamps):
+    """
+    Wrapper for SignedCertificateTimestamps Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a SignedCertificateTimestamps from a protobuf
+        """
+
+        raise TypeError(
+            "autocsr currently does not support signed certificate timestamps"
+        )
+
+
+# Unsupported by cryptography
+class OCSPNonce(extensions.OCSPNonce):
+    """
+    Wrapper for OCSPNonce Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a OCSPNonce from a protobuf
+        """
+
+        this_extension = extension.ocsp_nonce
+
+        return cls(nonce=b64decode(this_extension.b64_nonce.encode()))
+
+
+class RFC822Name(general_name.RFC822Name):
+    """
+    Wrapper for RFC822Name general name from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.GeneralName):
+        """
+        Create a RFC822Name from a protobuf
+        """
+
+        this_name = name.rfc_822_name
+
+        return cls(value=this_name.value)
+
+
+class DNSName(general_name.DNSName):
+    """
+    Wrapper for DNSName general name from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.GeneralName):
+        """
+        Create a DNSName from a protobuf
+        """
+
+        this_name = name.dns_name
+
+        return cls(value=this_name.value)
+
+
+class UniformResourceIdentifier(general_name.UniformResourceIdentifier):
+    """
+    Wrapper for UniformResourceIdentifier general name from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.GeneralName):
+        """
+        Create a UniformResourceIdentifier from a protobuf
+        """
+
+        this_name = name.uniform_resource_identifier
+
+        return cls(value=this_name.value)
+
+
+class NameAttribute(x509_name.NameAttribute):
+    """
+    Wrapper for NameAttribute from config file
+    """
+
+    @classmethod
+    def from_proto(cls, attribute: CSR_EXTENSION.NameAttribute):
+        """
+        Create a NameAttribute from a config file
+        """
+
+        return cls(
+            oid=ObjectIdentifier.from_string(attribute.oid),
+            value=attribute.value,
+        )
+
+
+class Name(x509_name.Name):
+    """
+    Wrapper for Name from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.Name):
+        """
+        Create a Name from a config file
+        """
+
+        return cls(
+            attributes=(
+                NameAttribute.from_proto(attribute) for attribute in name.attributes
+            ),
+        )
+
+
+class DirectoryName(general_name.DirectoryName):
+    """
+    Wrapper for DirectoryName general name from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.GeneralName):
+        """
+        Create a DirectoryName from a protobuf
+        """
+
+        this_name = name.directory_name
+
+        return cls(value=Name.from_proto(this_name.value))
+
+
+class RegisteredID(general_name.RegisteredID):
+    """
+    Wrapper for RegisteredID general name from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.GeneralName):
+        """
+        Create a RegisteredID from a protobuf
+        """
+
+        this_name = name.registered_id
+
+        return cls(value=ObjectIdentifier.from_string(this_name.oid))
+
+
+class IPAddress(general_name.IPAddress):
+    """
+    Wrapper for an IPAddress general name from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.GeneralName):
+        """
+        Create a IPAddress from a protobuf
+        """
+
+        this_name = name.ip_address
+
+        return cls(value=ip_address(this_name.value))
+
+
+# Untested
+class OtherName(general_name.OtherName):
+    """
+    Wrapper for an OtherName general name from config file
+    """
+
+    @classmethod
+    def from_proto(cls, name: CSR_EXTENSION.GeneralName):
+        """
+        Create a OtherName from a protobuf
+        """
+
+        this_name = name.other_name
+
+        return cls(
+            type_id=ObjectIdentifier.from_string(this_name.oid),
+            value=b64decode(this_name.b64_value.encode()),
+        )
+
+
+class GeneralName:
+    """
+    Factory for creating General Names from a config
+    """
+
+    name_types = {
+        "rfc_822_name": RFC822Name,
+        "dns_name": DNSName,
+        "uniform_resource_identifier": UniformResourceIdentifier,
+        "directory_name": DirectoryName,
+        "registered_id": RegisteredID,
+        "ip_address": IPAddress,
+        "other_name": OtherName,
+    }
+
+    @staticmethod
+    def from_proto(name: CSR_EXTENSION.GeneralName) -> general_name.GeneralName:
+        """
+        Create a GeneralName instance from a protobuf
+        """
+
+        return GeneralName.name_types.get(name.WhichOneof("name")).from_proto(name)
+
+
+class AuthorityKeyIdentifier(extensions.AuthorityKeyIdentifier):
+    """
+    Wrapper for AuthorityKeyIdentifier Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a AuthorityKeyIdentifier from a protobuf
+        """
+
+        this_extension = extension.authority_key_identifier
+
+        key_identifier = this_extension.key_identifier
+        authority_cert_serial_number = this_extension.authority_cert_serial_number
+
+        if not key_identifier:
+            key_identifier = None
+
+        if not authority_cert_serial_number:
+            authority_cert_serial_number = None
+
+        return cls(
+            key_identifier=key_identifier,
+            authority_cert_issuer=(
+                GeneralName.from_proto(name)
+                for name in this_extension.authority_cert_issuer
+            ),
+            authority_cert_serial_number=authority_cert_serial_number,
         )
 
 
@@ -415,6 +679,10 @@ class Extension:
         "inhibit_any_policy": InhibitAnyPolicy,
         #  "crl_reason": CRLReason,
         #  "invalidity_date": InvalidityDate,
+        # "precertificate_signed_certificate_timestamps": PrecertificateSignedCertificateTimestamps,
+        # 'signed_certificate_timestamps': SignedCertificateTimestamps,
+        # "ocsp_nonce": OCSPNonce,
+        "authority_key_identifier": AuthorityKeyIdentifier,
     }
 
     @staticmethod
