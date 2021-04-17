@@ -794,6 +794,158 @@ class CRLDistributionPoints(extensions.CRLDistributionPoints):
         )
 
 
+class FreshestCRL(extensions.FreshestCRL):
+    """
+    Wrapper for FreshestCRL Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a FreshestCRL from a protobuf
+        """
+
+        this_extension = extension.freshest_crl
+
+        return cls(
+            distribution_points=(
+                DistributionPoint.from_proto(dist)
+                for dist in this_extension.distribution_points
+            )
+        )
+
+
+class NameConstraints(extensions.NameConstraints):
+    """
+    Wrapper for a NameConstraints extension from a config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a NameConstraints from a protobuf
+        """
+
+        this_extension = extension.name_constraints
+
+        return cls(
+            permitted_subtrees=(
+                GeneralName.from_proto(name)
+                for name in this_extension.permitted_subtrees
+            ),
+            excluded_subtrees=(
+                GeneralName.from_proto(name)
+                for name in this_extension.excluded_subtrees
+            ),
+        )
+
+
+class SubjectAlternativeName(extensions.SubjectAlternativeName):
+    """
+    Wrapper for SubjectAlternativeName Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a SubjectAlternativeName from a protobuf
+        """
+
+        this_extension = extension.subject_alternative_name
+
+        return cls(
+            general_names=(
+                GeneralName.from_proto(name) for name in this_extension.general_names
+            ),
+        )
+
+
+class IssuerAlternativeName(extensions.IssuerAlternativeName):
+    """
+    Wrapper for IssuerAlternativeName Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a IssuerAlternativeName from a protobuf
+        """
+
+        this_extension = extension.issuer_alternative_name
+
+        return cls(
+            general_names=(
+                GeneralName.from_proto(name) for name in this_extension.general_names
+            ),
+        )
+
+
+# Unsupported by cryptography
+class CertificateIssuer(extensions.CertificateIssuer):
+    """
+    Wrapper for CertificateIssuer Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a CertificateIssuer from a protobuf
+        """
+
+        this_extension = extension.certificate_issuer
+
+        return cls(
+            general_names=(
+                GeneralName.from_proto(name) for name in this_extension.general_names
+            ),
+        )
+
+
+# Unsupported by cryptography
+class IssuingDistributionPoint(extensions.IssuingDistributionPoint):
+    """
+    Wrapper for IssuingDistributionPoint Extension from config file
+    """
+
+    @classmethod
+    def from_proto(cls, extension: CSR_EXTENSION):
+        """
+        Create a IssuingDistributionPoint from a protobuf
+        """
+
+        this_extension = extension.issuing_distribution_point
+
+        full_name = [GeneralName.from_proto(name) for name in this_extension.full_name]
+        relative_name = RelativeDistinguishedName.from_proto(
+            this_extension.relative_name
+        )
+        reasons = frozenset(
+            (
+                ReasonFlags.from_proto(reason)
+                for reason in this_extension.only_some_reasons
+            )
+        )
+
+        if not full_name:
+            full_name = None
+
+        if not relative_name:
+            relative_name = None
+
+        if not reasons:
+            reasons = None
+
+        return cls(
+            full_name=full_name,
+            relative_name=relative_name,
+            only_contains_user_certs=this_extension.only_contains_user_certs,
+            only_contains_ca_certs=this_extension.only_contains_ca_certs,
+            only_some_reasons=reasons,
+            indirect_crl=this_extension.indirect_crl,
+            only_contains_attribute_certs=this_extension.only_contains_attribute_certs,
+        )
+
+
 class Extension:
     """
     A factory for creating x509 Extensions from config
@@ -802,7 +954,6 @@ class Extension:
     extension_list = {
         "extension_type": ExtensionType,
         #  "crl_number": CRLNumber,
-        "key_usage": KeyUsage,
         "subject_key_identifier": SubjectKeyIdentifier,
         "basic_constraints": BasicConstraints,
         #  "delta_crl_indicator": DeltaCRLIndicator,
@@ -811,6 +962,7 @@ class Extension:
         "extended_key_usage": ExtendedKeyUsage,
         "tls_feature": TLSFeature,
         "inhibit_any_policy": InhibitAnyPolicy,
+        "key_usage": KeyUsage,
         #  "crl_reason": CRLReason,
         #  "invalidity_date": InvalidityDate,
         # "precertificate_signed_certificate_timestamps": PrecertificateSignedCertificateTimestamps,
@@ -820,6 +972,12 @@ class Extension:
         "authority_information_access": AuthorityInformationAccess,
         "subject_information_access": SubjectInformationAccess,
         "crl_distribution_points": CRLDistributionPoints,
+        "freshest_crl": FreshestCRL,
+        "name_constraints": NameConstraints,
+        "subject_alternative_name": SubjectAlternativeName,
+        "issuer_alternative_name": IssuerAlternativeName,
+        # "certificate_issuer": CertificateIssuer,
+        # "issuing_distribution_point": IssuingDistributionPoint,
     }
 
     @staticmethod
