@@ -160,4 +160,6 @@ def test_extension():
     for extension in proto.extensions:
         extval = Extension.from_proto(extension)
 
-        assert isinstance(extval, x509.extensions.ExtensionType)
+        assert isinstance(
+            extval, x509.extensions.ExtensionType
+        ), f"Correct {extension} should inherit from x509 ExtensionType"

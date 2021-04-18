@@ -89,6 +89,12 @@ class TestSubject(TestCase):
             {"oid": "2.5.29.17", "b64_value": "dGVzdA=="},
             {"oid": "issuerAltName", "b64_value": "aGk="},
         ],
+        "extensions": [
+            {"extension_type": "OCSPNoCheck"},
+            {"subject_key_identifier": {"b64_digest": "dGVzdCBiNjQgZGlnZXN0"}},
+            {"basic_constraints": {"ca": True, "path_length": 123}},
+            {"policy_constraints": {"require_explicit_policy": 123}},
+        ],
     }
 
     def setUp(self):
