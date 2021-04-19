@@ -1,6 +1,4 @@
-"""
-Build Certificate Signing Requests
-"""
+"""Build Certificate Signing Requests."""
 
 from __future__ import annotations
 
@@ -48,23 +46,16 @@ GenericKeyInfo = Union[KeyInfo, HsmInfo]
 
 
 class Attribute(x509.NameAttribute):
-    """
-    An x509 attribute created from configs
-    """
+    """An x509 attribute created from configs."""
 
     @classmethod
     def from_field(cls, field: str, value: str):
-        """
-        Create an attribute from each field of subject info
-        """
-
+        """Create an attribute from each field of subject info."""
         return cls(getattr(NameOID, field.upper()), value)
 
 
 class Subject(x509.Name):
-    """
-    An x509 name object created from configs
-    """
+    """An x509 name object created from configs."""
 
     subject_fields = [
         "common_name",
@@ -78,10 +69,7 @@ class Subject(x509.Name):
 
     @classmethod
     def from_subject(cls, subject: CsrSubject):
-        """
-        Build a x509 name object from dictionary
-        """
-
+        """Build a x509 name object from dictionary."""
         attributes = []
 
         for field in cls.subject_fields:
@@ -95,9 +83,7 @@ class Subject(x509.Name):
 
 @dataclass
 class SigningKey:
-    """
-    A signing key created from a config
-    """
+    """A signing key created from a config."""
 
     private_key: PrivateKey
     algorithm: hashes.HashAlgorithm = None
@@ -142,18 +128,12 @@ class SigningKey:
         hash_type: HashType,
         approved_hashes: Dict[HashType, hashes.HashAlgorithm],
     ):
-        """
-        Map HashType enums to hash algorithms
-        """
-
+        """Map HashType enums to hash algorithms."""
         self.algorithm = approved_hashes[hash_type]()
 
     @staticmethod
     def create_rsa_key(key_info: GenericKeyInfo) -> rsa.RSAPrivateKey:
-        """
-        Create an RSA Private Key from a key info structure
-        """
-
+        """Create an RSA Private Key from a key info structure."""
         if not key_info.key_size:
             key_info.key_size = 2048
 
@@ -167,10 +147,7 @@ class SigningKey:
 
     @staticmethod
     def create_dsa_key(key_info: GenericKeyInfo) -> dsa.DSAPrivateKey:
-        """
-        Create a DSA Private Key from a key info structure
-        """
-
+        """Create a DSA Private Key from a key info structure."""
         if not key_info.key_size:
             key_info.key_size = 2048
 
@@ -180,20 +157,14 @@ class SigningKey:
 
     @staticmethod
     def create_ec_key(key_info: GenericKeyInfo) -> ec.EllipticCurvePrivateKey:
-        """
-        Create an EC Private Key from a key info structure
-        """
-
+        """Create an EC Private Key from a key info structure."""
         return ec.generate_private_key(
             curve=SigningKey.CURVES[key_info.curve](),
         )
 
     @staticmethod
     def create_key(key_info: KeyInfo) -> PrivateKey:
-        """
-        Create and export a private key from a key info object
-        """
-
+        """Create and export a private key from a key info object."""
         if key_info.key_type == KeyType.RSA:
             private_key = SigningKey.create_rsa_key(key_info)
         elif key_info.key_type == KeyType.DSA:
@@ -216,10 +187,7 @@ class SigningKey:
 
     @classmethod
     def from_path(cls, key_path: str, hash_type: HashType):
-        """
-        Build a Signing Key from key type and file path
-        """
-
+        """Build a Signing Key from key type and file path."""
         with open(key_path, "rb") as key_file:
             return cls(
                 private_key=serialization.load_pem_private_key(
@@ -230,10 +198,7 @@ class SigningKey:
 
     @classmethod
     def from_key_info(cls, key_info: KeyInfo, hash_type: HashType):
-        """
-        Build a Signing Key from key information structure
-        """
-
+        """Build a Signing Key from key information structure."""
         if key_info.create:
             return cls(
                 private_key=cls.create_key(key_info),
@@ -247,10 +212,7 @@ class SigningKey:
 
     @classmethod
     def from_hsm_info(cls, hsm_info: HsmInfo, hash_type: HashType):
-        """
-        Build a Dummy Signing Key from hsm information structure
-        """
-
+        """Build a Dummy Signing Key from hsm information structure."""
         if hsm_info.key_type == KeyType.RSA:
             return SigningKey.create_rsa_key(hsm_info)
 
@@ -264,11 +226,10 @@ class SigningKey:
 
 
 class CertificateSigningRequest(_CertificateSigningRequest):
-    """
-    A custom certificate signing request
-    """
+    """A custom certificate signing request."""
 
     def __repr__(self):
+        """Debug representation of a CSR."""
         return (
             f"Subject: {self.subject}\n"
             f"Signature Algorithm: {self.signature_algorithm_oid}\n"
@@ -277,20 +238,14 @@ class CertificateSigningRequest(_CertificateSigningRequest):
         )
 
     def set_pubkey(self, public_key: PublicKey):
-        """
-        Modify the public key of a CSR
-        """
-
+        """Modify the public key of a CSR."""
         openssl_req = X509Req.from_cryptography(self)
         openssl_req.set_pubkey(PKey.from_cryptography_key(public_key))
 
         self._x509_req = openssl_req.to_cryptography()._x509_req
 
     def set_signature(self, signature: bytes):
-        """
-        Return a new CSR with modified signature
-        """
-
+        """Return a new CSR with modified signature."""
         der_csr = self.public_bytes(Encoding.DER)
         asn1_csr, _ = asn1_decode(
             der_csr,
@@ -302,18 +257,13 @@ class CertificateSigningRequest(_CertificateSigningRequest):
         self._x509_req = x509.load_der_x509_csr(asn1_encode(asn1_csr))._x509_req
 
     def export(self, filename: str):
-        """
-        Export CSR to a file
-        """
-
+        """Export CSR to a file."""
         with open(filename, "wb") as output_file:
             output_file.write(self.public_bytes(Encoding.PEM))
 
 
 class MyBackend(Backend):
-    """
-    A custom backend to override Certificate Signing Request building
-    """
+    """A custom backend to override Certificate Signing Request building."""
 
     def create_x509_csr(
         self,
@@ -321,29 +271,21 @@ class MyBackend(Backend):
         private_key: _PRIVATE_KEY_TYPES,
         algorithm: Optional[hashes.HashAlgorithm],
     ) -> _CertificateSigningRequest:
-        """
-        Create custom Certificate Signing Requests
-        """
-
+        """Create custom Certificate Signing Requests."""
         csr = super().create_x509_csr(builder, private_key, algorithm)
 
         return CertificateSigningRequest(backend=self, x509_req=csr._x509_req)
 
 
 class CertificateSigningRequestBuilder:
-    """
-    An x509 certificate signing request created from configs
-    """
+    """An x509 certificate signing request created from configs."""
 
     @staticmethod
     def sign_with_key_info(
         csr: proto.CertificateSigningRequest,
         builder: x509.CertificateSigningRequestBuilder,
     ):
-        """
-        Sign a CertificateSigningRequest with key information on the filesystem
-        """
-
+        """Sign a CertificateSigningRequest with filesystem key."""
         key = SigningKey.from_key_info(csr.key_info, csr.hash_type)
 
         return builder.sign(
@@ -357,10 +299,7 @@ class CertificateSigningRequestBuilder:
         csr: proto.CertificateSigningRequest,
         builder: x509.CertificateSigningRequestBuilder,
     ):
-        """
-        Sign a CertificateSigningRequest with key information in an HSM
-        """
-
+        """Sign a CertificateSigningRequest with key information in an HSM."""
         hsm = HsmFactory.from_hsm_info(csr.hsm_info, csr.hash_type)
 
         dummy_key = SigningKey.from_hsm_info(csr.hsm_info, csr.hash_type)
@@ -376,10 +315,7 @@ class CertificateSigningRequestBuilder:
 
     @staticmethod
     def from_csr(csr: proto.CertificateSigningRequest):
-        """
-        Build an x509 Certificate Signing Request Object from a config
-        """
-
+        """Build an x509 Certificate Signing Request Object from a config."""
         builder = x509.CertificateSigningRequestBuilder()
         builder = builder.subject_name(Subject.from_subject(csr.subject))
 

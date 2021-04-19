@@ -1,6 +1,4 @@
-"""
-Command line utilities for autocsr
-"""
+"""Command line utilities for autocsr."""
 
 import typer
 
@@ -11,10 +9,7 @@ app = typer.Typer()
 
 @app.command()
 def create(config_file: str):
-    """
-    Create Certificate signing requests from a config file
-    """
-
+    """Create Certificate signing requests from a config file."""
     csr_list = load_csrs_from_file(config_file)
 
     for csr_proto in csr_list:
@@ -24,8 +19,5 @@ def create(config_file: str):
 
 
 def main():
-    """
-    An entrypoint to executable script
-    """
-
+    """Entrypoint to executable script."""
     app()

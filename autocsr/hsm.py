@@ -1,6 +1,4 @@
-"""
-Implementations for supported HSMs
-"""
+"""Implementations for supported HSMs."""
 
 import abc
 from dataclasses import dataclass
@@ -9,61 +7,50 @@ import autocsr.protos.csr_pb2 as proto
 
 HsmInfo = proto.CertificateSigningRequest.HsmInfo
 HsmType = proto.CertificateSigningRequest.HsmType
+KeyType = proto.CertificateSigningRequest.KeyType
 HashType = proto.CertificateSigningRequest.HashType
 
 
 @dataclass
 class Hsm(abc.ABC):
-    """
-    Abstract class for HSMs
-    """
+    """Abstract class for HSMs."""
 
     uri: str
     hash_type: HashType
+    key_type: KeyType
+    pin: str
 
     @abc.abstractproperty
     def public_key(self):
-        """
-        Get the public key from the HSM
-        """
+        """Get the public key from the HSM."""
 
     @abc.abstractmethod
     def sign(self, message: bytes):
-        """
-        Sign a message with a predefined key from the HSM
-        """
+        """Sign a message with a predefined key from the HSM."""
 
 
+@dataclass
 class SoftHsm(Hsm):
-    """
-    An implementation of SoftHsm for signing
-    """
+    """An implementation of SoftHsm for signing."""
 
     @property
     def public_key(self):
-        """
-        Get the public key from SoftHSM
-        """
+        """Get the public key from SoftHSM."""
 
     def sign(self, message: bytes):
-        """
-        Sign a message with a key from SoftHSM
-        """
+        """Sign a message with a key from SoftHSM."""
 
 
 class HsmFactory:
-    """
-    Create HSMs from HSMInfo configs
-    """
+    """Create HSMs from HSMInfo configs."""
 
     @staticmethod
     def from_hsm_info(hsm_info: HsmInfo, hash_type: HashType):
-        """
-        Create an HSM instance from hsm_info protobuf
-        """
-
+        """Create an HSM instance from hsm_info protobuf."""
         if hsm_info.hsm_type == HsmType.SoftHSM:
             return SoftHsm(
                 uri=hsm_info.pkcs11_uri,
                 hash_type=hash_type,
+                key_type=hsm_info.key_type,
+                pin=hsm_info.pin,
             )

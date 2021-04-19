@@ -1,6 +1,4 @@
-"""
-Utilities for common usage
-"""
+"""Utilities for common usage."""
 
 import json
 import os
@@ -16,18 +14,12 @@ CsrList = Generator[CertificateSigningRequest, None, None]
 
 
 def load_csr(csr: dict) -> CertificateSigningRequest:
-    """
-    Load a CSR from a dictionary
-    """
-
+    """Load a CSR from a dictionary."""
     return json_format.Parse(json.dumps(csr), CertificateSigningRequest())
 
 
 def load_csrs_from_yaml(config_file: str) -> CsrList:
-    """
-    Load a CSR from a YAML file
-    """
-
+    """Load a CSR from a YAML file."""
     with open(config_file, "r") as config:
         config_csrs = yaml.safe_load(config.read())
 
@@ -36,10 +28,7 @@ def load_csrs_from_yaml(config_file: str) -> CsrList:
 
 
 def load_csrs_from_jinja(config_file: str) -> CsrList:
-    """
-    Load a CSR from a Jinja template
-    """
-
+    """Load a CSR from a Jinja template."""
     with open(config_file, "r") as config:
         config_template = Template(config.read())
         config_csrs = yaml.safe_load(config_template.render(**os.environ))
@@ -49,10 +38,7 @@ def load_csrs_from_jinja(config_file: str) -> CsrList:
 
 
 def load_csrs_from_file(config_file: str) -> List[CertificateSigningRequest]:
-    """
-    Load all CSRs from a file
-    """
-
+    """Load all CSRs from a file."""
     if config_file.endswith(".yaml"):
         return load_csrs_from_yaml(config_file)
 

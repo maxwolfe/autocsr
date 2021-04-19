@@ -1,6 +1,4 @@
-"""
-Wrappers to turn configs into x509 Extensions
-"""
+"""Wrappers to turn configs into x509 Extensions."""
 
 from base64 import b64decode
 from datetime import datetime
@@ -19,16 +17,11 @@ CSR_EXTENSION = proto.CertificateSigningRequest.Extension
 
 
 class ExtensionType:
-    """
-    Factory for returning a parameter-less extension from a protobuf
-    """
+    """Factory for returning a parameter-less extension from a protobuf."""
 
     @staticmethod
     def from_proto(extension: CSR_EXTENSION) -> extensions.ExtensionType:
-        """
-        Return an extension instance based on enum extension type
-        """
-
+        """Return an extension instance based on enum extension type."""
         this_extension = extension.extension_type
 
         if this_extension == extension.ExtensionType.OCSPNoCheck:
@@ -42,16 +35,11 @@ class ExtensionType:
 
 # Unsupported by cryptography
 class CRLNumber(extensions.CRLNumber):
-    """
-    Wrapper for CRLNumber Extension from config file
-    """
+    """Wrapper for CRLNumber Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a CRLNumber extension from a protobuf
-        """
-
+        """Create a CRLNumber extension from a protobuf."""
         this_extension = extension.crl_number
 
         return cls(
@@ -60,32 +48,22 @@ class CRLNumber(extensions.CRLNumber):
 
 
 class SubjectKeyIdentifier(extensions.SubjectKeyIdentifier):
-    """
-    Wrapper for SubjectKeyIdentifier Extension from config file
-    """
+    """Wrapper for SubjectKeyIdentifier Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a SubjectKeyIdentifier extension from a protobuf
-        """
-
+        """Create a SubjectKeyIdentifier extension from a protobuf."""
         this_extension = extension.subject_key_identifier
 
         return cls(digest=b64decode(this_extension.b64_digest.encode()))
 
 
 class BasicConstraints(extensions.BasicConstraints):
-    """
-    Wrapper for BasicConstraints Extension from config file
-    """
+    """Wrapper for BasicConstraints Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a BasicConstraints extension from a protobuf
-        """
-
+        """Create a BasicConstraints extension from a protobuf."""
         this_extension = extension.basic_constraints
 
         path_length = this_extension.path_length
@@ -101,32 +79,22 @@ class BasicConstraints(extensions.BasicConstraints):
 
 # Unsupported by cryptography
 class DeltaCRLIndicator(extensions.DeltaCRLIndicator):
-    """
-    Wrapper for DeltaCRLIndicator Extension from config file
-    """
+    """Wrapper for DeltaCRLIndicator Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a DeltaCRLIndicator extension from a protobuf
-        """
-
+        """Create a DeltaCRLIndicator extension from a protobuf."""
         this_extension = extension.delta_crl_indicator
 
         return cls(crl_number=this_extension.crl_number)
 
 
 class PolicyConstraints(extensions.PolicyConstraints):
-    """
-    Wrapper for PolicyConstraints Extension from config file
-    """
+    """Wrapper for PolicyConstraints Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a PolicyConstraints Extension from a protobuf
-        """
-
+        """Create a PolicyConstraints Extension from a protobuf."""
         this_extension = extension.policy_constraints
 
         require_explicit_policy = this_extension.require_explicit_policy
@@ -145,16 +113,11 @@ class PolicyConstraints(extensions.PolicyConstraints):
 
 
 class NoticeReference(extensions.NoticeReference):
-    """
-    Wrapper for NoticeReference from config file
-    """
+    """Wrapper for NoticeReference from config file."""
 
     @classmethod
     def from_proto(cls, notice: CSR_EXTENSION.NoticeReference):
-        """
-        Create a Noticereference from a protobuf
-        """
-
+        """Create a Noticereference from a protobuf."""
         organization = notice.organization
 
         if not organization:
@@ -167,16 +130,11 @@ class NoticeReference(extensions.NoticeReference):
 
 
 class UserNotice(extensions.UserNotice):
-    """
-    Wrapper for UserNotice from config file
-    """
+    """Wrapper for UserNotice from config file."""
 
     @classmethod
     def from_proto(cls, notices: Iterable[CSR_EXTENSION.UserNotice]):
-        """
-        Create a list of UserNotice form a protobuf
-        """
-
+        """Create a list of UserNotice form a protobuf."""
         information_list = []
 
         for notice in notices:
@@ -200,16 +158,11 @@ class UserNotice(extensions.UserNotice):
 
 
 class PolicyInformation(extensions.PolicyInformation):
-    """
-    Wrapper for PolicyInformation from config file
-    """
+    """Wrapper for PolicyInformation from config file."""
 
     @classmethod
     def from_proto(cls, policies: Iterable[CSR_EXTENSION.PolicyInformation]):
-        """
-        Create a list of PolicyInformation from a protobuf
-        """
-
+        """Create a list of PolicyInformation from a protobuf."""
         information_list = []
 
         for policy in policies:
@@ -234,32 +187,22 @@ class PolicyInformation(extensions.PolicyInformation):
 
 
 class CertificatePolicies(extensions.CertificatePolicies):
-    """
-    Wrapper for CertificatePolicies Extension from config file
-    """
+    """Wrapper for CertificatePolicies Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a CertificatePolicies extension from a protobuf
-        """
-
+        """Create a CertificatePolicies extension from a protobuf."""
         this_extension = extension.certificate_policies
 
         return cls(policies=PolicyInformation.from_proto(this_extension.policies))
 
 
 class ExtendedKeyUsage(extensions.ExtendedKeyUsage):
-    """
-    Wrapper for ExtendedKeyUsage extension from config file
-    """
+    """Wrapper for ExtendedKeyUsage extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a ExtendedKeyUsage extension from a protobuf
-        """
-
+        """Create a ExtendedKeyUsage extension from a protobuf."""
         this_extension = extension.extended_key_usage
 
         return cls(
@@ -268,16 +211,11 @@ class ExtendedKeyUsage(extensions.ExtendedKeyUsage):
 
 
 class TLSFeature(extensions.TLSFeature):
-    """
-    Wrapper for TLSFeature Extension from config file
-    """
+    """Wrapper for TLSFeature Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a TLSFeature extension from a protobuf
-        """
-
+        """Create a TLSFeature extension from a protobuf."""
         this_extension = extension.tls_feature
 
         return cls(
@@ -289,16 +227,11 @@ class TLSFeature(extensions.TLSFeature):
 
 
 class InhibitAnyPolicy(extensions.InhibitAnyPolicy):
-    """
-    Wrapper for InhibitAnyPolicy Extension from config file
-    """
+    """Wrapper for InhibitAnyPolicy Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a InhibitAnyPolicy extension from a protobuf
-        """
-
+        """Create a InhibitAnyPolicy extension from a protobuf."""
         this_extension = extension.inhibit_any_policy
 
         return cls(
@@ -307,16 +240,11 @@ class InhibitAnyPolicy(extensions.InhibitAnyPolicy):
 
 
 class KeyUsage(extensions.KeyUsage):
-    """
-    Wrapper for KeyUsage Extension from config file
-    """
+    """Wrapper for KeyUsage Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a KeyUsage extension from a protobuf
-        """
-
+        """Create a KeyUsage extension from a protobuf."""
         this_extension = extension.key_usage
 
         return cls(
@@ -333,9 +261,7 @@ class KeyUsage(extensions.KeyUsage):
 
 
 class ReasonFlags:
-    """
-    Map int enum ReasonFlags to exceptions.ReasonFlag enums
-    """
+    """Map int enum ReasonFlags to exceptions.ReasonFlag enums."""
 
     ProtoFlag = CSR_EXTENSION.ReasonFlags
     ExtFlag = extensions.ReasonFlags
@@ -354,25 +280,17 @@ class ReasonFlags:
 
     @staticmethod
     def from_proto(reason: ProtoFlag) -> ExtFlag:
-        """
-        Convert a protobuf version ReasonFlag into the extensions version
-        """
-
+        """Convert a protobuf version ReasonFlag into the extensions version."""
         return ReasonFlags.flags[reason]
 
 
 # Unsupported by cryptography
 class CRLReason(extensions.CRLReason):
-    """
-    Wrapper for CRLReason Extension from config file
-    """
+    """Wrapper for CRLReason Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a CRLReason extension from a protobuf
-        """
-
+        """Create a CRLReason extension from a protobuf."""
         this_extension = extension.crl_reason
 
         return cls(
@@ -382,16 +300,11 @@ class CRLReason(extensions.CRLReason):
 
 # Unsupported by cryptography
 class InvalidityDate(extensions.InvalidityDate):
-    """
-    Wrapper for InvalidityDate Extension from config file
-    """
+    """Wrapper for InvalidityDate Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a InvalidityDate from a protobuf
-        """
-
+        """Create a InvalidityDate from a protobuf."""
         this_extension = extension.invalidity_date
 
         return cls(
@@ -404,16 +317,19 @@ class PrecertificateSignedCertificateTimestamps(
     extensions.PrecertificateSignedCertificateTimestamps
 ):
     """
+    Wrapper for PrecertificateSignedCertificateTimestamps.
+
     Wrapper for PrecertificateSignedCertificateTimestamps Extension from config
-    file
+    file.
     """
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
         """
-        Create a PrecertificateSignedCertificateTimestamps from a protobuf
-        """
+        Create a PrecertificateSignedCertificateTimestamps.
 
+        Create a PrecertificateSignedCertificateTimestamps from a protobuf.
+        """
         raise TypeError(
             "autocsr currently does not support signed certificate timestamps"
         )
@@ -421,16 +337,11 @@ class PrecertificateSignedCertificateTimestamps(
 
 # Currently unsupported by autocsr
 class SignedCertificateTimestamps(extensions.SignedCertificateTimestamps):
-    """
-    Wrapper for SignedCertificateTimestamps Extension from config file
-    """
+    """Wrapper for SignedCertificateTimestamps Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a SignedCertificateTimestamps from a protobuf
-        """
-
+        """Create a SignedCertificateTimestamps from a protobuf."""
         raise TypeError(
             "autocsr currently does not support signed certificate timestamps"
         )
@@ -438,80 +349,55 @@ class SignedCertificateTimestamps(extensions.SignedCertificateTimestamps):
 
 # Unsupported by cryptography
 class OCSPNonce(extensions.OCSPNonce):
-    """
-    Wrapper for OCSPNonce Extension from config file
-    """
+    """Wrapper for OCSPNonce Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a OCSPNonce from a protobuf
-        """
-
+        """Create a OCSPNonce from a protobuf."""
         this_extension = extension.ocsp_nonce
 
         return cls(nonce=b64decode(this_extension.b64_nonce.encode()))
 
 
 class RFC822Name(general_name.RFC822Name):
-    """
-    Wrapper for RFC822Name general name from config file
-    """
+    """Wrapper for RFC822Name general name from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.GeneralName):
-        """
-        Create a RFC822Name from a protobuf
-        """
-
+        """Create a RFC822Name from a protobuf."""
         this_name = name.rfc_822_name
 
         return cls(value=this_name.value)
 
 
 class DNSName(general_name.DNSName):
-    """
-    Wrapper for DNSName general name from config file
-    """
+    """Wrapper for DNSName general name from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.GeneralName):
-        """
-        Create a DNSName from a protobuf
-        """
-
+        """Create a DNSName from a protobuf."""
         this_name = name.dns_name
 
         return cls(value=this_name.value)
 
 
 class UniformResourceIdentifier(general_name.UniformResourceIdentifier):
-    """
-    Wrapper for UniformResourceIdentifier general name from config file
-    """
+    """Wrapper for UniformResourceIdentifier general name from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.GeneralName):
-        """
-        Create a UniformResourceIdentifier from a protobuf
-        """
-
+        """Create a UniformResourceIdentifier from a protobuf."""
         this_name = name.uniform_resource_identifier
 
         return cls(value=this_name.value)
 
 
 class NameAttribute(x509_name.NameAttribute):
-    """
-    Wrapper for NameAttribute from config file
-    """
+    """Wrapper for NameAttribute from config file."""
 
     @classmethod
     def from_proto(cls, attribute: CSR_EXTENSION.NameAttribute):
-        """
-        Create a NameAttribute from a config file
-        """
-
+        """Create a NameAttribute from a config file."""
         return cls(
             oid=ObjectIdentifier.from_string(attribute.oid),
             value=attribute.value,
@@ -519,16 +405,11 @@ class NameAttribute(x509_name.NameAttribute):
 
 
 class Name(x509_name.Name):
-    """
-    Wrapper for Name from config file
-    """
+    """Wrapper for Name from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.Name):
-        """
-        Create a Name from a config file
-        """
-
+        """Create a Name from a config file."""
         return cls(
             attributes=(
                 NameAttribute.from_proto(attribute) for attribute in name.attributes
@@ -537,16 +418,11 @@ class Name(x509_name.Name):
 
 
 class RelativeDistinguishedName(x509_name.RelativeDistinguishedName):
-    """
-    Wrapper for RelativeDistinguishedName from config file
-    """
+    """Wrapper for RelativeDistinguishedName from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.Name):
-        """
-        Create a Name from a config file
-        """
-
+        """Create a Name from a config file."""
         return cls(
             attributes=(
                 NameAttribute.from_proto(attribute) for attribute in name.attributes
@@ -555,48 +431,33 @@ class RelativeDistinguishedName(x509_name.RelativeDistinguishedName):
 
 
 class DirectoryName(general_name.DirectoryName):
-    """
-    Wrapper for DirectoryName general name from config file
-    """
+    """Wrapper for DirectoryName general name from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.GeneralName):
-        """
-        Create a DirectoryName from a protobuf
-        """
-
+        """Create a DirectoryName from a protobuf."""
         this_name = name.directory_name
 
         return cls(value=Name.from_proto(this_name.value))
 
 
 class RegisteredID(general_name.RegisteredID):
-    """
-    Wrapper for RegisteredID general name from config file
-    """
+    """Wrapper for RegisteredID general name from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.GeneralName):
-        """
-        Create a RegisteredID from a protobuf
-        """
-
+        """Create a RegisteredID from a protobuf."""
         this_name = name.registered_id
 
         return cls(value=ObjectIdentifier.from_string(this_name.oid))
 
 
 class IPAddress(general_name.IPAddress):
-    """
-    Wrapper for an IPAddress general name from config file
-    """
+    """Wrapper for an IPAddress general name from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.GeneralName):
-        """
-        Create a IPAddress from a protobuf
-        """
-
+        """Create a IPAddress from a protobuf."""
         this_name = name.ip_address
 
         return cls(value=ip_address(this_name.value))
@@ -604,16 +465,11 @@ class IPAddress(general_name.IPAddress):
 
 # Untested
 class OtherName(general_name.OtherName):
-    """
-    Wrapper for an OtherName general name from config file
-    """
+    """Wrapper for an OtherName general name from config file."""
 
     @classmethod
     def from_proto(cls, name: CSR_EXTENSION.GeneralName):
-        """
-        Create a OtherName from a protobuf
-        """
-
+        """Create a OtherName from a protobuf."""
         this_name = name.other_name
 
         return cls(
@@ -623,9 +479,7 @@ class OtherName(general_name.OtherName):
 
 
 class GeneralName:
-    """
-    Factory for creating General Names from a config
-    """
+    """Factory for creating General Names from a config."""
 
     name_types = {
         "rfc_822_name": RFC822Name,
@@ -639,24 +493,16 @@ class GeneralName:
 
     @staticmethod
     def from_proto(name: CSR_EXTENSION.GeneralName) -> general_name.GeneralName:
-        """
-        Create a GeneralName instance from a protobuf
-        """
-
+        """Create a GeneralName instance from a protobuf."""
         return GeneralName.name_types.get(name.WhichOneof("name")).from_proto(name)
 
 
 class AuthorityKeyIdentifier(extensions.AuthorityKeyIdentifier):
-    """
-    Wrapper for AuthorityKeyIdentifier Extension from config file
-    """
+    """Wrapper for AuthorityKeyIdentifier Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a AuthorityKeyIdentifier from a protobuf
-        """
-
+        """Create a AuthorityKeyIdentifier from a protobuf."""
         this_extension = extension.authority_key_identifier
 
         key_identifier = this_extension.key_identifier
@@ -679,16 +525,11 @@ class AuthorityKeyIdentifier(extensions.AuthorityKeyIdentifier):
 
 
 class AccessDescription(extensions.AccessDescription):
-    """
-    Wrapper for AccessDescription from a config file
-    """
+    """Wrapper for AccessDescription from a config file."""
 
     @classmethod
     def from_proto(cls, description: CSR_EXTENSION.AccessDescription):
-        """
-        Create a AccessDescription from a protobuf
-        """
-
+        """Create a AccessDescription from a protobuf."""
         return cls(
             access_method=ObjectIdentifier.from_string(description.access_method),
             access_location=GeneralName.from_proto(description.access_location),
@@ -696,16 +537,11 @@ class AccessDescription(extensions.AccessDescription):
 
 
 class AuthorityInformationAccess(extensions.AuthorityInformationAccess):
-    """
-    Wrapper for AuthorityInformationAccess Extension from config file
-    """
+    """Wrapper for AuthorityInformationAccess Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a AuthorityInformationAccess from a protobuf
-        """
-
+        """Create a AuthorityInformationAccess from a protobuf."""
         this_extension = extension.authority_information_access
 
         return cls(
@@ -717,16 +553,11 @@ class AuthorityInformationAccess(extensions.AuthorityInformationAccess):
 
 
 class SubjectInformationAccess(extensions.SubjectInformationAccess):
-    """
-    Wrapper for SubjectInformationAccess Extension from config file
-    """
+    """Wrapper for SubjectInformationAccess Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a SubjectInformationAccess from a protobuf
-        """
-
+        """Create a SubjectInformationAccess from a protobuf."""
         this_extension = extension.subject_information_access
 
         return cls(
@@ -738,16 +569,11 @@ class SubjectInformationAccess(extensions.SubjectInformationAccess):
 
 
 class DistributionPoint(extensions.DistributionPoint):
-    """
-    Wrapper for DistributionPoint from config file
-    """
+    """Wrapper for DistributionPoint from config file."""
 
     @classmethod
     def from_proto(cls, dist: CSR_EXTENSION.DistributionPoint):
-        """
-        Create a DistributionPoint from a protobuf
-        """
-
+        """Create a DistributionPoint from a protobuf."""
         full_name = [GeneralName.from_proto(name) for name in dist.full_name]
         relative_name = RelativeDistinguishedName.from_proto(dist.relative_name)
         reasons = frozenset((ReasonFlags.from_proto(reason) for reason in dist.reasons))
@@ -774,16 +600,11 @@ class DistributionPoint(extensions.DistributionPoint):
 
 
 class CRLDistributionPoints(extensions.CRLDistributionPoints):
-    """
-    Wrapper for CRLDistributionPoints Extension from config file
-    """
+    """Wrapper for CRLDistributionPoints Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a CRLDistributionPoints from a protobuf
-        """
-
+        """Create a CRLDistributionPoints from a protobuf."""
         this_extension = extension.crl_distribution_points
 
         return cls(
@@ -795,16 +616,11 @@ class CRLDistributionPoints(extensions.CRLDistributionPoints):
 
 
 class FreshestCRL(extensions.FreshestCRL):
-    """
-    Wrapper for FreshestCRL Extension from config file
-    """
+    """Wrapper for FreshestCRL Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a FreshestCRL from a protobuf
-        """
-
+        """Create a FreshestCRL from a protobuf."""
         this_extension = extension.freshest_crl
 
         return cls(
@@ -816,16 +632,11 @@ class FreshestCRL(extensions.FreshestCRL):
 
 
 class NameConstraints(extensions.NameConstraints):
-    """
-    Wrapper for a NameConstraints extension from a config file
-    """
+    """Wrapper for a NameConstraints extension from a config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a NameConstraints from a protobuf
-        """
-
+        """Create a NameConstraints from a protobuf."""
         this_extension = extension.name_constraints
 
         return cls(
@@ -841,16 +652,11 @@ class NameConstraints(extensions.NameConstraints):
 
 
 class SubjectAlternativeName(extensions.SubjectAlternativeName):
-    """
-    Wrapper for SubjectAlternativeName Extension from config file
-    """
+    """Wrapper for SubjectAlternativeName Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a SubjectAlternativeName from a protobuf
-        """
-
+        """Create a SubjectAlternativeName from a protobuf."""
         this_extension = extension.subject_alternative_name
 
         return cls(
@@ -861,16 +667,11 @@ class SubjectAlternativeName(extensions.SubjectAlternativeName):
 
 
 class IssuerAlternativeName(extensions.IssuerAlternativeName):
-    """
-    Wrapper for IssuerAlternativeName Extension from config file
-    """
+    """Wrapper for IssuerAlternativeName Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a IssuerAlternativeName from a protobuf
-        """
-
+        """Create a IssuerAlternativeName from a protobuf."""
         this_extension = extension.issuer_alternative_name
 
         return cls(
@@ -882,16 +683,11 @@ class IssuerAlternativeName(extensions.IssuerAlternativeName):
 
 # Unsupported by cryptography
 class CertificateIssuer(extensions.CertificateIssuer):
-    """
-    Wrapper for CertificateIssuer Extension from config file
-    """
+    """Wrapper for CertificateIssuer Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a CertificateIssuer from a protobuf
-        """
-
+        """Create a CertificateIssuer from a protobuf."""
         this_extension = extension.certificate_issuer
 
         return cls(
@@ -903,16 +699,11 @@ class CertificateIssuer(extensions.CertificateIssuer):
 
 # Unsupported by cryptography
 class IssuingDistributionPoint(extensions.IssuingDistributionPoint):
-    """
-    Wrapper for IssuingDistributionPoint Extension from config file
-    """
+    """Wrapper for IssuingDistributionPoint Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CSR_EXTENSION):
-        """
-        Create a IssuingDistributionPoint from a protobuf
-        """
-
+        """Create a IssuingDistributionPoint from a protobuf."""
         this_extension = extension.issuing_distribution_point
 
         full_name = [GeneralName.from_proto(name) for name in this_extension.full_name]
@@ -947,9 +738,7 @@ class IssuingDistributionPoint(extensions.IssuingDistributionPoint):
 
 
 class Extension:
-    """
-    A factory for creating x509 Extensions from config
-    """
+    """A factory for creating x509 Extensions from config."""
 
     extension_list = {
         "extension_type": ExtensionType,
@@ -982,18 +771,12 @@ class Extension:
 
     @staticmethod
     def get_extension_type(extension: CSR_EXTENSION) -> extensions.ExtensionType:
-        """
-        Get the custom extension wrapper for an extension protobuf
-        """
-
+        """Get the custom extension wrapper for an extension protobuf."""
         return Extension.extension_list.get(extension.WhichOneof("extension"))
 
     @staticmethod
     def from_proto(extension: CSR_EXTENSION) -> extensions.ExtensionType:
-        """
-        Factory for creating extensions from an extension proto
-        """
-
+        """Create extensions from an extension proto."""
         extension_type = Extension.get_extension_type(extension)
 
         return extension_type.from_proto(extension)
