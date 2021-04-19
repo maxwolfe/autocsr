@@ -9,7 +9,7 @@ from autocsr.utils import load_csr
 
 example_extension_config = {
     "subject": {"common_name": "test common name"},
-    "key_path": "./fixtures/test.key",
+    "key_info": {"key_path": "./fixtures/test.key"},
     "output_path": "./fixtures/test.csr",
     "extensions": [
         {"extension_type": "OCSPNoCheck"},

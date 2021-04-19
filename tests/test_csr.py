@@ -26,6 +26,7 @@ from autocsr.oid import ObjectIdentifier
 from autocsr.utils import load_csr
 
 HashType = protos.CertificateSigningRequest.HashType
+KeyType = protos.CertificateSigningRequest.KeyInfo.KeyType
 
 
 class TestAttribute(TestCase):
@@ -82,7 +83,9 @@ class TestSubject(TestCase):
 
     config = {
         "subject": TestAttribute.subject_dict,
-        "key_path": "./fixtures/test.key",
+        "key_info": {
+            "key_path": "./fixtures/creat_test.key",
+        },
         "output_path": "./fixtures/test.csr",
         "hash_type": "SHA512",
         "attributes": [
@@ -127,6 +130,8 @@ class TestSigningKey(TestCase):
     """
 
     def setUp(self):
+        self.proto = protos.CertificateSigningRequest()
+
         self.rsa_key_path = NamedTemporaryFile().name
         self.dsa_key_path = NamedTemporaryFile().name
         self.ec_key_path = NamedTemporaryFile().name
@@ -212,6 +217,60 @@ class TestSigningKey(TestCase):
             "Hash should match selected hash type",
         )
 
+    def test_create_key(self):
+        """
+        Test correct key creation for signing keys when key_info create=True
+        """
+
+        self.proto.key_info.create = True
+
+        for hash_type in self.approved_hashes:
+            self.proto.key_info.key_path = self.rsa_key_path
+            self.proto.key_info.key_type = KeyType.RSA
+            rsa_signing_key = SigningKey.from_key_info(self.proto.key_info, hash_type)
+            rsa_private_key = serialization.load_pem_private_key(
+                open(self.rsa_key_path, "rb").read(),
+                password=None,
+            )
+            self.validate_signing_key(rsa_signing_key, rsa_private_key, hash_type)
+
+            self.proto.key_info.key_path = self.dsa_key_path
+            self.proto.key_info.key_type = KeyType.DSA
+            dsa_signing_key = SigningKey.from_key_info(self.proto.key_info, hash_type)
+            dsa_private_key = serialization.load_pem_private_key(
+                open(self.dsa_key_path, "rb").read(),
+                password=None,
+            )
+            self.validate_signing_key(dsa_signing_key, dsa_private_key, hash_type)
+
+            self.proto.key_info.key_path = self.ec_key_path
+            self.proto.key_info.key_type = KeyType.EC
+            ec_signing_key = SigningKey.from_key_info(self.proto.key_info, hash_type)
+            ec_private_key = serialization.load_pem_private_key(
+                open(self.ec_key_path, "rb").read(),
+                password=None,
+            )
+            self.validate_signing_key(ec_signing_key, ec_private_key, hash_type)
+
+    def test_from_key_info(self):
+        """
+        Test the creation of a SigningKey from key info
+        """
+
+        for hash_type in self.approved_hashes:
+            self.proto.key_info.key_path = self.rsa_key_path
+            rsa_signing_key = SigningKey.from_key_info(self.proto.key_info, hash_type)
+
+            self.proto.key_info.key_path = self.dsa_key_path
+            dsa_signing_key = SigningKey.from_key_info(self.proto.key_info, hash_type)
+
+            self.proto.key_info.key_path = self.ec_key_path
+            ec_signing_key = SigningKey.from_key_info(self.proto.key_info, hash_type)
+
+            self.validate_signing_key(rsa_signing_key, self.rsa_private_key, hash_type)
+            self.validate_signing_key(dsa_signing_key, self.dsa_private_key, hash_type)
+            self.validate_signing_key(ec_signing_key, self.ec_private_key, hash_type)
+
     def test_from_path(self):
         """
         Test the creation of a SigningKey from a key file
@@ -234,7 +293,7 @@ class TestCertificateSigningRequest(TestCase):
 
     def setUp(self):
         proto = load_csr(TestSubject.config)
-        proto.key_path = self.create_rsa_key_file()
+        proto.key_info.key_path = self.create_rsa_key_file()
         proto.output_path = NamedTemporaryFile().name
 
         self.csr = CertificateSigningRequestBuilder.from_csr(proto)
@@ -289,12 +348,12 @@ class TestMyBackend(TestCase):
 
     def setUp(self):
         csr = load_csr(TestSubject.config)
-        csr.key_path = TestCertificateSigningRequest.create_rsa_key_file()
+        csr.key_info.key_path = TestCertificateSigningRequest.create_rsa_key_file()
 
         builder = x509.CertificateSigningRequestBuilder()
         self.builder = builder.subject_name(Subject.from_subject(csr.subject))
 
-        self.signing_key = SigningKey.from_path(csr.key_path, csr.hash_type)
+        self.signing_key = SigningKey.from_path(csr.key_info.key_path, csr.hash_type)
         self.backend = MyBackend()
 
     def test_create_x509_csr(self):
@@ -329,7 +388,7 @@ class TestCertificateSigningRequestBuilder(TestCase):
         """
 
         proto = load_csr(TestSubject.config)
-        proto.key_path = TestCertificateSigningRequest.create_rsa_key_file()
+        proto.key_info.key_path = TestCertificateSigningRequest.create_rsa_key_file()
 
         csr = CertificateSigningRequestBuilder.from_csr(proto)
 

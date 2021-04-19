@@ -20,7 +20,9 @@ class TestUtils(TestCase):
         "subject": {
             "common_name": "Test CSR",
         },
-        "key_path": "./fixtures/test.key",
+        "key_info": {
+            "key_path": "./fixtures/test.key",
+        },
         "output_path": "./fixtures/test.csr",
         "hash_type": "SHA512",
     }
@@ -42,8 +44,8 @@ class TestUtils(TestCase):
             "Common name should match config file",
         )
         self.assertEqual(
-            csr.key_path,
-            config["key_path"],
+            csr.key_info.key_path,
+            config["key_info"]["key_path"],
             "Key path should match config file",
         )
         self.assertEqual(

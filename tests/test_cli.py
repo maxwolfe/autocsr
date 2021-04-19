@@ -22,7 +22,9 @@ class TestCli(TestCase):
             "subject": {
                 "common_name": "Test CSR",
             },
-            "key_path": str(Path("tests/fixtures/test.key").absolute()),
+            "key_info": {
+                "key_path": str(Path("tests/fixtures/test.key").absolute()),
+            },
             "output_path": NamedTemporaryFile().name,
         },
     }

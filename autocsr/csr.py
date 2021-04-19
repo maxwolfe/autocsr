@@ -7,7 +7,7 @@ from __future__ import annotations
 from base64 import b64decode
 from dataclasses import InitVar, dataclass
 from functools import partial
-from typing import Dict, Optional, Union
+from typing import ClassVar, Dict, Optional, Union
 
 from cryptography import x509
 from cryptography.hazmat._types import _PRIVATE_KEY_TYPES
@@ -15,7 +15,7 @@ from cryptography.hazmat.backends.openssl.backend import Backend
 from cryptography.hazmat.backends.openssl.x509 import _CertificateSigningRequest
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
-from cryptography.hazmat.primitives.serialization import Encoding
+from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat
 from cryptography.x509.oid import NameOID
 
 import autocsr.protos.csr_pb2 as proto
@@ -29,6 +29,8 @@ PrivateKey = Union[
 ]
 CsrSubject = proto.CertificateSigningRequest.Subject
 HashType = proto.CertificateSigningRequest.HashType
+KeyInfo = proto.CertificateSigningRequest.KeyInfo
+Curve = KeyInfo.Curve
 
 
 class Attribute(x509.NameAttribute):
@@ -100,6 +102,26 @@ class SigningKey:
         HashType.SHA3_384: hashes.SHA3_384,
         HashType.SHA3_512: hashes.SHA3_512,
     }
+    CURVES: ClassVar[Dict[Curve, ec.EllipticCurve]] = {
+        Curve.SECP256R1: ec.SECP256R1,
+        Curve.SECP384R1: ec.SECP384R1,
+        Curve.SECP521R1: ec.SECP521R1,
+        Curve.SECP192R1: ec.SECP192R1,
+        Curve.SECP256K1: ec.SECP256K1,
+        Curve.BrainpoolP256R1: ec.BrainpoolP256R1,
+        Curve.BrainpoolP384R1: ec.BrainpoolP384R1,
+        Curve.BrainpoolP512R1: ec.BrainpoolP512R1,
+        Curve.SECT571K1: ec.SECT571K1,
+        Curve.SECT409K1: ec.SECT409K1,
+        Curve.SECT283K1: ec.SECT283K1,
+        Curve.SECT233K1: ec.SECT233K1,
+        Curve.SECT163K1: ec.SECT163K1,
+        Curve.SECT571R1: ec.SECT571R1,
+        Curve.SECT409R1: ec.SECT409R1,
+        Curve.SECT283R1: ec.SECT283R1,
+        Curve.SECT233R1: ec.SECT233R1,
+        Curve.SECT163R2: ec.SECT163R2,
+    }
 
     def __post_init__(
         self,
@@ -111,6 +133,72 @@ class SigningKey:
         """
 
         self.algorithm = approved_hashes[hash_type]()
+
+    @staticmethod
+    def create_rsa_key(key_info: KeyInfo) -> rsa.RSAPrivateKey:
+        """
+        Create an RSA Private Key from a key info structure
+        """
+
+        if not key_info.key_size:
+            key_info.key_size = 2048
+
+        if not key_info.public_exponent:
+            key_info.public_exponent = 65537
+
+        return rsa.generate_private_key(
+            public_exponent=key_info.public_exponent,
+            key_size=key_info.key_size,
+        )
+
+    @staticmethod
+    def create_dsa_key(key_info: KeyInfo) -> dsa.DSAPrivateKey:
+        """
+        Create a DSA Private Key from a key info structure
+        """
+
+        if not key_info.key_size:
+            key_info.key_size = 2048
+
+        return dsa.generate_private_key(
+            key_size=key_info.key_size,
+        )
+
+    @staticmethod
+    def create_ec_key(key_info: KeyInfo) -> ec.EllipticCurvePrivateKey:
+        """
+        Create an EC Private Key from a key info structure
+        """
+
+        return ec.generate_private_key(
+            curve=SigningKey.CURVES[key_info.curve](),
+        )
+
+    @staticmethod
+    def create_key(key_info: KeyInfo) -> PrivateKey:
+        """
+        Create and export a private key from a key info object
+        """
+
+        if key_info.key_type == KeyInfo.KeyType.RSA:
+            private_key = SigningKey.create_rsa_key(key_info)
+        elif key_info.key_type == KeyInfo.KeyType.DSA:
+            private_key = SigningKey.create_dsa_key(key_info)
+        elif key_info.key_type == KeyInfo.KeyType.EC:
+            private_key = SigningKey.create_ec_key(key_info)
+        else:
+            raise TypeError(f"Key type: {key_info.key_type} does not exist")
+
+        with open(key_info.key_path, "wb") as key_file:
+            key_file.write(
+                private_key.private_bytes(
+                    encoding=Encoding.PEM,
+                    format=PrivateFormat.PKCS8,
+                    encryption_algorithm=serialization.NoEncryption(),
+                )
+            )
+
+        return private_key
 
     @classmethod
     def from_path(cls, key_path: str, hash_type: HashType):
@@ -125,6 +213,23 @@ class SigningKey:
                 ),
                 hash_type=hash_type,
             )
+
+    @classmethod
+    def from_key_info(cls, key_info: KeyInfo, hash_type: HashType):
+        """
+        Build a Signing Key from key information structure
+        """
+
+        if key_info.create:
+            return cls(
+                private_key=cls.create_key(key_info),
+                hash_type=hash_type,
+            )
+
+        return cls.from_path(
+            key_path=key_info.key_path,
+            hash_type=hash_type,
+        )
 
 
 class CertificateSigningRequest(_CertificateSigningRequest):
@@ -195,7 +300,7 @@ class CertificateSigningRequestBuilder:
                 critical=extension.critical,
             )
 
-        key = SigningKey.from_path(csr.key_path, csr.hash_type)
+        key = SigningKey.from_key_info(csr.key_info, csr.hash_type)
 
         return builder.sign(
             private_key=key.private_key,

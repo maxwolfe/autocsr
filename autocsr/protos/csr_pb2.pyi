@@ -89,6 +89,95 @@ class CertificateSigningRequest(google.protobuf.message.Message):
         @typing.overload
         def WhichOneof(self, oneof_group: typing_extensions.Literal[u"_state_or_province_name",b"_state_or_province_name"]) -> typing_extensions.Literal["state_or_province_name"]: ...
 
+    class KeyInfo(google.protobuf.message.Message):
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+        class _KeyType(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[KeyType.V], builtins.type):
+            DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
+            RSA = CertificateSigningRequest.KeyInfo.KeyType.V(0)
+            DSA = CertificateSigningRequest.KeyInfo.KeyType.V(1)
+            EC = CertificateSigningRequest.KeyInfo.KeyType.V(2)
+        class KeyType(metaclass=_KeyType):
+            V = typing.NewType('V', builtins.int)
+        RSA = CertificateSigningRequest.KeyInfo.KeyType.V(0)
+        DSA = CertificateSigningRequest.KeyInfo.KeyType.V(1)
+        EC = CertificateSigningRequest.KeyInfo.KeyType.V(2)
+
+        class _Curve(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[Curve.V], builtins.type):
+            DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
+            SECP256R1 = CertificateSigningRequest.KeyInfo.Curve.V(0)
+            SECP384R1 = CertificateSigningRequest.KeyInfo.Curve.V(1)
+            SECP521R1 = CertificateSigningRequest.KeyInfo.Curve.V(2)
+            SECP192R1 = CertificateSigningRequest.KeyInfo.Curve.V(3)
+            SECP256K1 = CertificateSigningRequest.KeyInfo.Curve.V(4)
+            BrainpoolP256R1 = CertificateSigningRequest.KeyInfo.Curve.V(5)
+            BrainpoolP384R1 = CertificateSigningRequest.KeyInfo.Curve.V(6)
+            BrainpoolP512R1 = CertificateSigningRequest.KeyInfo.Curve.V(7)
+            SECT571K1 = CertificateSigningRequest.KeyInfo.Curve.V(8)
+            SECT409K1 = CertificateSigningRequest.KeyInfo.Curve.V(9)
+            SECT283K1 = CertificateSigningRequest.KeyInfo.Curve.V(10)
+            SECT233K1 = CertificateSigningRequest.KeyInfo.Curve.V(11)
+            SECT163K1 = CertificateSigningRequest.KeyInfo.Curve.V(12)
+            SECT571R1 = CertificateSigningRequest.KeyInfo.Curve.V(13)
+            SECT409R1 = CertificateSigningRequest.KeyInfo.Curve.V(14)
+            SECT283R1 = CertificateSigningRequest.KeyInfo.Curve.V(15)
+            SECT233R1 = CertificateSigningRequest.KeyInfo.Curve.V(16)
+            SECT163R2 = CertificateSigningRequest.KeyInfo.Curve.V(17)
+        class Curve(metaclass=_Curve):
+            V = typing.NewType('V', builtins.int)
+        SECP256R1 = CertificateSigningRequest.KeyInfo.Curve.V(0)
+        SECP384R1 = CertificateSigningRequest.KeyInfo.Curve.V(1)
+        SECP521R1 = CertificateSigningRequest.KeyInfo.Curve.V(2)
+        SECP192R1 = CertificateSigningRequest.KeyInfo.Curve.V(3)
+        SECP256K1 = CertificateSigningRequest.KeyInfo.Curve.V(4)
+        BrainpoolP256R1 = CertificateSigningRequest.KeyInfo.Curve.V(5)
+        BrainpoolP384R1 = CertificateSigningRequest.KeyInfo.Curve.V(6)
+        BrainpoolP512R1 = CertificateSigningRequest.KeyInfo.Curve.V(7)
+        SECT571K1 = CertificateSigningRequest.KeyInfo.Curve.V(8)
+        SECT409K1 = CertificateSigningRequest.KeyInfo.Curve.V(9)
+        SECT283K1 = CertificateSigningRequest.KeyInfo.Curve.V(10)
+        SECT233K1 = CertificateSigningRequest.KeyInfo.Curve.V(11)
+        SECT163K1 = CertificateSigningRequest.KeyInfo.Curve.V(12)
+        SECT571R1 = CertificateSigningRequest.KeyInfo.Curve.V(13)
+        SECT409R1 = CertificateSigningRequest.KeyInfo.Curve.V(14)
+        SECT283R1 = CertificateSigningRequest.KeyInfo.Curve.V(15)
+        SECT233R1 = CertificateSigningRequest.KeyInfo.Curve.V(16)
+        SECT163R2 = CertificateSigningRequest.KeyInfo.Curve.V(17)
+
+        KEY_PATH_FIELD_NUMBER: builtins.int
+        CREATE_FIELD_NUMBER: builtins.int
+        KEY_TYPE_FIELD_NUMBER: builtins.int
+        KEY_SIZE_FIELD_NUMBER: builtins.int
+        PUBLIC_EXPONENT_FIELD_NUMBER: builtins.int
+        CURVE_FIELD_NUMBER: builtins.int
+        key_path: typing.Text = ...
+        create: builtins.bool = ...
+        key_type: global___CertificateSigningRequest.KeyInfo.KeyType.V = ...
+        key_size: builtins.int = ...
+        public_exponent: builtins.int = ...
+        curve: global___CertificateSigningRequest.KeyInfo.Curve.V = ...
+
+        def __init__(self,
+            *,
+            key_path : typing.Text = ...,
+            create : builtins.bool = ...,
+            key_type : global___CertificateSigningRequest.KeyInfo.KeyType.V = ...,
+            key_size : builtins.int = ...,
+            public_exponent : builtins.int = ...,
+            curve : global___CertificateSigningRequest.KeyInfo.Curve.V = ...,
+            ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal[u"_create",b"_create",u"_curve",b"_curve",u"_key_size",b"_key_size",u"_key_type",b"_key_type",u"_public_exponent",b"_public_exponent",u"create",b"create",u"curve",b"curve",u"key_size",b"key_size",u"key_type",b"key_type",u"public_exponent",b"public_exponent"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal[u"_create",b"_create",u"_curve",b"_curve",u"_key_size",b"_key_size",u"_key_type",b"_key_type",u"_public_exponent",b"_public_exponent",u"create",b"create",u"curve",b"curve",u"key_path",b"key_path",u"key_size",b"key_size",u"key_type",b"key_type",u"public_exponent",b"public_exponent"]) -> None: ...
+        @typing.overload
+        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"_create",b"_create"]) -> typing_extensions.Literal["create"]: ...
+        @typing.overload
+        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"_curve",b"_curve"]) -> typing_extensions.Literal["curve"]: ...
+        @typing.overload
+        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"_key_size",b"_key_size"]) -> typing_extensions.Literal["key_size"]: ...
+        @typing.overload
+        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"_key_type",b"_key_type"]) -> typing_extensions.Literal["key_type"]: ...
+        @typing.overload
+        def WhichOneof(self, oneof_group: typing_extensions.Literal[u"_public_exponent",b"_public_exponent"]) -> typing_extensions.Literal["public_exponent"]: ...
+
     class Attribute(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
         OID_FIELD_NUMBER: builtins.int
@@ -958,17 +1047,19 @@ class CertificateSigningRequest(google.protobuf.message.Message):
         def WhichOneof(self, oneof_group: typing_extensions.Literal[u"extension",b"extension"]) -> typing_extensions.Literal["extension_type","crl_number","subject_key_identifier","basic_constraints","delta_crl_indicator","policy_constraints","certificate_policies","extended_key_usage","tls_feature","inhibit_any_policy","key_usage","crl_reason","invalidity_date","precertificate_signed_certificate_timestamps","signed_certificate_timestamps","ocsp_nonce","authority_key_identifier","authority_information_access","subject_information_access","crl_distribution_points","freshest_crl","name_constraints","subject_alternative_name","issuer_alternative_name","certificate_issuer","issuing_distribution_point"]: ...
 
     SUBJECT_FIELD_NUMBER: builtins.int
-    KEY_PATH_FIELD_NUMBER: builtins.int
+    KEY_INFO_FIELD_NUMBER: builtins.int
     OUTPUT_PATH_FIELD_NUMBER: builtins.int
     HASH_TYPE_FIELD_NUMBER: builtins.int
     ATTRIBUTES_FIELD_NUMBER: builtins.int
     EXTENSIONS_FIELD_NUMBER: builtins.int
-    key_path: typing.Text = ...
     output_path: typing.Text = ...
     hash_type: global___CertificateSigningRequest.HashType.V = ...
 
     @property
     def subject(self) -> global___CertificateSigningRequest.Subject: ...
+
+    @property
+    def key_info(self) -> global___CertificateSigningRequest.KeyInfo: ...
 
     @property
     def attributes(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___CertificateSigningRequest.Attribute]: ...
@@ -979,13 +1070,13 @@ class CertificateSigningRequest(google.protobuf.message.Message):
     def __init__(self,
         *,
         subject : typing.Optional[global___CertificateSigningRequest.Subject] = ...,
-        key_path : typing.Text = ...,
+        key_info : typing.Optional[global___CertificateSigningRequest.KeyInfo] = ...,
         output_path : typing.Text = ...,
         hash_type : global___CertificateSigningRequest.HashType.V = ...,
         attributes : typing.Optional[typing.Iterable[global___CertificateSigningRequest.Attribute]] = ...,
         extensions : typing.Optional[typing.Iterable[global___CertificateSigningRequest.Extension]] = ...,
         ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal[u"_hash_type",b"_hash_type",u"hash_type",b"hash_type",u"subject",b"subject"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal[u"_hash_type",b"_hash_type",u"attributes",b"attributes",u"extensions",b"extensions",u"hash_type",b"hash_type",u"key_path",b"key_path",u"output_path",b"output_path",u"subject",b"subject"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal[u"_hash_type",b"_hash_type",u"hash_type",b"hash_type",u"key_info",b"key_info",u"subject",b"subject"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal[u"_hash_type",b"_hash_type",u"attributes",b"attributes",u"extensions",b"extensions",u"hash_type",b"hash_type",u"key_info",b"key_info",u"output_path",b"output_path",u"subject",b"subject"]) -> None: ...
     def WhichOneof(self, oneof_group: typing_extensions.Literal[u"_hash_type",b"_hash_type"]) -> typing_extensions.Literal["hash_type"]: ...
 global___CertificateSigningRequest = CertificateSigningRequest

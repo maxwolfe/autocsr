@@ -15,7 +15,45 @@ message CertificateSigningRequest {
   }
 
   Subject subject = 1;
-  string key_path = 2;
+
+
+  message KeyInfo {
+    enum KeyType {
+      RSA = 0;
+      DSA = 1;
+      EC = 2;
+    }
+
+    enum Curve {
+      SECP256R1 = 0;
+      SECP384R1 = 1;
+      SECP521R1 = 2;
+      SECP192R1 = 3;
+      SECP256K1 = 4;
+      BrainpoolP256R1 = 5;
+      BrainpoolP384R1 = 6;
+      BrainpoolP512R1 = 7;
+      SECT571K1 = 8;
+      SECT409K1 = 9;
+      SECT283K1 = 10;
+      SECT233K1 = 11;
+      SECT163K1 = 12;
+      SECT571R1 = 13;
+      SECT409R1 = 14;
+      SECT283R1 = 15;
+      SECT233R1 = 16;
+      SECT163R2 = 17;
+    }
+
+    string key_path = 1;
+    optional bool create = 2;
+    optional KeyType key_type = 3;
+    optional int32 key_size = 4;
+    optional int32 public_exponent = 5;
+    optional Curve curve = 6;
+  }
+
+  KeyInfo key_info = 2;
   string output_path = 3;
 
   enum HashType {
