@@ -17,9 +17,15 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
 from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat
 from cryptography.x509.oid import NameOID
+from OpenSSL.crypto import PKey, X509Req
+from pyasn1.codec.der.decoder import decode as asn1_decode
+from pyasn1.codec.der.encoder import encode as asn1_encode
+from pyasn1.type.univ import BitString
+from pyasn1_modules.rfc2314 import CertificationRequest, Signature
 
 import autocsr.protos.csr_pb2 as proto
 from autocsr.extensions import Extension
+from autocsr.hsm import HsmFactory
 from autocsr.oid import ObjectIdentifier
 
 PrivateKey = Union[
@@ -27,10 +33,18 @@ PrivateKey = Union[
     dsa.DSAPrivateKey,
     ec.EllipticCurvePrivateKey,
 ]
+PublicKey = Union[
+    rsa.RSAPublicKey,
+    dsa.DSAPublicKey,
+    ec.EllipticCurvePublicKey,
+]
 CsrSubject = proto.CertificateSigningRequest.Subject
 HashType = proto.CertificateSigningRequest.HashType
+KeyType = proto.CertificateSigningRequest.KeyType
 KeyInfo = proto.CertificateSigningRequest.KeyInfo
-Curve = KeyInfo.Curve
+HsmInfo = proto.CertificateSigningRequest.HsmInfo
+Curve = proto.CertificateSigningRequest.Curve
+GenericKeyInfo = Union[KeyInfo, HsmInfo]
 
 
 class Attribute(x509.NameAttribute):
@@ -135,7 +149,7 @@ class SigningKey:
         self.algorithm = approved_hashes[hash_type]()
 
     @staticmethod
-    def create_rsa_key(key_info: KeyInfo) -> rsa.RSAPrivateKey:
+    def create_rsa_key(key_info: GenericKeyInfo) -> rsa.RSAPrivateKey:
         """
         Create an RSA Private Key from a key info structure
         """
@@ -152,7 +166,7 @@ class SigningKey:
         )
 
     @staticmethod
-    def create_dsa_key(key_info: KeyInfo) -> dsa.DSAPrivateKey:
+    def create_dsa_key(key_info: GenericKeyInfo) -> dsa.DSAPrivateKey:
         """
         Create a DSA Private Key from a key info structure
         """
@@ -165,7 +179,7 @@ class SigningKey:
         )
 
     @staticmethod
-    def create_ec_key(key_info: KeyInfo) -> ec.EllipticCurvePrivateKey:
+    def create_ec_key(key_info: GenericKeyInfo) -> ec.EllipticCurvePrivateKey:
         """
         Create an EC Private Key from a key info structure
         """
@@ -180,11 +194,11 @@ class SigningKey:
         Create and export a private key from a key info object
         """
 
-        if key_info.key_type == KeyInfo.KeyType.RSA:
+        if key_info.key_type == KeyType.RSA:
             private_key = SigningKey.create_rsa_key(key_info)
-        elif key_info.key_type == KeyInfo.KeyType.DSA:
+        elif key_info.key_type == KeyType.DSA:
             private_key = SigningKey.create_dsa_key(key_info)
-        elif key_info.key_type == KeyInfo.KeyType.EC:
+        elif key_info.key_type == KeyType.EC:
             private_key = SigningKey.create_ec_key(key_info)
         else:
             raise TypeError(f"Key type: {key_info.key_type} does not exist")
@@ -231,6 +245,23 @@ class SigningKey:
             hash_type=hash_type,
         )
 
+    @classmethod
+    def from_hsm_info(cls, hsm_info: HsmInfo, hash_type: HashType):
+        """
+        Build a Dummy Signing Key from hsm information structure
+        """
+
+        if hsm_info.key_type == KeyType.RSA:
+            return SigningKey.create_rsa_key(hsm_info)
+
+        if hsm_info.key_type == KeyType.DSA:
+            return SigningKey.create_dsa_key(hsm_info)
+
+        if hsm_info.key_type == KeyType.EC:
+            return SigningKey.create_ec_key(hsm_info)
+
+        raise TypeError(f"Key type: {hsm_info.key_type} does not exist")
+
 
 class CertificateSigningRequest(_CertificateSigningRequest):
     """
@@ -244,6 +275,31 @@ class CertificateSigningRequest(_CertificateSigningRequest):
             f"Extensions: {self.extensions}\n"
             f"Valid Signature: {self.is_signature_valid}"
         )
+
+    def set_pubkey(self, public_key: PublicKey):
+        """
+        Modify the public key of a CSR
+        """
+
+        openssl_req = X509Req.from_cryptography(self)
+        openssl_req.set_pubkey(PKey.from_cryptography_key(public_key))
+
+        self._x509_req = openssl_req.to_cryptography()._x509_req
+
+    def set_signature(self, signature: bytes):
+        """
+        Return a new CSR with modified signature
+        """
+
+        der_csr = self.public_bytes(Encoding.DER)
+        asn1_csr, _ = asn1_decode(
+            der_csr,
+            asn1Spec=CertificationRequest(),
+        )
+
+        asn1_csr.setComponentByName("signature", BitString.fromOctetString(signature))
+
+        self._x509_req = x509.load_der_x509_csr(asn1_encode(asn1_csr))._x509_req
 
     def export(self, filename: str):
         """
@@ -280,6 +336,45 @@ class CertificateSigningRequestBuilder:
     """
 
     @staticmethod
+    def sign_with_key_info(
+        csr: proto.CertificateSigningRequest,
+        builder: x509.CertificateSigningRequestBuilder,
+    ):
+        """
+        Sign a CertificateSigningRequest with key information on the filesystem
+        """
+
+        key = SigningKey.from_key_info(csr.key_info, csr.hash_type)
+
+        return builder.sign(
+            private_key=key.private_key,
+            algorithm=key.algorithm,
+            backend=MyBackend(),
+        )
+
+    @staticmethod
+    def sign_with_hsm_info(
+        csr: proto.CertificateSigningRequest,
+        builder: x509.CertificateSigningRequestBuilder,
+    ):
+        """
+        Sign a CertificateSigningRequest with key information in an HSM
+        """
+
+        hsm = HsmFactory.from_hsm_info(csr.hsm_info, csr.hash_type)
+
+        dummy_key = SigningKey.from_hsm_info(csr.hsm_info, csr.hash_type)
+
+        base_csr = builder.sign(
+            private_key=dummy_key.private_key,
+            algorithm=dummy_key.algorithm,
+            backend=MyBackend(),
+        )
+
+        base_csr.set_pubkey(hsm.public_key)
+        base_csr.set_signature(hsm.sign(base_csr.tbs_certrequest_bytes))
+
+    @staticmethod
     def from_csr(csr: proto.CertificateSigningRequest):
         """
         Build an x509 Certificate Signing Request Object from a config
@@ -300,10 +395,9 @@ class CertificateSigningRequestBuilder:
                 critical=extension.critical,
             )
 
-        key = SigningKey.from_key_info(csr.key_info, csr.hash_type)
-
-        return builder.sign(
-            private_key=key.private_key,
-            algorithm=key.algorithm,
-            backend=MyBackend(),
-        )
+        if csr.WhichOneof("key") == "key_info":
+            return CertificateSigningRequestBuilder.sign_with_key_info(csr, builder)
+        elif csr.WhichOneof("key") == "hsm_info":
+            return CertificateSigningRequestBuilder.sign_with_hsm_info(csr, builder)
+        else:
+            raise TypeError("Neither filesystem key nor HSM key selected")
