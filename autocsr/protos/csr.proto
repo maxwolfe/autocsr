@@ -45,7 +45,6 @@ message CertificateSigningRequest {
   }
 
   message KeyInfo {
-
     string key_path = 1;
     optional bool create = 2;
     optional KeyType key_type = 3;
@@ -54,17 +53,22 @@ message CertificateSigningRequest {
     optional Curve curve = 6;
   }
 
-  enum HsmType {
-    SoftHSM = 0;
+  message SoftHsm {
+    int32 slot_number = 1;
+    string token_label = 2;
+    string key_label = 3;
+    string user_pin = 4;
+    string so_file = 5;
   }
 
   message HsmInfo {
-    string pkcs11_uri = 1;
-    HsmType hsm_type = 2;
-    KeyType key_type = 3;
-    optional int32 key_size = 4;
-    optional int32 public_exponent = 5;
-    optional Curve curve = 6;
+    oneof hsm {
+      SoftHsm softhsm = 1;
+    }
+    KeyType key_type = 2;
+    optional int32 key_size = 3;
+    optional int32 public_exponent = 4;
+    optional Curve curve = 5;
   }
 
   oneof key {

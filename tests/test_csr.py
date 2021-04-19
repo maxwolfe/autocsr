@@ -26,7 +26,7 @@ from autocsr.oid import ObjectIdentifier
 from autocsr.utils import load_csr
 
 HashType = protos.CertificateSigningRequest.HashType
-KeyType = protos.CertificateSigningRequest.KeyInfo.KeyType
+KeyType = protos.CertificateSigningRequest.KeyType
 
 
 class TestAttribute(TestCase):
