@@ -89,11 +89,11 @@ class TestUtils(TestCase):
 
         fake_file = NamedTemporaryFile().name
         yaml_config = yaml.dump(self.config_list)
-        jinja_config = yaml_config.replace("Test", "{{ 'test' | env }}")
+        jinja_config = yaml_config.replace("Test", "{{ TEST }}")
         os.environ["test"] = "Test"
 
         self.assertIn(
-            "{{ 'test' | env }}",
+            "{{ TEST }}",
             jinja_config,
             "Environment variable notation should be found in jinja config",
         )
