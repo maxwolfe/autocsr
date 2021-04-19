@@ -2,13 +2,20 @@
 Unit tests for autocsr utilities
 """
 
+import os
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
+from unittest.mock import patch
 
 import yaml
 
 from autocsr.protos.csr_pb2 import CertificateSigningRequest
-from autocsr.utils import load_csr, load_csrs_from_file
+from autocsr.utils import (
+    load_csr,
+    load_csrs_from_file,
+    load_csrs_from_jinja,
+    load_csrs_from_yaml,
+)
 
 
 class TestUtils(TestCase):
@@ -62,9 +69,9 @@ class TestUtils(TestCase):
         csr_proto = load_csr(self.config)
         self.validate_csr(csr_proto, self.config)
 
-    def test_load_csrs_from_file(self):
+    def test_load_csrs_from_yaml(self):
         """
-        Test load_csrs_from_file utility on real data
+        Test load_csrs_from_yaml on real data
         """
 
         fake_file = NamedTemporaryFile().name
@@ -72,5 +79,50 @@ class TestUtils(TestCase):
         with open(fake_file, "w") as fake_config:
             fake_config.write(yaml.dump(self.config_list))
 
-        for idx, csr in enumerate(load_csrs_from_file(fake_file)):
+        for idx, csr in enumerate(load_csrs_from_yaml(fake_file)):
             self.validate_csr(csr, self.config_list[idx])
+
+    def test_load_csrs_from_jinja(self):
+        """
+        Test load_csrs_from_jinja on real data
+        """
+
+        fake_file = NamedTemporaryFile().name
+        yaml_config = yaml.dump(self.config_list)
+        jinja_config = yaml_config.replace("Test", "{{ 'test' | env }}")
+        os.environ["test"] = "Test"
+
+        self.assertIn(
+            "{{ 'test' | env }}",
+            jinja_config,
+            "Environment variable notation should be found in jinja config",
+        )
+        self.assertNotIn(
+            "Test",
+            jinja_config,
+            "Environment variable data contents should not be found in jinja config",
+        )
+
+        with open(fake_file, "w") as fake_config:
+            fake_config.write(jinja_config)
+
+        for idx, csr in enumerate(load_csrs_from_jinja(fake_file)):
+            self.validate_csr(csr, self.config_list[idx])
+
+    @patch("autocsr.utils.load_csrs_from_jinja")
+    @patch("autocsr.utils.load_csrs_from_yaml")
+    def test_load_csrs_from_file(self, mock_load_yaml, mock_load_jinja):
+        """
+        Test load_csrs_from_file utility on real data
+        """
+
+        fake_yaml = NamedTemporaryFile(suffix=".yaml").name
+        fake_jinja = NamedTemporaryFile(suffix=".jinja2").name
+
+        load_csrs_from_file(fake_yaml)
+        mock_load_yaml.assert_called_once_with(fake_yaml)
+        mock_load_jinja.assert_not_called()
+
+        load_csrs_from_file(fake_jinja)
+        mock_load_yaml.assert_called_once_with(fake_yaml)
+        mock_load_jinja.assert_called_once_with(fake_jinja)

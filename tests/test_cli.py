@@ -31,7 +31,7 @@ class TestCli(TestCase):
 
     def setUp(self):
         self.cli = CliRunner()
-        self.config_file = NamedTemporaryFile().name
+        self.config_file = NamedTemporaryFile(suffix=".yaml").name
 
         with open(self.config_file, "w") as config:
             config.write(yaml.dump(self.config))
