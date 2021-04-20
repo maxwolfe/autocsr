@@ -77,7 +77,29 @@ class SoftHsm(Hsm):
             KeyType.DSA: pkcs11.KeyType.DSA,
             KeyType.EC: pkcs11.KeyType.EC,
         }
+        hashes = {
+            KeyType.RSA: {
+                HashType.SHA224: pkcs11.Mechanism.SHA224_RSA_PKCS,
+                HashType.SHA256: pkcs11.Mechanism.SHA256_RSA_PKCS,
+                HashType.SHA384: pkcs11.Mechanism.SHA384_RSA_PKCS,
+                HashType.SHA512: pkcs11.Mechanism.SHA512_RSA_PKCS,
+            },
+            KeyType.DSA: {
+                HashType.SHA224: pkcs11.Mechanism.DSA_SHA224,
+                HashType.SHA256: pkcs11.Mechanism.DSA_SHA256,
+                HashType.SHA384: pkcs11.Mechanism.DSA_SHA384,
+                HashType.SHA512: pkcs11.Mechanism.DSA_SHA512,
+            },
+            KeyType.EC: {
+                HashType.SHA224: pkcs11.Mechanism.ECDSA_SHA224,
+                HashType.SHA256: pkcs11.Mechanism.ECDSA_SHA256,
+                HashType.SHA384: pkcs11.Mechanism.ECDSA_SHA384,
+                HashType.SHA512: pkcs11.Mechanism.ECDSA_SHA512,
+            },
+        }
+
         self.pkcs11_key_type = types.get(self.key_type)
+        self.pkcs11_hash_type = hashes[self.key_type].get(self.hash_type)
 
     @property
     def public_key(self) -> PublicKey:
@@ -100,7 +122,7 @@ class SoftHsm(Hsm):
                 object_class=pkcs11.ObjectClass.PRIVATE_KEY,
             )
 
-            return private_key.sign(message)
+            return private_key.sign(message, mechanism=self.pkcs11_hash_type)
 
     @classmethod
     def from_proto(cls, hsm_info: HsmInfo, hash_type: HashType):

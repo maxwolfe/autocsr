@@ -214,13 +214,13 @@ class SigningKey:
     def from_hsm_info(cls, hsm_info: HsmInfo, hash_type: HashType):
         """Build a Dummy Signing Key from hsm information structure."""
         if hsm_info.key_type == KeyType.RSA:
-            return SigningKey.create_rsa_key(hsm_info)
+            return cls(SigningKey.create_rsa_key(hsm_info), hash_type=hash_type)
 
         if hsm_info.key_type == KeyType.DSA:
-            return SigningKey.create_dsa_key(hsm_info)
+            return cls(SigningKey.create_dsa_key(hsm_info), hash_type=hash_type)
 
         if hsm_info.key_type == KeyType.EC:
-            return SigningKey.create_ec_key(hsm_info)
+            return cls(SigningKey.create_ec_key(hsm_info), hash_type=hash_type)
 
         raise TypeError(f"Key type: {hsm_info.key_type} does not exist")
 
@@ -312,6 +312,8 @@ class CertificateSigningRequestBuilder:
 
         base_csr.set_pubkey(hsm.public_key)
         base_csr.set_signature(hsm.sign(base_csr.tbs_certrequest_bytes))
+
+        return base_csr
 
     @staticmethod
     def from_csr(csr: proto.CertificateSigningRequest):
