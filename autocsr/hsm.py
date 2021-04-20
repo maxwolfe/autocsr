@@ -41,11 +41,11 @@ class Hsm(abc.ABC):
 
     def pkcs11_to_crypto_key(self, pkcs11_public_key: pkcs11.KeyType) -> PublicKey:
         """Convert a pkcs11 public key to a cryptography public key."""
-        if isinstance(pkcs11_public_key, pkcs11.KeyType.RSA):
+        if self.pkcs11_key_type == pkcs11.KeyType.RSA:
             der_public_key = encode_rsa_public_key(pkcs11_public_key)
-        elif isinstance(pkcs11_public_key, pkcs11.KeyType.DSA):
+        elif self.pkcs11_key_type == pkcs11.KeyType.DSA:
             der_public_key = encode_dsa_public_key(pkcs11_public_key)
-        elif isinstance(pkcs11_public_key, pkcs11.KeyType.EC):
+        elif self.pkcs11_key_type == pkcs11.KeyType.EC:
             der_public_key = encode_ec_public_key(pkcs11_public_key)
         else:
             raise TypeError(f"Key type for {pkcs11_public_key} not supported")
