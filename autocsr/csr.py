@@ -13,9 +13,9 @@ from cryptography.hazmat.backends.openssl.backend import Backend
 from cryptography.hazmat.backends.openssl.x509 import _CertificateSigningRequest
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
-from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat
+from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat, PublicFormat
 from cryptography.x509.oid import NameOID
-from OpenSSL.crypto import PKey, X509Req
+from OpenSSL.crypto import PKey, X509Req, load_publickey, FILETYPE_PEM
 from pyasn1.codec.der.decoder import decode as asn1_decode
 from pyasn1.codec.der.encoder import encode as asn1_encode
 from pyasn1.type.univ import BitString
@@ -240,7 +240,14 @@ class CertificateSigningRequest(_CertificateSigningRequest):
     def set_pubkey(self, public_key: PublicKey):
         """Modify the public key of a CSR."""
         openssl_req = X509Req.from_cryptography(self)
-        openssl_req.set_pubkey(PKey.from_cryptography_key(public_key))
+
+        key_pem = public_key.public_bytes(
+            Encoding.PEM,
+            format=PublicFormat.SubjectPublicKeyInfo,
+        )
+        openssl_key = load_publickey(FILETYPE_PEM, key_pem)
+
+        openssl_req.set_pubkey(openssl_key)
 
         self._x509_req = openssl_req.to_cryptography()._x509_req
 
