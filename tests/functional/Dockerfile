@@ -9,9 +9,9 @@ WORKDIR /app
 RUN pip3 install poetry
 RUN poetry install
 RUN softhsm2-util --init-token --slot 0 --label "token" --so-pin 1234 --pin 1234
-RUN poetry run pytest
-RUN poetry run python create_key.py
+RUN poetry run pytest tests
+RUN poetry run python tests/functional/create_key.py
 
 ENTRYPOINT ["python3"]
 
-CMD ["autocsr/tests/functional/functional_tests.py"]
+CMD ["tests/functional/functional_test.py"]

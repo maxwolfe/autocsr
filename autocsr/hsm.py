@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import abc
-from dataclasses import dataclass
-from typing import Dict, InitVar, Union
+from dataclasses import InitVar, dataclass
+from typing import Dict, Union
 
 import pkcs11
 from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
@@ -80,13 +80,17 @@ class SoftHsm(Hsm):
         },
     }
 
-    def __post_init__(self):
+    def __post_init__(
+        self,
+        types: Dict[KeyType, pkcs11.KeyType],
+        hashes: Dict[KeyType, Dict[HashType, pkcs11.Mechanism]],
+    ):
         """Load token for SoftHSM operations."""
         lib = pkcs11.lib(self.so_file)
         self.token = lib.get_token(token_label=self.token_label)
 
-        self.pkcs11_key_type = self.types[self.key_type]
-        self.pkcs11_hash_type = self.hashes[self.key_type][self.hash_type]
+        self.pkcs11_key_type = types[self.key_type]
+        self.pkcs11_hash_type = hashes[self.key_type][self.hash_type]
 
     @property
     def public_key(self) -> PublicKey:
