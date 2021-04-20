@@ -2,9 +2,11 @@
 
 import abc
 from dataclasses import InitVar, dataclass
+from typing import Union, Dict
 
 import pkcs11
 from cryptography.hazmat.primitives.serialization import load_der_public_key
+from cryptography.hazmat.primitives.asymmetric import rsa, ec, dsa
 from pkcs11.util.dsa import encode_dsa_public_key
 from pkcs11.util.ec import encode_ec_public_key
 from pkcs11.util.rsa import encode_rsa_public_key
@@ -65,17 +67,17 @@ class SoftHsm(Hsm):
     key_label: str
     user_pin: str
     so_file: str
-    types: InitVar[Dict[KeyType, pkcs11.KeyType]] = {
-        KeyType.RSA: pkcs11.KeyType.RSA,
-        KeyType.DSA: pkcs11.KeyType.DSA,
-        KeyType.EC: pkcs11.KeyType.EC,
-    }
 
     def __post_init__(self):
         """Load token for SoftHSM operations."""
         lib = pkcs11.lib(self.so_file)
         self.token = lib.get_token(token_label=self.token_label)
-        self.pkcs11_key_type = self.types.get(self.key_type)
+        types = {
+            KeyType.RSA: pkcs11.KeyType.RSA,
+            KeyType.DSA: pkcs11.KeyType.DSA,
+            KeyType.EC: pkcs11.KeyType.EC,
+        }
+        self.pkcs11_key_type = types.get(self.key_type)
 
     @property
     def public_key(self) -> PublicKey:

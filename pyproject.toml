@@ -5,7 +5,7 @@ description = ""
 authors = ["Max Wolfe <max@securitywolfe.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.7"
 cryptography = "^3.4.7"
 protobuf = "^3.15.8"
 PyYAML = "^5.4.1"
@@ -13,6 +13,7 @@ typer = "^0.3.2"
 Jinja2 = "^2.11.3"
 pyOpenSSL = "^20.0.1"
 pyasn1-modules = "^0.2.8"
+python-pkcs11 = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

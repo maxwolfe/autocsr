@@ -90,7 +90,7 @@ class TestUtils(TestCase):
         fake_file = NamedTemporaryFile().name
         yaml_config = yaml.dump(self.config_list)
         jinja_config = yaml_config.replace("Test", "{{ TEST }}")
-        os.environ["test"] = "Test"
+        os.environ["TEST"] = "Test"
 
         self.assertIn(
             "{{ TEST }}",
