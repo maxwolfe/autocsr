@@ -1,0 +1,182 @@
+---
+
+SimpleCSR:
+  subject:
+    common_name: "Simple CSR"
+
+  key_info:
+    key_path: "autocsr/tests/fixtures/test.key"
+
+  output_path: "/tmp/simple.csr"
+
+HsmCSR:
+  subject:
+    common_name: "HsmCSR"
+
+  hsm_info:
+    softhsm:
+      token_label: "token"
+      key_label: "small_rsa_key"
+      user_pin: "1234"
+      so_file: "/usr/lib/softhsm/libsofthsm2.so"
+
+    key_type: "RSA"
+    key_size: 2048
+
+  output_path: "/tmp/hsm.csr"
+
+EverythingCSR:
+  subject:
+    common_name: "Max's Test CSR"
+
+  key_info:
+    key_path: "/tmp/everything.key"
+    create: True
+
+  output_path: "/tmp/everything.csr"
+  hash_type: "SHA512"
+
+  attributes:
+    - oid: "2.5.29.17"
+      b64_value: "dGVzdA=="
+    - oid: "issuerAltName"
+      b64_value: "aGk="
+
+  extensions:
+    - critical: True
+      extension_type: "OCSPNoCheck"
+    - critical: False
+      extension_type: "PrecertPoison"
+    - critical: False
+      subject_key_identifier:
+        b64_digest: "dGVzdA=="
+    - critical: True
+      basic_constraints:
+        ca: True
+        path_length: 69
+    - critical: False
+      policy_constraints:
+        require_explicit_policy: 420
+    - critical: True
+      certificate_policies:
+        policies:
+          - policy_identifier: "1.2.3.4"
+            string_qualifiers:
+              - "test qualifier 1"
+              - "test qualifier 2"
+            user_qualifiers:
+              - notice_reference:
+                  organization: "test_org"
+                  notice_numbers:
+                    - 1
+                    - 2
+                    - 3
+                explicit_text: "hello, test"
+    - critical: True
+      extended_key_usage:
+        usages:
+          - "1.2.3.4.5"
+          - "2.4.3.2.111"
+          - "serverAuth"
+    - critical: False
+      tls_feature:
+        features:
+          - "status_request"
+          - "status_request_v2"
+    - critical: False
+      inhibit_any_policy:
+        skip_certs: 69
+    - critical: True
+      key_usage:
+        digital_signature: True
+        content_commitment: False
+        key_encipherment: True
+        data_encipherment: False
+        key_agreement: True
+        key_cert_sign: False
+        crl_sign: True
+        encipher_only: False
+        decipher_only: True
+    - critical: True
+      authority_key_identifier:
+        authority_cert_issuer:
+          - rfc_822_name:
+              value: "Test RFC Name"
+          - dns_name:
+              value: "Test DNS Name"
+          - uniform_resource_identifier:
+              value: "Test Resource Name"
+          - directory_name:
+              value:
+                attributes:
+                  - oid: "1.2.3.4"
+                    value: "test attribute"
+          - registered_id:
+              oid: "1.3.4.5"
+          - ip_address:
+              value: "123.12.2.43"
+        authority_cert_serial_number: 5
+    - critical: False
+      authority_information_access:
+        descriptions:
+          - access_method: "1.4.5.6"
+            access_location:
+              dns_name:
+                value: "Test DNS Access"
+    - critical: False
+      subject_information_access:
+        descriptions:
+          - access_method: "1.9.5.6"
+            access_location:
+              ip_address:
+                value: "11.22.33.44"
+    - critical: False
+      crl_distribution_points:
+        distribution_points:
+          - relative_name:
+              attributes:
+              - oid: "1.8.8.8"
+                value: "relative_name"
+            reasons:
+              - "superseded"
+              - "ca_compromise"
+            crl_issuer:
+            - dns_name:
+                value: "crl_issuer"
+    - critical: False
+      freshest_crl:
+        distribution_points:
+          - relative_name:
+              attributes:
+              - oid: "1.8.8.8"
+                value: "relative_name"
+            reasons:
+              - "superseded"
+              - "ca_compromise"
+            crl_issuer:
+            - dns_name:
+                value: "crl_issuer"
+    - critical: True
+      name_constraints:
+        permitted_subtrees:
+          - dns_name:
+              value: "permitted_subtrees"
+        excluded_subtrees:
+          - dns_name:
+              value: "excluded_subtrees"
+          - dns_name:
+              value: "other excluded_subtrees"
+    - critical: True
+      subject_alternative_name:
+        general_names:
+          - dns_name:
+              value: "first alternative name"
+          - dns_name:
+              value: "second alternative name"
+    - critical: True
+      issuer_alternative_name:
+        general_names:
+          - dns_name:
+              value: "first issuer alternative name"
+          - dns_name:
+              value: "second issuer alternative name"

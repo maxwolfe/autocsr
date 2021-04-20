@@ -1,12 +1,14 @@
 """Implementations for supported HSMs."""
 
+from __future__ import annotations
+
 import abc
-from dataclasses import InitVar, dataclass
-from typing import Union, Dict
+from dataclasses import dataclass
+from typing import Dict, InitVar, Union
 
 import pkcs11
+from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
 from cryptography.hazmat.primitives.serialization import load_der_public_key
-from cryptography.hazmat.primitives.asymmetric import rsa, ec, dsa
 from pkcs11.util.dsa import encode_dsa_public_key
 from pkcs11.util.ec import encode_ec_public_key
 from pkcs11.util.rsa import encode_rsa_public_key
@@ -62,44 +64,29 @@ class Hsm(abc.ABC):
 class SoftHsm(Hsm):
     """An implementation of SoftHsm for signing."""
 
-    slot_number: int
     token_label: str
     key_label: str
     user_pin: str
     so_file: str
+    types: InitVar[Dict[KeyType, pkcs11.KeyType]] = {
+        KeyType.RSA: pkcs11.KeyType.RSA,
+    }
+    hashes: InitVar[Dict[KeyType, Dict[HashType, pkcs11.Mechanism]]] = {
+        KeyType.RSA: {
+            HashType.SHA224: pkcs11.Mechanism.SHA224_RSA_PKCS,
+            HashType.SHA256: pkcs11.Mechanism.SHA256_RSA_PKCS,
+            HashType.SHA384: pkcs11.Mechanism.SHA384_RSA_PKCS,
+            HashType.SHA512: pkcs11.Mechanism.SHA512_RSA_PKCS,
+        },
+    }
 
     def __post_init__(self):
         """Load token for SoftHSM operations."""
         lib = pkcs11.lib(self.so_file)
         self.token = lib.get_token(token_label=self.token_label)
-        types = {
-            KeyType.RSA: pkcs11.KeyType.RSA,
-            KeyType.DSA: pkcs11.KeyType.DSA,
-            KeyType.EC: pkcs11.KeyType.EC,
-        }
-        hashes = {
-            KeyType.RSA: {
-                HashType.SHA224: pkcs11.Mechanism.SHA224_RSA_PKCS,
-                HashType.SHA256: pkcs11.Mechanism.SHA256_RSA_PKCS,
-                HashType.SHA384: pkcs11.Mechanism.SHA384_RSA_PKCS,
-                HashType.SHA512: pkcs11.Mechanism.SHA512_RSA_PKCS,
-            },
-            KeyType.DSA: {
-                HashType.SHA224: pkcs11.Mechanism.DSA_SHA224,
-                HashType.SHA256: pkcs11.Mechanism.DSA_SHA256,
-                HashType.SHA384: pkcs11.Mechanism.DSA_SHA384,
-                HashType.SHA512: pkcs11.Mechanism.DSA_SHA512,
-            },
-            KeyType.EC: {
-                HashType.SHA224: pkcs11.Mechanism.ECDSA_SHA224,
-                HashType.SHA256: pkcs11.Mechanism.ECDSA_SHA256,
-                HashType.SHA384: pkcs11.Mechanism.ECDSA_SHA384,
-                HashType.SHA512: pkcs11.Mechanism.ECDSA_SHA512,
-            },
-        }
 
-        self.pkcs11_key_type = types.get(self.key_type)
-        self.pkcs11_hash_type = hashes[self.key_type].get(self.hash_type)
+        self.pkcs11_key_type = self.types[self.key_type]
+        self.pkcs11_hash_type = self.hashes[self.key_type][self.hash_type]
 
     @property
     def public_key(self) -> PublicKey:
@@ -132,7 +119,6 @@ class SoftHsm(Hsm):
         return cls(
             hash_type=hash_type,
             key_type=hsm_info.key_type,
-            slot_number=softhsm.slot_number,
             token_label=softhsm.token_label,
             key_label=softhsm.key_label,
             user_pin=softhsm.user_pin,

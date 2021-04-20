@@ -13,13 +13,12 @@ from cryptography.hazmat.backends.openssl.backend import Backend
 from cryptography.hazmat.backends.openssl.x509 import _CertificateSigningRequest
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
-from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat, PublicFormat
 from cryptography.x509.oid import NameOID
-from OpenSSL.crypto import PKey, X509Req, load_publickey, FILETYPE_PEM
+from OpenSSL import crypto as openssl
 from pyasn1.codec.der.decoder import decode as asn1_decode
 from pyasn1.codec.der.encoder import encode as asn1_encode
 from pyasn1.type.univ import BitString
-from pyasn1_modules.rfc2314 import CertificationRequest, Signature
+from pyasn1_modules.rfc2314 import CertificationRequest
 
 import autocsr.protos.csr_pb2 as proto
 from autocsr.extensions import Extension
@@ -177,8 +176,8 @@ class SigningKey:
         with open(key_info.key_path, "wb") as key_file:
             key_file.write(
                 private_key.private_bytes(
-                    encoding=Encoding.PEM,
-                    format=PrivateFormat.PKCS8,
+                    encoding=serialization.Encoding.PEM,
+                    format=serialization.PrivateFormat.PKCS8,
                     encryption_algorithm=serialization.NoEncryption(),
                 )
             )
@@ -239,13 +238,13 @@ class CertificateSigningRequest(_CertificateSigningRequest):
 
     def set_pubkey(self, public_key: PublicKey):
         """Modify the public key of a CSR."""
-        openssl_req = X509Req.from_cryptography(self)
+        openssl_req = openssl.X509Req.from_cryptography(self)
 
         key_pem = public_key.public_bytes(
-            Encoding.PEM,
-            format=PublicFormat.SubjectPublicKeyInfo,
+            serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo,
         )
-        openssl_key = load_publickey(FILETYPE_PEM, key_pem)
+        openssl_key = openssl.load_publickey(openssl.FILETYPE_PEM, key_pem)
 
         openssl_req.set_pubkey(openssl_key)
 
@@ -253,7 +252,7 @@ class CertificateSigningRequest(_CertificateSigningRequest):
 
     def set_signature(self, signature: bytes):
         """Return a new CSR with modified signature."""
-        der_csr = self.public_bytes(Encoding.DER)
+        der_csr = self.public_bytes(serialization.Encoding.DER)
         asn1_csr, _ = asn1_decode(
             der_csr,
             asn1Spec=CertificationRequest(),
@@ -266,7 +265,7 @@ class CertificateSigningRequest(_CertificateSigningRequest):
     def export(self, filename: str):
         """Export CSR to a file."""
         with open(filename, "wb") as output_file:
-            output_file.write(self.public_bytes(Encoding.PEM))
+            output_file.write(self.public_bytes(serialization.Encoding.PEM))
 
 
 class MyBackend(Backend):

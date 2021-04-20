@@ -16,7 +16,6 @@ message CertificateSigningRequest {
 
   Subject subject = 1;
 
-
   enum KeyType {
     RSA = 0;
     DSA = 1;
@@ -54,11 +53,10 @@ message CertificateSigningRequest {
   }
 
   message SoftHsm {
-    int32 slot_number = 1;
-    string token_label = 2;
-    string key_label = 3;
-    string user_pin = 4;
-    string so_file = 5;
+    string token_label = 1;
+    string key_label = 2;
+    string user_pin = 3;
+    string so_file = 4;
   }
 
   message HsmInfo {

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tcsr.proto\x12\x07\x61utocsr\"\xe7O\n\x19\x43\x65rtificateSigningRequest\x12;\n\x07subject\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.Subject\x12>\n\x08key_info\x18\x02 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.KeyInfoH\x00\x12>\n\x08hsm_info\x18\x03 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.HsmInfoH\x00\x12\x13\n\x0boutput_path\x18\x04 \x01(\t\x12\x43\n\thash_type\x18\x05 \x01(\x0e\x32+.autocsr.CertificateSigningRequest.HashTypeH\x01\x88\x01\x01\x12@\n\nattributes\x18\x06 \x03(\x0b\x32,.autocsr.CertificateSigningRequest.Attribute\x12@\n\nextensions\x18\x07 \x03(\x0b\x32,.autocsr.CertificateSigningRequest.Extension\x1a\xe0\x02\n\x07Subject\x12\x13\n\x0b\x63ommon_name\x18\x01 \x01(\t\x12\x19\n\x0c\x63ountry_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12#\n\x16state_or_province_name\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x1a\n\rlocality_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x1e\n\x11organization_name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12%\n\x18organizational_unit_name\x18\x06 \x01(\tH\x04\x88\x01\x01\x12\x1a\n\remail_address\x18\x07 \x01(\tH\x05\x88\x01\x01\x42\x0f\n\r_country_nameB\x19\n\x17_state_or_province_nameB\x10\n\x0e_locality_nameB\x14\n\x12_organization_nameB\x1b\n\x19_organizational_unit_nameB\x10\n\x0e_email_address\x1a\xa9\x02\n\x07KeyInfo\x12\x10\n\x08key_path\x18\x01 \x01(\t\x12\x13\n\x06\x63reate\x18\x02 \x01(\x08H\x00\x88\x01\x01\x12\x41\n\x08key_type\x18\x03 \x01(\x0e\x32*.autocsr.CertificateSigningRequest.KeyTypeH\x01\x88\x01\x01\x12\x15\n\x08key_size\x18\x04 \x01(\x05H\x02\x88\x01\x01\x12\x1c\n\x0fpublic_exponent\x18\x05 \x01(\x05H\x03\x88\x01\x01\x12<\n\x05\x63urve\x18\x06 \x01(\x0e\x32(.autocsr.CertificateSigningRequest.CurveH\x04\x88\x01\x01\x42\t\n\x07_createB\x0b\n\t_key_typeB\x0b\n\t_key_sizeB\x12\n\x10_public_exponentB\x08\n\x06_curve\x1ai\n\x07SoftHsm\x12\x13\n\x0bslot_number\x18\x01 \x01(\x05\x12\x13\n\x0btoken_label\x18\x02 \x01(\t\x12\x11\n\tkey_label\x18\x03 \x01(\t\x12\x10\n\x08user_pin\x18\x04 \x01(\t\x12\x0f\n\x07so_file\x18\x05 \x01(\t\x1a\xab\x02\n\x07HsmInfo\x12=\n\x07softhsm\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.SoftHsmH\x00\x12<\n\x08key_type\x18\x02 \x01(\x0e\x32*.autocsr.CertificateSigningRequest.KeyType\x12\x15\n\x08key_size\x18\x03 \x01(\x05H\x01\x88\x01\x01\x12\x1c\n\x0fpublic_exponent\x18\x04 \x01(\x05H\x02\x88\x01\x01\x12<\n\x05\x63urve\x18\x05 \x01(\x0e\x32(.autocsr.CertificateSigningRequest.CurveH\x03\x88\x01\x01\x42\x05\n\x03hsmB\x0b\n\t_key_sizeB\x12\n\x10_public_exponentB\x08\n\x06_curve\x1a+\n\tAttribute\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\x11\n\tb64_value\x18\x02 \x01(\t\x1a\xaa?\n\tExtension\x12\x10\n\x08\x63ritical\x18\x01 \x01(\x08\x12T\n\x0e\x65xtension_type\x18\x02 \x01(\x0e\x32:.autocsr.CertificateSigningRequest.Extension.ExtensionTypeH\x00\x12L\n\ncrl_number\x18\x03 \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.CRLNumberH\x00\x12\x63\n\x16subject_key_identifier\x18\x04 \x01(\x0b\x32\x41.autocsr.CertificateSigningRequest.Extension.SubjectKeyIdentifierH\x00\x12Z\n\x11\x62\x61sic_constraints\x18\x05 \x01(\x0b\x32=.autocsr.CertificateSigningRequest.Extension.BasicConstraintsH\x00\x12]\n\x13\x64\x65lta_crl_indicator\x18\x06 \x01(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.DeltaCRLIndicatorH\x00\x12\\\n\x12policy_constraints\x18\x07 \x01(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.PolicyConstraintsH\x00\x12`\n\x14\x63\x65rtificate_policies\x18\x08 \x01(\x0b\x32@.autocsr.CertificateSigningRequest.Extension.CertificatePoliciesH\x00\x12[\n\x12\x65xtended_key_usage\x18\t \x01(\x0b\x32=.autocsr.CertificateSigningRequest.Extension.ExtendedKeyUsageH\x00\x12N\n\x0btls_feature\x18\n \x01(\x0b\x32\x37.autocsr.CertificateSigningRequest.Extension.TLSFeatureH\x00\x12[\n\x12inhibit_any_policy\x18\x0b \x01(\x0b\x32=.autocsr.CertificateSigningRequest.Extension.InhibitAnyPolicyH\x00\x12J\n\tkey_usage\x18\x0c \x01(\x0b\x32\x35.autocsr.CertificateSigningRequest.Extension.KeyUsageH\x00\x12L\n\ncrl_reason\x18\r \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.CRLReasonH\x00\x12V\n\x0finvalidity_date\x18\x0e \x01(\x0b\x32;.autocsr.CertificateSigningRequest.Extension.InvalidityDateH\x00\x12\x8c\x01\n,precertificate_signed_certificate_timestamps\x18\x0f \x01(\x0b\x32T.autocsr.CertificateSigningRequest.Extension.PrecertificateSignedCerticateTimestampsH\x00\x12q\n\x1dsigned_certificate_timestamps\x18\x10 \x01(\x0b\x32H.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestampsH\x00\x12L\n\nocsp_nonce\x18\x11 \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.OCSPNonceH\x00\x12g\n\x18\x61uthority_key_identifier\x18\x12 \x01(\x0b\x32\x43.autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifierH\x00\x12o\n\x1c\x61uthority_information_access\x18\x13 \x01(\x0b\x32G.autocsr.CertificateSigningRequest.Extension.AuthorityInformationAccessH\x00\x12k\n\x1asubject_information_access\x18\x14 \x01(\x0b\x32\x45.autocsr.CertificateSigningRequest.Extension.SubjectInformationAccessH\x00\x12\x65\n\x17\x63rl_distribution_points\x18\x15 \x01(\x0b\x32\x42.autocsr.CertificateSigningRequest.Extension.CRLDistributionPointsH\x00\x12P\n\x0c\x66reshest_crl\x18\x16 \x01(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.FreshestCRLH\x00\x12X\n\x10name_constraints\x18\x17 \x01(\x0b\x32<.autocsr.CertificateSigningRequest.Extension.NameConstraintsH\x00\x12g\n\x18subject_alternative_name\x18\x18 \x01(\x0b\x32\x43.autocsr.CertificateSigningRequest.Extension.SubjectAlternativeNameH\x00\x12\x65\n\x17issuer_alternative_name\x18\x19 \x01(\x0b\x32\x42.autocsr.CertificateSigningRequest.Extension.IssuerAlternativeNameH\x00\x12\\\n\x12\x63\x65rtificate_issuer\x18\x1a \x01(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.CertificateIssuerH\x00\x12k\n\x1aissuing_distribution_point\x18\x1b \x01(\x0b\x32\x45.autocsr.CertificateSigningRequest.Extension.IssuingDistributionPointH\x00\x1a\x1f\n\tCRLNumber\x12\x12\n\ncrl_number\x18\x01 \x01(\x05\x1a*\n\x14SubjectKeyIdentifier\x12\x12\n\nb64_digest\x18\x01 \x01(\t\x1aH\n\x10\x42\x61sicConstraints\x12\n\n\x02\x63\x61\x18\x01 \x01(\x08\x12\x18\n\x0bpath_length\x18\x02 \x01(\x05H\x00\x88\x01\x01\x42\x0e\n\x0c_path_length\x1a\'\n\x11\x44\x65ltaCRLIndicator\x12\x12\n\ncrl_number\x18\x01 \x01(\x05\x1a\x95\x01\n\x11PolicyConstraints\x12$\n\x17require_explicit_policy\x18\x01 \x01(\x05H\x00\x88\x01\x01\x12#\n\x16inhibit_policy_mapping\x18\x02 \x01(\x05H\x01\x88\x01\x01\x42\x1a\n\x18_require_explicit_policyB\x19\n\x17_inhibit_policy_mapping\x1aU\n\x0fNoticeReference\x12\x19\n\x0corganization\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\x0enotice_numbers\x18\x02 \x03(\x05\x42\x0f\n\r_organization\x1a\xac\x01\n\nUserNotice\x12[\n\x10notice_reference\x18\x01 \x01(\x0b\x32<.autocsr.CertificateSigningRequest.Extension.NoticeReferenceH\x00\x88\x01\x01\x12\x1a\n\rexplicit_text\x18\x02 \x01(\tH\x01\x88\x01\x01\x42\x13\n\x11_notice_referenceB\x10\n\x0e_explicit_text\x1a\x9b\x01\n\x11PolicyInformation\x12\x19\n\x11policy_identifier\x18\x01 \x01(\t\x12\x19\n\x11string_qualifiers\x18\x02 \x03(\t\x12P\n\x0fuser_qualifiers\x18\x03 \x03(\x0b\x32\x37.autocsr.CertificateSigningRequest.Extension.UserNotice\x1ag\n\x13\x43\x65rtificatePolicies\x12P\n\x08policies\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.PolicyInformation\x1a\"\n\x10\x45xtendedKeyUsage\x12\x0e\n\x06usages\x18\x01 \x03(\t\x1a[\n\nTLSFeature\x12M\n\x08\x66\x65\x61tures\x18\x01 \x03(\x0e\x32;.autocsr.CertificateSigningRequest.Extension.TLSFeatureType\x1a&\n\x10InhibitAnyPolicy\x12\x12\n\nskip_certs\x18\x01 \x01(\x05\x1a\xe4\x01\n\x08KeyUsage\x12\x19\n\x11\x64igital_signature\x18\x01 \x01(\x08\x12\x1a\n\x12\x63ontent_commitment\x18\x02 \x01(\x08\x12\x18\n\x10key_encipherment\x18\x03 \x01(\x08\x12\x19\n\x11\x64\x61ta_encipherment\x18\x04 \x01(\x08\x12\x15\n\rkey_agreement\x18\x05 \x01(\x08\x12\x15\n\rkey_cert_sign\x18\x06 \x01(\x08\x12\x10\n\x08\x63rl_sign\x18\x07 \x01(\x08\x12\x15\n\rencipher_only\x18\x08 \x01(\x08\x12\x15\n\rdecipher_only\x18\t \x01(\x08\x1aU\n\tCRLReason\x12H\n\x06reason\x18\x01 \x01(\x0e\x32\x38.autocsr.CertificateSigningRequest.Extension.ReasonFlags\x1a)\n\x0eInvalidityDate\x12\x17\n\x0finvalidity_date\x18\x01 \x01(\t\x1a\xdd\x02\n\x1aSignedCertificateTimestamp\x12`\n\x07version\x18\x01 \x01(\x0e\x32O.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.Version\x12\x12\n\nb64_log_id\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\t\x12h\n\nentry_type\x18\x04 \x01(\x0e\x32T.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.LogEntryType\"\x11\n\x07Version\x12\x06\n\x02v1\x10\x00\"9\n\x0cLogEntryType\x12\x14\n\x10X509_CERTIFICATE\x10\x00\x12\x13\n\x0fPRE_CERTIFICATE\x10\x01\x1a\x99\x01\n\'PrecertificateSignedCerticateTimestamps\x12n\n\x1dsigned_certificate_timestamps\x18\x01 \x03(\x0b\x32G.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp\x1a\x8d\x01\n\x1bSignedCertificateTimestamps\x12n\n\x1dsigned_certificate_timestamps\x18\x01 \x03(\x0b\x32G.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp\x1a\x1e\n\tOCSPNonce\x12\x11\n\tb64_nonce\x18\x01 \x01(\t\x1a+\n\rNameAttribute\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x1aV\n\x04Name\x12N\n\nattributes\x18\x01 \x03(\x0b\x32:.autocsr.CertificateSigningRequest.Extension.NameAttribute\x1a\x1b\n\nRFC822Name\x12\r\n\x05value\x18\x01 \x01(\t\x1a\x18\n\x07\x44NSName\x12\r\n\x05value\x18\x01 \x01(\t\x1a*\n\x19UniformResourceIdentifier\x12\r\n\x05value\x18\x01 \x01(\t\x1aQ\n\rDirectoryName\x12@\n\x05value\x18\x01 \x01(\x0b\x32\x31.autocsr.CertificateSigningRequest.Extension.Name\x1a\x1b\n\x0cRegisteredID\x12\x0b\n\x03oid\x18\x01 \x01(\t\x1a\x1a\n\tIPAddress\x12\r\n\x05value\x18\x01 \x01(\t\x1a+\n\tOtherName\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\x11\n\tb64_value\x18\x02 \x01(\t\x1a\xe5\x04\n\x0bGeneralName\x12O\n\x0crfc_822_name\x18\x01 \x01(\x0b\x32\x37.autocsr.CertificateSigningRequest.Extension.RFC822NameH\x00\x12H\n\x08\x64ns_name\x18\x02 \x01(\x0b\x32\x34.autocsr.CertificateSigningRequest.Extension.DNSNameH\x00\x12m\n\x1buniform_resource_identifier\x18\x03 \x01(\x0b\x32\x46.autocsr.CertificateSigningRequest.Extension.UniformResourceIdentifierH\x00\x12T\n\x0e\x64irectory_name\x18\x04 \x01(\x0b\x32:.autocsr.CertificateSigningRequest.Extension.DirectoryNameH\x00\x12R\n\rregistered_id\x18\x05 \x01(\x0b\x32\x39.autocsr.CertificateSigningRequest.Extension.RegisteredIDH\x00\x12L\n\nip_address\x18\x06 \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.IPAddressH\x00\x12L\n\nother_name\x18\x07 \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.OtherNameH\x00\x42\x06\n\x04name\x1a\xed\x01\n\x16\x41uthorityKeyIdentifier\x12\x1b\n\x0ekey_identifier\x18\x01 \x01(\tH\x00\x88\x01\x01\x12W\n\x15\x61uthority_cert_issuer\x18\x02 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12)\n\x1c\x61uthority_cert_serial_number\x18\x03 \x01(\x05H\x01\x88\x01\x01\x42\x11\n\x0f_key_identifierB\x1f\n\x1d_authority_cert_serial_number\x1a\xbc\x01\n\x0fNameConstraints\x12T\n\x12permitted_subtrees\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12S\n\x11\x65xcluded_subtrees\x18\x02 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1ai\n\x16SubjectAlternativeName\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1ah\n\x15IssuerAlternativeName\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1a\x64\n\x11\x43\x65rtificateIssuer\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1a}\n\x11\x41\x63\x63\x65ssDescription\x12\x15\n\raccess_method\x18\x01 \x01(\t\x12Q\n\x0f\x61\x63\x63\x65ss_location\x18\x02 \x01(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1ar\n\x1a\x41uthorityInformationAccess\x12T\n\x0c\x64\x65scriptions\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.AccessDescription\x1ap\n\x18SubjectInformationAccess\x12T\n\x0c\x64\x65scriptions\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.AccessDescription\x1a\xda\x02\n\x11\x44istributionPoint\x12K\n\tfull_name\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12M\n\rrelative_name\x18\x02 \x01(\x0b\x32\x31.autocsr.CertificateSigningRequest.Extension.NameH\x00\x88\x01\x01\x12I\n\x07reasons\x18\x03 \x03(\x0e\x32\x38.autocsr.CertificateSigningRequest.Extension.ReasonFlags\x12L\n\ncrl_issuer\x18\x04 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralNameB\x10\n\x0e_relative_name\x1at\n\x15\x43RLDistributionPoints\x12[\n\x13\x64istribution_points\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.DistributionPoint\x1aj\n\x0b\x46reshestCRL\x12[\n\x13\x64istribution_points\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.DistributionPoint\x1a\x9c\x03\n\x18IssuingDistributionPoint\x12K\n\tfull_name\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12M\n\rrelative_name\x18\x02 \x01(\x0b\x32\x31.autocsr.CertificateSigningRequest.Extension.NameH\x00\x88\x01\x01\x12 \n\x18only_contains_user_certs\x18\x03 \x01(\x08\x12\x1e\n\x16only_contains_ca_certs\x18\x04 \x01(\x08\x12S\n\x11only_some_reasons\x18\x05 \x03(\x0e\x32\x38.autocsr.CertificateSigningRequest.Extension.ReasonFlags\x12\x14\n\x0cindirect_crl\x18\x06 \x01(\x08\x12%\n\x1donly_contains_attribute_certs\x18\x07 \x01(\x08\x42\x10\n\x0e_relative_name\"3\n\rExtensionType\x12\x0f\n\x0bOCSPNoCheck\x10\x00\x12\x11\n\rPrecertPoison\x10\x01\"G\n\x0eTLSFeatureType\x12\n\n\x06unused\x10\x00\x12\x12\n\x0estatus_request\x10\x05\x12\x15\n\x11status_request_v2\x10\x11\"\xe1\x01\n\x0bReasonFlags\x12\x0f\n\x0bunspecified\x10\x00\x12\x12\n\x0ekey_compromise\x10\x01\x12\x11\n\rca_compromise\x10\x02\x12\x17\n\x13\x61\x66\x66iliation_changed\x10\x03\x12\x0e\n\nsuperseded\x10\x04\x12\x1a\n\x16\x63\x65ssation_of_operation\x10\x05\x12\x14\n\x10\x63\x65rtificate_hold\x10\x06\x12\x17\n\x13privilege_withdrawn\x10\x07\x12\x11\n\raa_compromise\x10\x08\x12\x13\n\x0fremove_from_crl\x10\tB\x0b\n\textension\"#\n\x07KeyType\x12\x07\n\x03RSA\x10\x00\x12\x07\n\x03\x44SA\x10\x01\x12\x06\n\x02\x45\x43\x10\x02\"\xa7\x02\n\x05\x43urve\x12\r\n\tSECP256R1\x10\x00\x12\r\n\tSECP384R1\x10\x01\x12\r\n\tSECP521R1\x10\x02\x12\r\n\tSECP192R1\x10\x03\x12\r\n\tSECP256K1\x10\x04\x12\x13\n\x0f\x42rainpoolP256R1\x10\x05\x12\x13\n\x0f\x42rainpoolP384R1\x10\x06\x12\x13\n\x0f\x42rainpoolP512R1\x10\x07\x12\r\n\tSECT571K1\x10\x08\x12\r\n\tSECT409K1\x10\t\x12\r\n\tSECT283K1\x10\n\x12\r\n\tSECT233K1\x10\x0b\x12\r\n\tSECT163K1\x10\x0c\x12\r\n\tSECT571R1\x10\r\x12\r\n\tSECT409R1\x10\x0e\x12\r\n\tSECT283R1\x10\x0f\x12\r\n\tSECT233R1\x10\x10\x12\r\n\tSECT163R2\x10\x11\"\xc8\x01\n\x08HashType\x12\n\n\x06SHA256\x10\x00\x12\n\n\x06SHA224\x10\x01\x12\n\n\x06SHA384\x10\x02\x12\n\n\x06SHA512\x10\x03\x12\x0e\n\nSHA512_224\x10\x04\x12\x0e\n\nSHA512_256\x10\x05\x12\x0b\n\x07\x42LAKE2b\x10\x06\x12\x0b\n\x07\x42LAKE2s\x10\x07\x12\x0c\n\x08SHA3_224\x10\x08\x12\x0c\n\x08SHA3_256\x10\t\x12\x0c\n\x08SHA3_384\x10\n\x12\x0c\n\x08SHA3_512\x10\x0b\x12\x0c\n\x08SHAKE128\x10\x0c\x12\x0c\n\x08SHAKE256\x10\rB\x05\n\x03keyB\x0c\n\n_hash_typeb\x06proto3'
+  serialized_pb=b'\n\tcsr.proto\x12\x07\x61utocsr\"\xd2O\n\x19\x43\x65rtificateSigningRequest\x12;\n\x07subject\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.Subject\x12>\n\x08key_info\x18\x02 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.KeyInfoH\x00\x12>\n\x08hsm_info\x18\x03 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.HsmInfoH\x00\x12\x13\n\x0boutput_path\x18\x04 \x01(\t\x12\x43\n\thash_type\x18\x05 \x01(\x0e\x32+.autocsr.CertificateSigningRequest.HashTypeH\x01\x88\x01\x01\x12@\n\nattributes\x18\x06 \x03(\x0b\x32,.autocsr.CertificateSigningRequest.Attribute\x12@\n\nextensions\x18\x07 \x03(\x0b\x32,.autocsr.CertificateSigningRequest.Extension\x1a\xe0\x02\n\x07Subject\x12\x13\n\x0b\x63ommon_name\x18\x01 \x01(\t\x12\x19\n\x0c\x63ountry_name\x18\x02 \x01(\tH\x00\x88\x01\x01\x12#\n\x16state_or_province_name\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x1a\n\rlocality_name\x18\x04 \x01(\tH\x02\x88\x01\x01\x12\x1e\n\x11organization_name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12%\n\x18organizational_unit_name\x18\x06 \x01(\tH\x04\x88\x01\x01\x12\x1a\n\remail_address\x18\x07 \x01(\tH\x05\x88\x01\x01\x42\x0f\n\r_country_nameB\x19\n\x17_state_or_province_nameB\x10\n\x0e_locality_nameB\x14\n\x12_organization_nameB\x1b\n\x19_organizational_unit_nameB\x10\n\x0e_email_address\x1a\xa9\x02\n\x07KeyInfo\x12\x10\n\x08key_path\x18\x01 \x01(\t\x12\x13\n\x06\x63reate\x18\x02 \x01(\x08H\x00\x88\x01\x01\x12\x41\n\x08key_type\x18\x03 \x01(\x0e\x32*.autocsr.CertificateSigningRequest.KeyTypeH\x01\x88\x01\x01\x12\x15\n\x08key_size\x18\x04 \x01(\x05H\x02\x88\x01\x01\x12\x1c\n\x0fpublic_exponent\x18\x05 \x01(\x05H\x03\x88\x01\x01\x12<\n\x05\x63urve\x18\x06 \x01(\x0e\x32(.autocsr.CertificateSigningRequest.CurveH\x04\x88\x01\x01\x42\t\n\x07_createB\x0b\n\t_key_typeB\x0b\n\t_key_sizeB\x12\n\x10_public_exponentB\x08\n\x06_curve\x1aT\n\x07SoftHsm\x12\x13\n\x0btoken_label\x18\x01 \x01(\t\x12\x11\n\tkey_label\x18\x02 \x01(\t\x12\x10\n\x08user_pin\x18\x03 \x01(\t\x12\x0f\n\x07so_file\x18\x04 \x01(\t\x1a\xab\x02\n\x07HsmInfo\x12=\n\x07softhsm\x18\x01 \x01(\x0b\x32*.autocsr.CertificateSigningRequest.SoftHsmH\x00\x12<\n\x08key_type\x18\x02 \x01(\x0e\x32*.autocsr.CertificateSigningRequest.KeyType\x12\x15\n\x08key_size\x18\x03 \x01(\x05H\x01\x88\x01\x01\x12\x1c\n\x0fpublic_exponent\x18\x04 \x01(\x05H\x02\x88\x01\x01\x12<\n\x05\x63urve\x18\x05 \x01(\x0e\x32(.autocsr.CertificateSigningRequest.CurveH\x03\x88\x01\x01\x42\x05\n\x03hsmB\x0b\n\t_key_sizeB\x12\n\x10_public_exponentB\x08\n\x06_curve\x1a+\n\tAttribute\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\x11\n\tb64_value\x18\x02 \x01(\t\x1a\xaa?\n\tExtension\x12\x10\n\x08\x63ritical\x18\x01 \x01(\x08\x12T\n\x0e\x65xtension_type\x18\x02 \x01(\x0e\x32:.autocsr.CertificateSigningRequest.Extension.ExtensionTypeH\x00\x12L\n\ncrl_number\x18\x03 \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.CRLNumberH\x00\x12\x63\n\x16subject_key_identifier\x18\x04 \x01(\x0b\x32\x41.autocsr.CertificateSigningRequest.Extension.SubjectKeyIdentifierH\x00\x12Z\n\x11\x62\x61sic_constraints\x18\x05 \x01(\x0b\x32=.autocsr.CertificateSigningRequest.Extension.BasicConstraintsH\x00\x12]\n\x13\x64\x65lta_crl_indicator\x18\x06 \x01(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.DeltaCRLIndicatorH\x00\x12\\\n\x12policy_constraints\x18\x07 \x01(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.PolicyConstraintsH\x00\x12`\n\x14\x63\x65rtificate_policies\x18\x08 \x01(\x0b\x32@.autocsr.CertificateSigningRequest.Extension.CertificatePoliciesH\x00\x12[\n\x12\x65xtended_key_usage\x18\t \x01(\x0b\x32=.autocsr.CertificateSigningRequest.Extension.ExtendedKeyUsageH\x00\x12N\n\x0btls_feature\x18\n \x01(\x0b\x32\x37.autocsr.CertificateSigningRequest.Extension.TLSFeatureH\x00\x12[\n\x12inhibit_any_policy\x18\x0b \x01(\x0b\x32=.autocsr.CertificateSigningRequest.Extension.InhibitAnyPolicyH\x00\x12J\n\tkey_usage\x18\x0c \x01(\x0b\x32\x35.autocsr.CertificateSigningRequest.Extension.KeyUsageH\x00\x12L\n\ncrl_reason\x18\r \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.CRLReasonH\x00\x12V\n\x0finvalidity_date\x18\x0e \x01(\x0b\x32;.autocsr.CertificateSigningRequest.Extension.InvalidityDateH\x00\x12\x8c\x01\n,precertificate_signed_certificate_timestamps\x18\x0f \x01(\x0b\x32T.autocsr.CertificateSigningRequest.Extension.PrecertificateSignedCerticateTimestampsH\x00\x12q\n\x1dsigned_certificate_timestamps\x18\x10 \x01(\x0b\x32H.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestampsH\x00\x12L\n\nocsp_nonce\x18\x11 \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.OCSPNonceH\x00\x12g\n\x18\x61uthority_key_identifier\x18\x12 \x01(\x0b\x32\x43.autocsr.CertificateSigningRequest.Extension.AuthorityKeyIdentifierH\x00\x12o\n\x1c\x61uthority_information_access\x18\x13 \x01(\x0b\x32G.autocsr.CertificateSigningRequest.Extension.AuthorityInformationAccessH\x00\x12k\n\x1asubject_information_access\x18\x14 \x01(\x0b\x32\x45.autocsr.CertificateSigningRequest.Extension.SubjectInformationAccessH\x00\x12\x65\n\x17\x63rl_distribution_points\x18\x15 \x01(\x0b\x32\x42.autocsr.CertificateSigningRequest.Extension.CRLDistributionPointsH\x00\x12P\n\x0c\x66reshest_crl\x18\x16 \x01(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.FreshestCRLH\x00\x12X\n\x10name_constraints\x18\x17 \x01(\x0b\x32<.autocsr.CertificateSigningRequest.Extension.NameConstraintsH\x00\x12g\n\x18subject_alternative_name\x18\x18 \x01(\x0b\x32\x43.autocsr.CertificateSigningRequest.Extension.SubjectAlternativeNameH\x00\x12\x65\n\x17issuer_alternative_name\x18\x19 \x01(\x0b\x32\x42.autocsr.CertificateSigningRequest.Extension.IssuerAlternativeNameH\x00\x12\\\n\x12\x63\x65rtificate_issuer\x18\x1a \x01(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.CertificateIssuerH\x00\x12k\n\x1aissuing_distribution_point\x18\x1b \x01(\x0b\x32\x45.autocsr.CertificateSigningRequest.Extension.IssuingDistributionPointH\x00\x1a\x1f\n\tCRLNumber\x12\x12\n\ncrl_number\x18\x01 \x01(\x05\x1a*\n\x14SubjectKeyIdentifier\x12\x12\n\nb64_digest\x18\x01 \x01(\t\x1aH\n\x10\x42\x61sicConstraints\x12\n\n\x02\x63\x61\x18\x01 \x01(\x08\x12\x18\n\x0bpath_length\x18\x02 \x01(\x05H\x00\x88\x01\x01\x42\x0e\n\x0c_path_length\x1a\'\n\x11\x44\x65ltaCRLIndicator\x12\x12\n\ncrl_number\x18\x01 \x01(\x05\x1a\x95\x01\n\x11PolicyConstraints\x12$\n\x17require_explicit_policy\x18\x01 \x01(\x05H\x00\x88\x01\x01\x12#\n\x16inhibit_policy_mapping\x18\x02 \x01(\x05H\x01\x88\x01\x01\x42\x1a\n\x18_require_explicit_policyB\x19\n\x17_inhibit_policy_mapping\x1aU\n\x0fNoticeReference\x12\x19\n\x0corganization\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\x0enotice_numbers\x18\x02 \x03(\x05\x42\x0f\n\r_organization\x1a\xac\x01\n\nUserNotice\x12[\n\x10notice_reference\x18\x01 \x01(\x0b\x32<.autocsr.CertificateSigningRequest.Extension.NoticeReferenceH\x00\x88\x01\x01\x12\x1a\n\rexplicit_text\x18\x02 \x01(\tH\x01\x88\x01\x01\x42\x13\n\x11_notice_referenceB\x10\n\x0e_explicit_text\x1a\x9b\x01\n\x11PolicyInformation\x12\x19\n\x11policy_identifier\x18\x01 \x01(\t\x12\x19\n\x11string_qualifiers\x18\x02 \x03(\t\x12P\n\x0fuser_qualifiers\x18\x03 \x03(\x0b\x32\x37.autocsr.CertificateSigningRequest.Extension.UserNotice\x1ag\n\x13\x43\x65rtificatePolicies\x12P\n\x08policies\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.PolicyInformation\x1a\"\n\x10\x45xtendedKeyUsage\x12\x0e\n\x06usages\x18\x01 \x03(\t\x1a[\n\nTLSFeature\x12M\n\x08\x66\x65\x61tures\x18\x01 \x03(\x0e\x32;.autocsr.CertificateSigningRequest.Extension.TLSFeatureType\x1a&\n\x10InhibitAnyPolicy\x12\x12\n\nskip_certs\x18\x01 \x01(\x05\x1a\xe4\x01\n\x08KeyUsage\x12\x19\n\x11\x64igital_signature\x18\x01 \x01(\x08\x12\x1a\n\x12\x63ontent_commitment\x18\x02 \x01(\x08\x12\x18\n\x10key_encipherment\x18\x03 \x01(\x08\x12\x19\n\x11\x64\x61ta_encipherment\x18\x04 \x01(\x08\x12\x15\n\rkey_agreement\x18\x05 \x01(\x08\x12\x15\n\rkey_cert_sign\x18\x06 \x01(\x08\x12\x10\n\x08\x63rl_sign\x18\x07 \x01(\x08\x12\x15\n\rencipher_only\x18\x08 \x01(\x08\x12\x15\n\rdecipher_only\x18\t \x01(\x08\x1aU\n\tCRLReason\x12H\n\x06reason\x18\x01 \x01(\x0e\x32\x38.autocsr.CertificateSigningRequest.Extension.ReasonFlags\x1a)\n\x0eInvalidityDate\x12\x17\n\x0finvalidity_date\x18\x01 \x01(\t\x1a\xdd\x02\n\x1aSignedCertificateTimestamp\x12`\n\x07version\x18\x01 \x01(\x0e\x32O.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.Version\x12\x12\n\nb64_log_id\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\t\x12h\n\nentry_type\x18\x04 \x01(\x0e\x32T.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp.LogEntryType\"\x11\n\x07Version\x12\x06\n\x02v1\x10\x00\"9\n\x0cLogEntryType\x12\x14\n\x10X509_CERTIFICATE\x10\x00\x12\x13\n\x0fPRE_CERTIFICATE\x10\x01\x1a\x99\x01\n\'PrecertificateSignedCerticateTimestamps\x12n\n\x1dsigned_certificate_timestamps\x18\x01 \x03(\x0b\x32G.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp\x1a\x8d\x01\n\x1bSignedCertificateTimestamps\x12n\n\x1dsigned_certificate_timestamps\x18\x01 \x03(\x0b\x32G.autocsr.CertificateSigningRequest.Extension.SignedCertificateTimestamp\x1a\x1e\n\tOCSPNonce\x12\x11\n\tb64_nonce\x18\x01 \x01(\t\x1a+\n\rNameAttribute\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x1aV\n\x04Name\x12N\n\nattributes\x18\x01 \x03(\x0b\x32:.autocsr.CertificateSigningRequest.Extension.NameAttribute\x1a\x1b\n\nRFC822Name\x12\r\n\x05value\x18\x01 \x01(\t\x1a\x18\n\x07\x44NSName\x12\r\n\x05value\x18\x01 \x01(\t\x1a*\n\x19UniformResourceIdentifier\x12\r\n\x05value\x18\x01 \x01(\t\x1aQ\n\rDirectoryName\x12@\n\x05value\x18\x01 \x01(\x0b\x32\x31.autocsr.CertificateSigningRequest.Extension.Name\x1a\x1b\n\x0cRegisteredID\x12\x0b\n\x03oid\x18\x01 \x01(\t\x1a\x1a\n\tIPAddress\x12\r\n\x05value\x18\x01 \x01(\t\x1a+\n\tOtherName\x12\x0b\n\x03oid\x18\x01 \x01(\t\x12\x11\n\tb64_value\x18\x02 \x01(\t\x1a\xe5\x04\n\x0bGeneralName\x12O\n\x0crfc_822_name\x18\x01 \x01(\x0b\x32\x37.autocsr.CertificateSigningRequest.Extension.RFC822NameH\x00\x12H\n\x08\x64ns_name\x18\x02 \x01(\x0b\x32\x34.autocsr.CertificateSigningRequest.Extension.DNSNameH\x00\x12m\n\x1buniform_resource_identifier\x18\x03 \x01(\x0b\x32\x46.autocsr.CertificateSigningRequest.Extension.UniformResourceIdentifierH\x00\x12T\n\x0e\x64irectory_name\x18\x04 \x01(\x0b\x32:.autocsr.CertificateSigningRequest.Extension.DirectoryNameH\x00\x12R\n\rregistered_id\x18\x05 \x01(\x0b\x32\x39.autocsr.CertificateSigningRequest.Extension.RegisteredIDH\x00\x12L\n\nip_address\x18\x06 \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.IPAddressH\x00\x12L\n\nother_name\x18\x07 \x01(\x0b\x32\x36.autocsr.CertificateSigningRequest.Extension.OtherNameH\x00\x42\x06\n\x04name\x1a\xed\x01\n\x16\x41uthorityKeyIdentifier\x12\x1b\n\x0ekey_identifier\x18\x01 \x01(\tH\x00\x88\x01\x01\x12W\n\x15\x61uthority_cert_issuer\x18\x02 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12)\n\x1c\x61uthority_cert_serial_number\x18\x03 \x01(\x05H\x01\x88\x01\x01\x42\x11\n\x0f_key_identifierB\x1f\n\x1d_authority_cert_serial_number\x1a\xbc\x01\n\x0fNameConstraints\x12T\n\x12permitted_subtrees\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12S\n\x11\x65xcluded_subtrees\x18\x02 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1ai\n\x16SubjectAlternativeName\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1ah\n\x15IssuerAlternativeName\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1a\x64\n\x11\x43\x65rtificateIssuer\x12O\n\rgeneral_names\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1a}\n\x11\x41\x63\x63\x65ssDescription\x12\x15\n\raccess_method\x18\x01 \x01(\t\x12Q\n\x0f\x61\x63\x63\x65ss_location\x18\x02 \x01(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x1ar\n\x1a\x41uthorityInformationAccess\x12T\n\x0c\x64\x65scriptions\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.AccessDescription\x1ap\n\x18SubjectInformationAccess\x12T\n\x0c\x64\x65scriptions\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.AccessDescription\x1a\xda\x02\n\x11\x44istributionPoint\x12K\n\tfull_name\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12M\n\rrelative_name\x18\x02 \x01(\x0b\x32\x31.autocsr.CertificateSigningRequest.Extension.NameH\x00\x88\x01\x01\x12I\n\x07reasons\x18\x03 \x03(\x0e\x32\x38.autocsr.CertificateSigningRequest.Extension.ReasonFlags\x12L\n\ncrl_issuer\x18\x04 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralNameB\x10\n\x0e_relative_name\x1at\n\x15\x43RLDistributionPoints\x12[\n\x13\x64istribution_points\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.DistributionPoint\x1aj\n\x0b\x46reshestCRL\x12[\n\x13\x64istribution_points\x18\x01 \x03(\x0b\x32>.autocsr.CertificateSigningRequest.Extension.DistributionPoint\x1a\x9c\x03\n\x18IssuingDistributionPoint\x12K\n\tfull_name\x18\x01 \x03(\x0b\x32\x38.autocsr.CertificateSigningRequest.Extension.GeneralName\x12M\n\rrelative_name\x18\x02 \x01(\x0b\x32\x31.autocsr.CertificateSigningRequest.Extension.NameH\x00\x88\x01\x01\x12 \n\x18only_contains_user_certs\x18\x03 \x01(\x08\x12\x1e\n\x16only_contains_ca_certs\x18\x04 \x01(\x08\x12S\n\x11only_some_reasons\x18\x05 \x03(\x0e\x32\x38.autocsr.CertificateSigningRequest.Extension.ReasonFlags\x12\x14\n\x0cindirect_crl\x18\x06 \x01(\x08\x12%\n\x1donly_contains_attribute_certs\x18\x07 \x01(\x08\x42\x10\n\x0e_relative_name\"3\n\rExtensionType\x12\x0f\n\x0bOCSPNoCheck\x10\x00\x12\x11\n\rPrecertPoison\x10\x01\"G\n\x0eTLSFeatureType\x12\n\n\x06unused\x10\x00\x12\x12\n\x0estatus_request\x10\x05\x12\x15\n\x11status_request_v2\x10\x11\"\xe1\x01\n\x0bReasonFlags\x12\x0f\n\x0bunspecified\x10\x00\x12\x12\n\x0ekey_compromise\x10\x01\x12\x11\n\rca_compromise\x10\x02\x12\x17\n\x13\x61\x66\x66iliation_changed\x10\x03\x12\x0e\n\nsuperseded\x10\x04\x12\x1a\n\x16\x63\x65ssation_of_operation\x10\x05\x12\x14\n\x10\x63\x65rtificate_hold\x10\x06\x12\x17\n\x13privilege_withdrawn\x10\x07\x12\x11\n\raa_compromise\x10\x08\x12\x13\n\x0fremove_from_crl\x10\tB\x0b\n\textension\"#\n\x07KeyType\x12\x07\n\x03RSA\x10\x00\x12\x07\n\x03\x44SA\x10\x01\x12\x06\n\x02\x45\x43\x10\x02\"\xa7\x02\n\x05\x43urve\x12\r\n\tSECP256R1\x10\x00\x12\r\n\tSECP384R1\x10\x01\x12\r\n\tSECP521R1\x10\x02\x12\r\n\tSECP192R1\x10\x03\x12\r\n\tSECP256K1\x10\x04\x12\x13\n\x0f\x42rainpoolP256R1\x10\x05\x12\x13\n\x0f\x42rainpoolP384R1\x10\x06\x12\x13\n\x0f\x42rainpoolP512R1\x10\x07\x12\r\n\tSECT571K1\x10\x08\x12\r\n\tSECT409K1\x10\t\x12\r\n\tSECT283K1\x10\n\x12\r\n\tSECT233K1\x10\x0b\x12\r\n\tSECT163K1\x10\x0c\x12\r\n\tSECT571R1\x10\r\x12\r\n\tSECT409R1\x10\x0e\x12\r\n\tSECT283R1\x10\x0f\x12\r\n\tSECT233R1\x10\x10\x12\r\n\tSECT163R2\x10\x11\"\xc8\x01\n\x08HashType\x12\n\n\x06SHA256\x10\x00\x12\n\n\x06SHA224\x10\x01\x12\n\n\x06SHA384\x10\x02\x12\n\n\x06SHA512\x10\x03\x12\x0e\n\nSHA512_224\x10\x04\x12\x0e\n\nSHA512_256\x10\x05\x12\x0b\n\x07\x42LAKE2b\x10\x06\x12\x0b\n\x07\x42LAKE2s\x10\x07\x12\x0c\n\x08SHA3_224\x10\x08\x12\x0c\n\x08SHA3_256\x10\t\x12\x0c\n\x08SHA3_384\x10\n\x12\x0c\n\x08SHA3_512\x10\x0b\x12\x0c\n\x08SHAKE128\x10\x0c\x12\x0c\n\x08SHAKE256\x10\rB\x05\n\x03keyB\x0c\n\n_hash_typeb\x06proto3'
 )
 
 
@@ -39,8 +39,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_VERSION = _descr
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=5778,
-  serialized_end=5795,
+  serialized_start=5757,
+  serialized_end=5774,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_VERSION)
 
@@ -64,8 +64,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_LOGENTRYTYPE = _
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=5797,
-  serialized_end=5854,
+  serialized_start=5776,
+  serialized_end=5833,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP_LOGENTRYTYPE)
 
@@ -89,8 +89,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENSIONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=9314,
-  serialized_end=9365,
+  serialized_start=9293,
+  serialized_end=9344,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENSIONTYPE)
 
@@ -119,8 +119,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURETYPE = _descriptor.EnumDescriptor
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=9367,
-  serialized_end=9438,
+  serialized_start=9346,
+  serialized_end=9417,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURETYPE)
 
@@ -184,8 +184,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_REASONFLAGS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=9441,
-  serialized_end=9666,
+  serialized_start=9420,
+  serialized_end=9645,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_EXTENSION_REASONFLAGS)
 
@@ -214,8 +214,8 @@ _CERTIFICATESIGNINGREQUEST_KEYTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=9681,
-  serialized_end=9716,
+  serialized_start=9660,
+  serialized_end=9695,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_KEYTYPE)
 
@@ -319,8 +319,8 @@ _CERTIFICATESIGNINGREQUEST_CURVE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=9719,
-  serialized_end=10014,
+  serialized_start=9698,
+  serialized_end=9993,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_CURVE)
 
@@ -404,8 +404,8 @@ _CERTIFICATESIGNINGREQUEST_HASHTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=10017,
-  serialized_end=10217,
+  serialized_start=9996,
+  serialized_end=10196,
 )
 _sym_db.RegisterEnumDescriptor(_CERTIFICATESIGNINGREQUEST_HASHTYPE)
 
@@ -613,36 +613,29 @@ _CERTIFICATESIGNINGREQUEST_SOFTHSM = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='slot_number', full_name='autocsr.CertificateSigningRequest.SoftHsm.slot_number', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      name='token_label', full_name='autocsr.CertificateSigningRequest.SoftHsm.token_label', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='token_label', full_name='autocsr.CertificateSigningRequest.SoftHsm.token_label', index=1,
+      name='key_label', full_name='autocsr.CertificateSigningRequest.SoftHsm.key_label', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='key_label', full_name='autocsr.CertificateSigningRequest.SoftHsm.key_label', index=2,
+      name='user_pin', full_name='autocsr.CertificateSigningRequest.SoftHsm.user_pin', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='user_pin', full_name='autocsr.CertificateSigningRequest.SoftHsm.user_pin', index=3,
+      name='so_file', full_name='autocsr.CertificateSigningRequest.SoftHsm.so_file', index=3,
       number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='so_file', full_name='autocsr.CertificateSigningRequest.SoftHsm.so_file', index=4,
-      number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -660,7 +653,7 @@ _CERTIFICATESIGNINGREQUEST_SOFTHSM = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1118,
-  serialized_end=1223,
+  serialized_end=1202,
 )
 
 _CERTIFICATESIGNINGREQUEST_HSMINFO = _descriptor.Descriptor(
@@ -738,8 +731,8 @@ _CERTIFICATESIGNINGREQUEST_HSMINFO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1226,
-  serialized_end=1525,
+  serialized_start=1205,
+  serialized_end=1504,
 )
 
 _CERTIFICATESIGNINGREQUEST_ATTRIBUTE = _descriptor.Descriptor(
@@ -776,8 +769,8 @@ _CERTIFICATESIGNINGREQUEST_ATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1527,
-  serialized_end=1570,
+  serialized_start=1506,
+  serialized_end=1549,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLNUMBER = _descriptor.Descriptor(
@@ -807,8 +800,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLNUMBER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4105,
-  serialized_end=4136,
+  serialized_start=4084,
+  serialized_end=4115,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTKEYIDENTIFIER = _descriptor.Descriptor(
@@ -838,8 +831,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTKEYIDENTIFIER = _descriptor.Descript
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4138,
-  serialized_end=4180,
+  serialized_start=4117,
+  serialized_end=4159,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS = _descriptor.Descriptor(
@@ -881,8 +874,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_BASICCONSTRAINTS = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=4182,
-  serialized_end=4254,
+  serialized_start=4161,
+  serialized_end=4233,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_DELTACRLINDICATOR = _descriptor.Descriptor(
@@ -912,8 +905,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_DELTACRLINDICATOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4256,
-  serialized_end=4295,
+  serialized_start=4235,
+  serialized_end=4274,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS = _descriptor.Descriptor(
@@ -960,8 +953,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYCONSTRAINTS = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=4298,
-  serialized_end=4447,
+  serialized_start=4277,
+  serialized_end=4426,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_NOTICEREFERENCE = _descriptor.Descriptor(
@@ -1003,8 +996,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_NOTICEREFERENCE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=4449,
-  serialized_end=4534,
+  serialized_start=4428,
+  serialized_end=4513,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_USERNOTICE = _descriptor.Descriptor(
@@ -1051,8 +1044,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_USERNOTICE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=4537,
-  serialized_end=4709,
+  serialized_start=4516,
+  serialized_end=4688,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYINFORMATION = _descriptor.Descriptor(
@@ -1096,8 +1089,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_POLICYINFORMATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4712,
-  serialized_end=4867,
+  serialized_start=4691,
+  serialized_end=4846,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES = _descriptor.Descriptor(
@@ -1127,8 +1120,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEPOLICIES = _descriptor.Descripto
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4869,
-  serialized_end=4972,
+  serialized_start=4848,
+  serialized_end=4951,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENDEDKEYUSAGE = _descriptor.Descriptor(
@@ -1158,8 +1151,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_EXTENDEDKEYUSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4974,
-  serialized_end=5008,
+  serialized_start=4953,
+  serialized_end=4987,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE = _descriptor.Descriptor(
@@ -1189,8 +1182,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_TLSFEATURE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5010,
-  serialized_end=5101,
+  serialized_start=4989,
+  serialized_end=5080,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_INHIBITANYPOLICY = _descriptor.Descriptor(
@@ -1220,8 +1213,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_INHIBITANYPOLICY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5103,
-  serialized_end=5141,
+  serialized_start=5082,
+  serialized_end=5120,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_KEYUSAGE = _descriptor.Descriptor(
@@ -1307,8 +1300,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_KEYUSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5144,
-  serialized_end=5372,
+  serialized_start=5123,
+  serialized_end=5351,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLREASON = _descriptor.Descriptor(
@@ -1338,8 +1331,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLREASON = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5374,
-  serialized_end=5459,
+  serialized_start=5353,
+  serialized_end=5438,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_INVALIDITYDATE = _descriptor.Descriptor(
@@ -1369,8 +1362,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_INVALIDITYDATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5461,
-  serialized_end=5502,
+  serialized_start=5440,
+  serialized_end=5481,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP = _descriptor.Descriptor(
@@ -1423,8 +1416,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMP = _descriptor.De
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5505,
-  serialized_end=5854,
+  serialized_start=5484,
+  serialized_end=5833,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_PRECERTIFICATESIGNEDCERTICATETIMESTAMPS = _descriptor.Descriptor(
@@ -1454,8 +1447,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_PRECERTIFICATESIGNEDCERTICATETIMESTAMPS = _
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5857,
-  serialized_end=6010,
+  serialized_start=5836,
+  serialized_end=5989,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMPS = _descriptor.Descriptor(
@@ -1485,8 +1478,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_SIGNEDCERTIFICATETIMESTAMPS = _descriptor.D
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6013,
-  serialized_end=6154,
+  serialized_start=5992,
+  serialized_end=6133,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_OCSPNONCE = _descriptor.Descriptor(
@@ -1516,8 +1509,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_OCSPNONCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6156,
-  serialized_end=6186,
+  serialized_start=6135,
+  serialized_end=6165,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_NAMEATTRIBUTE = _descriptor.Descriptor(
@@ -1554,8 +1547,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_NAMEATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6188,
-  serialized_end=6231,
+  serialized_start=6167,
+  serialized_end=6210,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_NAME = _descriptor.Descriptor(
@@ -1585,8 +1578,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_NAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6233,
-  serialized_end=6319,
+  serialized_start=6212,
+  serialized_end=6298,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_RFC822NAME = _descriptor.Descriptor(
@@ -1616,8 +1609,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_RFC822NAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6321,
-  serialized_end=6348,
+  serialized_start=6300,
+  serialized_end=6327,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_DNSNAME = _descriptor.Descriptor(
@@ -1647,8 +1640,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_DNSNAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6350,
-  serialized_end=6374,
+  serialized_start=6329,
+  serialized_end=6353,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_UNIFORMRESOURCEIDENTIFIER = _descriptor.Descriptor(
@@ -1678,8 +1671,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_UNIFORMRESOURCEIDENTIFIER = _descriptor.Des
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6376,
-  serialized_end=6418,
+  serialized_start=6355,
+  serialized_end=6397,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_DIRECTORYNAME = _descriptor.Descriptor(
@@ -1709,8 +1702,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_DIRECTORYNAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6420,
-  serialized_end=6501,
+  serialized_start=6399,
+  serialized_end=6480,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_REGISTEREDID = _descriptor.Descriptor(
@@ -1740,8 +1733,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_REGISTEREDID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6503,
-  serialized_end=6530,
+  serialized_start=6482,
+  serialized_end=6509,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_IPADDRESS = _descriptor.Descriptor(
@@ -1771,8 +1764,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_IPADDRESS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6532,
-  serialized_end=6558,
+  serialized_start=6511,
+  serialized_end=6537,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_OTHERNAME = _descriptor.Descriptor(
@@ -1809,8 +1802,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_OTHERNAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6560,
-  serialized_end=6603,
+  serialized_start=6539,
+  serialized_end=6582,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME = _descriptor.Descriptor(
@@ -1887,8 +1880,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_GENERALNAME = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=6606,
-  serialized_end=7219,
+  serialized_start=6585,
+  serialized_end=7198,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER = _descriptor.Descriptor(
@@ -1942,8 +1935,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYKEYIDENTIFIER = _descriptor.Descri
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=7222,
-  serialized_end=7459,
+  serialized_start=7201,
+  serialized_end=7438,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_NAMECONSTRAINTS = _descriptor.Descriptor(
@@ -1980,8 +1973,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_NAMECONSTRAINTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7462,
-  serialized_end=7650,
+  serialized_start=7441,
+  serialized_end=7629,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTALTERNATIVENAME = _descriptor.Descriptor(
@@ -2011,8 +2004,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTALTERNATIVENAME = _descriptor.Descri
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7652,
-  serialized_end=7757,
+  serialized_start=7631,
+  serialized_end=7736,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUERALTERNATIVENAME = _descriptor.Descriptor(
@@ -2042,8 +2035,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUERALTERNATIVENAME = _descriptor.Descrip
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7759,
-  serialized_end=7863,
+  serialized_start=7738,
+  serialized_end=7842,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEISSUER = _descriptor.Descriptor(
@@ -2073,8 +2066,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_CERTIFICATEISSUER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7865,
-  serialized_end=7965,
+  serialized_start=7844,
+  serialized_end=7944,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_ACCESSDESCRIPTION = _descriptor.Descriptor(
@@ -2111,8 +2104,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_ACCESSDESCRIPTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7967,
-  serialized_end=8092,
+  serialized_start=7946,
+  serialized_end=8071,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYINFORMATIONACCESS = _descriptor.Descriptor(
@@ -2142,8 +2135,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_AUTHORITYINFORMATIONACCESS = _descriptor.De
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=8094,
-  serialized_end=8208,
+  serialized_start=8073,
+  serialized_end=8187,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTINFORMATIONACCESS = _descriptor.Descriptor(
@@ -2173,8 +2166,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_SUBJECTINFORMATIONACCESS = _descriptor.Desc
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=8210,
-  serialized_end=8322,
+  serialized_start=8189,
+  serialized_end=8301,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_DISTRIBUTIONPOINT = _descriptor.Descriptor(
@@ -2230,8 +2223,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_DISTRIBUTIONPOINT = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=8325,
-  serialized_end=8671,
+  serialized_start=8304,
+  serialized_end=8650,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLDISTRIBUTIONPOINTS = _descriptor.Descriptor(
@@ -2261,8 +2254,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_CRLDISTRIBUTIONPOINTS = _descriptor.Descrip
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=8673,
-  serialized_end=8789,
+  serialized_start=8652,
+  serialized_end=8768,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_FRESHESTCRL = _descriptor.Descriptor(
@@ -2292,8 +2285,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_FRESHESTCRL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=8791,
-  serialized_end=8897,
+  serialized_start=8770,
+  serialized_end=8876,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT = _descriptor.Descriptor(
@@ -2370,8 +2363,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION_ISSUINGDISTRIBUTIONPOINT = _descriptor.Desc
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=8900,
-  serialized_end=9312,
+  serialized_start=8879,
+  serialized_end=9291,
 )
 
 _CERTIFICATESIGNINGREQUEST_EXTENSION = _descriptor.Descriptor(
@@ -2591,8 +2584,8 @@ _CERTIFICATESIGNINGREQUEST_EXTENSION = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1573,
-  serialized_end=9679,
+  serialized_start=1552,
+  serialized_end=9658,
 )
 
 _CERTIFICATESIGNINGREQUEST = _descriptor.Descriptor(
@@ -2678,7 +2671,7 @@ _CERTIFICATESIGNINGREQUEST = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=23,
-  serialized_end=10238,
+  serialized_end=10217,
 )
 
 _CERTIFICATESIGNINGREQUEST_SUBJECT.containing_type = _CERTIFICATESIGNINGREQUEST

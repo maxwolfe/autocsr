@@ -1,17 +1,17 @@
-from ubuntu:20.04
+FROM ubuntu:20.04
 
-run apt-get update
-run apt-get install -y softhsm2 python3 python3-pip gnutls-bin git vim curl
+RUN apt-get update
+RUN apt-get install -y softhsm2 python3 python3-pip gnutls-bin git vim
 
-copy . /app
-workdir /app
+COPY . /app
+WORKDIR /app
 
-run pip3 install poetry
-run poetry install
-run softhsm2-util --init-token --slot 0 --label "token" --so-pin 1234 --pin 1234 
-run poetry run pytest
-run poetry run python create_key.py
+RUN pip3 install poetry
+RUN poetry install
+RUN softhsm2-util --init-token --slot 0 --label "token" --so-pin 1234 --pin 1234
+RUN poetry run pytest
+RUN poetry run python create_key.py
 
-entrypoint ["/bin/sh"]
+ENTRYPOINT ["python3"]
 
-cmd ["python3"]
+CMD ["autocsr/tests/functional/functional_tests.py"]
