@@ -1,16 +1,15 @@
-"""
-Unit tests for CSR creation objects
-"""
+"""Unit tests for CSR creation objects."""
 
 from base64 import b64decode
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
+from unittest.mock import patch
 
 from cryptography import x509
 from cryptography.hazmat.backends.openssl.backend import Backend
 from cryptography.hazmat.backends.openssl.x509 import _CertificateSigningRequest
 from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import dsa, ec, rsa
+from cryptography.hazmat.primitives.asymmetric import dsa, ec, padding, rsa
 
 import autocsr.protos.csr_pb2 as protos
 from autocsr.csr import (
@@ -27,12 +26,12 @@ from autocsr.utils import load_csr
 
 HashType = protos.CertificateSigningRequest.HashType
 KeyType = protos.CertificateSigningRequest.KeyType
+SoftHsm = protos.CertificateSigningRequest.SoftHsm
+HsmInfo = protos.CertificateSigningRequest.HsmInfo
 
 
 class TestAttribute(TestCase):
-    """
-    Test creation of Attributes
-    """
+    """Test creation of Attributes."""
 
     subject_fields = [
         "common_name",
@@ -54,10 +53,7 @@ class TestAttribute(TestCase):
     }
 
     def validate_attribute(self, attribute: Attribute):
-        """
-        Helper function for validating an attribute
-        """
-
+        """Validate an attribute."""
         self.assertIsInstance(
             attribute,
             x509.NameAttribute,
@@ -65,10 +61,7 @@ class TestAttribute(TestCase):
         )
 
     def test_from_field(self):
-        """
-        Test creation of an x509 attribute from a field and value
-        """
-
+        """Test creation of an x509 attribute from a field and value."""
         for field in self.subject_fields:
             value = self.subject_dict.get(field)
             attribute = Attribute.from_field(field, value)
@@ -77,17 +70,16 @@ class TestAttribute(TestCase):
 
 
 class TestSubject(TestCase):
-    """
-    Test creation of Subject object
-    """
+    """Test creation of Subject object."""
 
     config = {
         "subject": TestAttribute.subject_dict,
         "key_info": {
-            "key_path": "./fixtures/creat_test.key",
+            "key_path": "/tmp/create_test.key",
+            "create": True,
         },
         "output_path": "./fixtures/test.csr",
-        "hash_type": "SHA512",
+        "hash_type": "SHA256",
         "attributes": [
             {"oid": "2.5.29.17", "b64_value": "dGVzdA=="},
             {"oid": "issuerAltName", "b64_value": "aGk="},
@@ -101,13 +93,11 @@ class TestSubject(TestCase):
     }
 
     def setUp(self):
+        """Set up for a Subject."""
         self.proto = load_csr(self.config)
 
     def validate_subject(self, subject: Subject):
-        """
-        A helper function for validating an x509 Name
-        """
-
+        """Validate an x509 Name."""
         self.assertIsInstance(
             subject,
             x509.Name,
@@ -115,21 +105,17 @@ class TestSubject(TestCase):
         )
 
     def test_from_subject(self):
-        """
-        Test creation of an x509.Name from a config file
-        """
-
+        """Test creation of an x509.Name from a config file."""
         subject = Subject.from_subject(self.proto.subject)
 
         self.validate_subject(subject)
 
 
 class TestSigningKey(TestCase):
-    """
-    Tests for creating a Signing Key from a config file
-    """
+    """Tests for creating a Signing Key from a config file."""
 
     def setUp(self):
+        """Set up a SigningKey."""
         self.proto = protos.CertificateSigningRequest()
 
         self.rsa_key_path = NamedTemporaryFile().name
@@ -167,10 +153,7 @@ class TestSigningKey(TestCase):
 
     @staticmethod
     def create_rsa_key():
-        """
-        Helper function for generating RSA keys
-        """
-
+        """Generate RSA keys."""
         return rsa.generate_private_key(
             public_exponent=65537,
             key_size=2048,
@@ -178,10 +161,7 @@ class TestSigningKey(TestCase):
 
     @staticmethod
     def write_key(key_path: str, private_key: PrivateKey):
-        """
-        A helper function for writing a private key to a temporary file
-        """
-
+        """Write a private key to a temporary file."""
         with open(key_path, "wb") as key_file:
             key_file.write(
                 private_key.private_bytes(
@@ -197,10 +177,7 @@ class TestSigningKey(TestCase):
         key: PrivateKey,
         hash_type: HashType,
     ):
-        """
-        A helper function for validating signing key objects
-        """
-
+        """Validate signing key objects."""
         self.assertIsInstance(
             signing_key.private_key,
             type(key),
@@ -218,10 +195,7 @@ class TestSigningKey(TestCase):
         )
 
     def test_create_key(self):
-        """
-        Test correct key creation for signing keys when key_info create=True
-        """
-
+        """Test correct key creation for signing keys."""
         self.proto.key_info.create = True
 
         for hash_type in self.approved_hashes:
@@ -252,11 +226,45 @@ class TestSigningKey(TestCase):
             )
             self.validate_signing_key(ec_signing_key, ec_private_key, hash_type)
 
-    def test_from_key_info(self):
-        """
-        Test the creation of a SigningKey from key info
-        """
+    def test_from_hsm_info(self):
+        """Test the creation of a dummy SigningKey from hsm info."""
+        softhsm = SoftHsm()
+        softhsm.token_label = "test_token_label"
+        softhsm.key_label = "test_key_label"
+        softhsm.user_pin = "test_user_pin"
+        softhsm.so_file = "test_so_file"
 
+        hsm_info = HsmInfo()
+        hsm_info.softhsm.CopyFrom(softhsm)
+
+        hash_type = HashType.SHA256
+
+        hsm_info.key_type = KeyType.RSA
+        dummy_rsa_key = SigningKey.from_hsm_info(hsm_info, hash_type)
+        self.assertIsInstance(
+            dummy_rsa_key.private_key,
+            rsa.RSAPrivateKey,
+            "Dummy key should be an RSA Key",
+        )
+
+        hsm_info.key_type = KeyType.DSA
+        dummy_dsa_key = SigningKey.from_hsm_info(hsm_info, hash_type)
+        self.assertIsInstance(
+            dummy_dsa_key.private_key,
+            dsa.DSAPrivateKey,
+            "Dummy key should be a DSA Key",
+        )
+
+        hsm_info.key_type = KeyType.EC
+        dummy_ec_key = SigningKey.from_hsm_info(hsm_info, hash_type)
+        self.assertIsInstance(
+            dummy_ec_key.private_key,
+            ec.EllipticCurvePrivateKey,
+            "Dummy key should be an EC Key",
+        )
+
+    def test_from_key_info(self):
+        """Test the creation of a SigningKey from key info."""
         for hash_type in self.approved_hashes:
             self.proto.key_info.key_path = self.rsa_key_path
             rsa_signing_key = SigningKey.from_key_info(self.proto.key_info, hash_type)
@@ -272,10 +280,7 @@ class TestSigningKey(TestCase):
             self.validate_signing_key(ec_signing_key, self.ec_private_key, hash_type)
 
     def test_from_path(self):
-        """
-        Test the creation of a SigningKey from a key file
-        """
-
+        """Test the creation of a SigningKey from a key file."""
         for hash_type in self.approved_hashes:
             rsa_signing_key = SigningKey.from_path(self.rsa_key_path, hash_type)
             dsa_signing_key = SigningKey.from_path(self.dsa_key_path, hash_type)
@@ -287,22 +292,34 @@ class TestSigningKey(TestCase):
 
 
 class TestCertificateSigningRequest(TestCase):
-    """
-    Tests for x509 CertificateSigningRequest wrapper
-    """
+    """Tests for x509 CertificateSigningRequest wrapper."""
 
     def setUp(self):
+        """Set up a CertificateSigningRequest."""
         proto = load_csr(TestSubject.config)
-        proto.key_info.key_path = self.create_rsa_key_file()
         proto.output_path = NamedTemporaryFile().name
 
-        self.csr = CertificateSigningRequestBuilder.from_csr(proto)
+        proto.key_info.key_type = KeyType.RSA
+        self.rsa_csr = CertificateSigningRequestBuilder.from_csr(proto)
+        self.rsa_private_key = rsa.generate_private_key(
+            public_exponent=65537, key_size=2048
+        )
+
+        proto.key_info.key_type = KeyType.DSA
+        self.dsa_csr = CertificateSigningRequestBuilder.from_csr(proto)
+        self.dsa_private_key = dsa.generate_private_key(
+            key_size=2048,
+        )
+
+        proto.key_info.key_type = KeyType.EC
+        self.ec_csr = CertificateSigningRequestBuilder.from_csr(proto)
+        self.ec_private_key = ec.generate_private_key(
+            ec.SECP256R1(),
+        )
 
     @staticmethod
     def create_rsa_key_file():
-        """
-        Helper function for creating RSA key files
-        """
+        """Create RSA key files."""
         key_path = NamedTemporaryFile().name
         private_key = TestSigningKey.create_rsa_key()
         TestSigningKey.write_key(key_path, private_key)
@@ -310,43 +327,120 @@ class TestCertificateSigningRequest(TestCase):
         return key_path
 
     def test_valid_csr(self):
-        """
-        Test that a Certificate Signing Request implements base functions
-        """
-
-        self.assertIsInstance(self.csr, _CertificateSigningRequest)
+        """Test that a Certificate Signing Request implements base class."""
+        self.assertIsInstance(self.rsa_csr, _CertificateSigningRequest)
 
         for attribute in TestSubject.config["attributes"]:
             self.assertEqual(
-                self.csr.get_attribute_for_oid(
+                self.rsa_csr.get_attribute_for_oid(
                     ObjectIdentifier.from_string(attribute["oid"])
                 ),
                 b64decode(attribute["b64_value"].encode()),
                 "Attributes should match config flie",
             )
 
-    def test_export(self):
-        """
-        Test exporting of a certificate signing request
-        """
+    def test_set_pubkey(self):
+        """Test updating a public key in a CSR."""
+        self.assertTrue(self.rsa_csr.is_signature_valid, "CSR should be valid")
+        self.rsa_csr.set_pubkey(self.rsa_private_key.public_key())
+        self.assertFalse(
+            self.rsa_csr.is_signature_valid,
+            "CSR should no longer be valid after public key swap",
+        )
+        self.assertEqual(
+            self.rsa_csr.public_key().public_numbers(),
+            self.rsa_private_key.public_key().public_numbers(),
+            "Public key of swapped key should match key in CSR",
+        )
 
+        self.assertTrue(self.dsa_csr.is_signature_valid, "CSR should be valid")
+        self.dsa_csr.set_pubkey(self.dsa_private_key.public_key())
+        self.assertFalse(
+            self.dsa_csr.is_signature_valid,
+            "CSR should no longer be valid after public key swap",
+        )
+        self.assertEqual(
+            self.dsa_csr.public_key().public_numbers(),
+            self.dsa_private_key.public_key().public_numbers(),
+            "Public key of swapped key should match key in CSR",
+        )
+
+        self.assertTrue(self.ec_csr.is_signature_valid, "CSR should be valid")
+        self.ec_csr.set_pubkey(self.ec_private_key.public_key())
+        self.assertFalse(
+            self.ec_csr.is_signature_valid,
+            "CSR should no longer be valid after public key swap",
+        )
+        self.assertEqual(
+            self.ec_csr.public_key().public_numbers(),
+            self.ec_private_key.public_key().public_numbers(),
+            "Public key of swapped key should match key in CSR",
+        )
+
+    def test_set_signature(self):
+        """Test updating a signature in a CSR."""
+        message = b"test"
+
+        rsa_signature = self.rsa_private_key.sign(
+            message, padding.PKCS1v15(), hashes.SHA256()
+        )
+        dsa_signature = self.dsa_private_key.sign(message, hashes.SHA256())
+        ec_signature = self.ec_private_key.sign(message, ec.ECDSA(hashes.SHA256()))
+
+        self.assertTrue(self.rsa_csr.is_signature_valid, "CSR should be valid")
+        self.rsa_csr.set_signature(rsa_signature)
+        self.assertFalse(
+            self.rsa_csr.is_signature_valid,
+            "CSR should no longer be valid after signature swap",
+        )
+        self.assertEqual(
+            self.rsa_csr.signature,
+            rsa_signature,
+            "Signature of CSR should match swapped signature",
+        )
+
+        self.assertTrue(self.dsa_csr.is_signature_valid, "CSR should be valid")
+        self.dsa_csr.set_signature(dsa_signature)
+        self.assertFalse(
+            self.dsa_csr.is_signature_valid,
+            "CSR should no longer be valid after signature swap",
+        )
+        self.assertEqual(
+            self.dsa_csr.signature,
+            dsa_signature,
+            "Signature of CSR should match swapped signature",
+        )
+
+        self.assertTrue(self.ec_csr.is_signature_valid, "CSR should be valid")
+        self.ec_csr.set_signature(ec_signature)
+        self.assertFalse(
+            self.ec_csr.is_signature_valid,
+            "CSR should no longer be valid after signature swap",
+        )
+        self.assertEqual(
+            self.ec_csr.signature,
+            ec_signature,
+            "Signature of CSR should match swapped signature",
+        )
+
+    def test_export(self):
+        """Test exporting of a certificate signing request."""
         out_file = NamedTemporaryFile().name
-        self.csr.export(out_file)
+        self.rsa_csr.export(out_file)
 
         with open(out_file, "rb") as csr_file:
             self.assertEqual(
                 csr_file.read(),
-                self.csr.public_bytes(serialization.Encoding.PEM),
+                self.rsa_csr.public_bytes(serialization.Encoding.PEM),
                 "Exported value should match PEM encoding",
             )
 
 
 class TestMyBackend(TestCase):
-    """
-    Tests for x509 SSL Backend wrapper
-    """
+    """Tests for x509 SSL Backend wrapper."""
 
     def setUp(self):
+        """Set up a backend."""
         csr = load_csr(TestSubject.config)
         csr.key_info.key_path = TestCertificateSigningRequest.create_rsa_key_file()
 
@@ -358,9 +452,11 @@ class TestMyBackend(TestCase):
 
     def test_create_x509_csr(self):
         """
-        Test create x509 csr results in an instance of CertificateSigningRequest wrapper
-        """
+        Test create x509 csr.
 
+        Test create x509 csr results in an instance of
+        CertificateSigningRequest wrapper.
+        """
         csr = self.backend.create_x509_csr(
             builder=self.builder,
             private_key=self.signing_key.private_key,
@@ -378,19 +474,69 @@ class TestMyBackend(TestCase):
 
 
 class TestCertificateSigningRequestBuilder(TestCase):
-    """
-    Tests for building Certificate Signing Requests from a config file
-    """
+    """Tests for building Certificate Signing Requests from a config file."""
+
+    def setUp(self):
+        """Set up CertificateSigningRequestBuilder."""
+        self.proto = load_csr(TestSubject.config)
+        self.proto.key_info.key_path = (
+            TestCertificateSigningRequest.create_rsa_key_file()
+        )
+        self.builder = x509.CertificateSigningRequestBuilder()
+        self.builder = self.builder.subject_name(
+            Subject.from_subject(self.proto.subject)
+        )
 
     def test_from_csr(self):
-        """
-        Test creation of a Certificate Signing Request from config
-        """
+        """Test creation of a Certificate Signing Request from config."""
+        csr = CertificateSigningRequestBuilder.from_csr(self.proto)
 
-        proto = load_csr(TestSubject.config)
-        proto.key_info.key_path = TestCertificateSigningRequest.create_rsa_key_file()
+        self.assertIsInstance(
+            csr,
+            CertificateSigningRequest,
+            "Builder should create wrapped CertificateSigningRequests",
+        )
 
-        csr = CertificateSigningRequestBuilder.from_csr(proto)
+    def test_sign_with_key_info(self):
+        """Test signing from key info proto."""
+        csr = CertificateSigningRequestBuilder.sign_with_key_info(
+            self.proto, self.builder
+        )
+
+        self.assertIsInstance(
+            csr,
+            CertificateSigningRequest,
+            "Builder should create wrapped CertificateSigningRequests",
+        )
+
+    @patch.object(CertificateSigningRequest, "set_signature")
+    @patch.object(CertificateSigningRequest, "set_pubkey")
+    @patch("autocsr.hsm.HsmFactory")
+    def test_sign_with_hsm_info(
+        self,
+        mock_hsm_factory,
+        mock_set_pubkey,
+        mock_set_signature,
+    ):
+        """Test signing from hsm info proto."""
+        softhsm = SoftHsm()
+        softhsm.token_label = "test_token_label"
+        softhsm.key_label = "test_key_label"
+        softhsm.user_pin = "test_user_pin"
+        softhsm.so_file = "test_so_file"
+
+        hsm_info = HsmInfo()
+        hsm_info.softhsm.CopyFrom(softhsm)
+        hsm_info.key_type = KeyType.RSA
+
+        self.proto.hsm_info.CopyFrom(hsm_info)
+
+        csr = CertificateSigningRequestBuilder.sign_with_hsm_info(
+            self.proto, self.builder
+        )
+
+        mock_set_pubkey.assert_called_once()
+        mock_set_signature.assert_called_once()
 
         self.assertIsInstance(
             csr,
