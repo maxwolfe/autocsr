@@ -18,8 +18,8 @@ before_deploy:
   - poetry config pypi-token.pypi $PYPI_TOKEN
 deploy:
   provider: script
-  script: poetry publish
-  skip_cleanup: true
   skip_existing: true
+  skip_cleanup: true
+  script: poetry publish
   on:
     tags: true
