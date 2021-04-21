@@ -1,0 +1,12 @@
+language: python
+python:
+  - 3.7
+  - 3.8
+  - 3.9
+before_install:
+  - pip install poetry
+install:
+  - poetry install
+script:
+  - poetry run flake8 autocsr test
+  - poetry run pytest
