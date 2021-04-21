@@ -8,5 +8,5 @@ before_install:
 install:
   - poetry install
 script:
-  - poetry run flake8 autocsr test
-  - poetry run pytest
+  - poetry run flake8 autocsr tests
+  - poetry run pytest tests
