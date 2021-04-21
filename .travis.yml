@@ -1,8 +1,6 @@
 language: python
 python:
   - 3.7
-  - 3.8
-  - 3.9
 env:
   global:
   - secure: XOeEf27Sx/bPqK7Bj0QmLC5XXXfmyjFvO/7mvCpKYWvEOZ4tOQOP0uvBEkedB3E2iuaoSuhC7gfnxSyM/TXTMmrQx5sNqUidAsfXVGg90OZs6MwfaqiVImHs5xdztlQWs4wPx9sDll+JygF12r9ZmDaDkIE9rcALZeCdCN4AY9GSEI4uF06UIqyhgecWO6P/r8BvUUjG+kDd9axbjxPaWKjyA5G/nQnxZ4s89XWeQqmGMBwNJYP6tBscriyj6YG8QH+5gPbiqrk6xO1/RZKR54huwtphzVFvA7311V3DKyQnp6twHrohxq+DDcZGDt3TzcHTU73EgUtmbtLsHtG+QCkIdpAMpp7XyVAos3O2tmceBUtLfcjVD36ZvCIV69v9CBI5v0HZqYVDYxt45+oPWOBs8X5S6p2Qi35+KkNfzYTKL8XXVZNjgTxD27YkkPwPArDSKRNOOCGGrrcGJykDaSKfKRPxb6DK7I99bdL9cnXRPMrEigndxJ6OtjSwRA05kljNIiRAuqY6rhIbjUYhzLGTjqxci+avcTUiYhQUz+Lf2ES4fDNrPs960bEoEveUYoMTL8PuQTrrqU1qhMwrNs/1FdGNCkPbIfQ50t3wHlYfmYrxdgPApyjNlD3pzEvig6X6WmizBpj/bthDRNwgw0xf7OQqeZ6RNI2e3VYSvXg=
@@ -18,8 +16,7 @@ before_deploy:
   - poetry config pypi-token.pypi $PYPI_TOKEN
 deploy:
   provider: script
-  skip_existing: true
-  skip_cleanup: true
   script: poetry publish
+  skip_cleanup: true
   on:
     tags: true
