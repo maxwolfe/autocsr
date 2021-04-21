@@ -1,0 +1,8 @@
+# quick_csr.jinja2
+{{ NAME }}'s First CSR:
+  subject:
+    common_name: {{ NAME }}'s first AutoCSR
+  key_info:
+    key_path: /tmp/{{ NAME }}s_first_key.key
+    create: True
+  output_path: /tmp/{{ NAME }}s_first_autocsr.csr

@@ -1,0 +1,30 @@
+# extension_example.yaml
+My CSR with Extensions:
+  subject:
+    common_name: Some Common Extensions for CSRs
+  key_info:
+    key_path: /tmp/my_extension_example.key
+    create: True
+  output_path: /tmp/my_extension_autocsr.csr
+  extensions:
+    - critical: True
+      extension_type: OCSPNoCheck
+    - critical: True
+      subject_key_identifier:
+        b64_digest: TXkgRXhhbXBsZSBTdWJqZWN0IEtleSBJZGVudGlmaWVy
+    - critical: False
+      extended_key_usage:
+        usages:
+          - "serverAuth"
+          - "1.2.3.4.5"
+    - critical: True
+      key_usage:
+        digital_signature: True
+        content_commitment: False
+        key_encipherment: True
+        data_encipherment: False
+        key_agreement: True
+        key_cert_sign: False
+        crl_sign: True
+        encipher_only: False
+        decipher_only: True

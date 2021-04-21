@@ -1,0 +1,14 @@
+# subject_example.yaml
+A Subject CSR:
+  subject:
+    common_name: All about the subject
+    country_name: US
+    state_or_province_name: California
+    locality_name: Bay Area
+    organization_name: SecurityWolfe
+    organizational_unit_name: The Cool Team
+    email_address: max@securitywolfe.com
+  key_info:
+    key_path: /tmp/subject_example.key
+    create: True
+  output_path: /tmp/subject_example.csr

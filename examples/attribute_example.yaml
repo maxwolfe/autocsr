@@ -1,0 +1,13 @@
+# attribute_example.yaml
+CSR with Attributes:
+  subject:
+    common_name: My CSR with custom and well-known attributes
+  key_info:
+    key_path: /tmp/my_attributes.key
+    create: True
+  output_path: /tmp/my_attributes_autocsr.csr
+  attributes:
+    - oid: issuerAltName
+      b64_value: TXkgSXNzdWVyIEFsdCBOYW1l
+    - oid: 1.2.345.678  # A custom OID
+      b64_value: TXkgQ3VzdG9tIEF0dHJpYnV0ZQ==

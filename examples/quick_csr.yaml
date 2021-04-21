@@ -1,0 +1,8 @@
+# quick_csr.yaml
+My First CSR:
+  subject:
+    common_name: My first AutoCSR
+  key_info:
+    key_path: /tmp/my_first_key.key
+    create: True
+  output_path: /tmp/my_first_autocsr.csr

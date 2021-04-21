@@ -1,0 +1,30 @@
+# key_example.yaml
+RSA With Explicit Key Parameters:
+  subject:
+    common_name: RSA CSR with explicit key parameters
+  key_info:
+    key_path: /tmp/my_rsa.key
+    create: True
+    key_type: RSA
+    key_size: 2048
+    public_exponent: 65537
+  hash_type: SHA256
+  output_path: /tmp/my_rsa_autocsr.csr
+
+DSA From Key File:
+  subject:
+    common_name: DSA CSR from key file
+  key_info:
+    key_path: /tmp/my_dsa.key
+  output_path: /tmp/my_dsa_autocsr.csr
+
+EC With Explicit Key Parameters:
+  subject:
+    common_name: EC CSR with explicit key parameters
+  key_info:
+    key_path: /tmp/my_ec.key
+    create: True
+    key_type: EC
+    curve: SECP256R1
+  hash_type: SHA512
+  output_path: /tmp/my_ec_autocsr.csr
