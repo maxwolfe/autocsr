@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "autocsr"
-version = "1.0.3"
+version = "1.0.4"
 description = ""
 authors = ["Max Wolfe <max@securitywolfe.com>"]
 
