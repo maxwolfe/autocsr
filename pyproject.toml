@@ -6,6 +6,7 @@ authors = ["Max Wolfe <max@securitywolfe.com>"]
 readme = "README.md"
 license = "MIT"
 repository = "https://github.com/maxwolfe/autocsr"
+documentation = "https://autocsr.readthedocs.io/en/latest/"
 keywords = [
   "Certificate Signing Request",
   "CSR",
@@ -30,6 +31,7 @@ isort = "^5.8.0"
 python-language-server = {extras = ["all"], version = "^0.36.2"}
 flake8 = "3.8.4"
 coverage = "^5.5"
+Sphinx  = "^3.5.4"
 
 [tool.poetry.scripts]
 autocsr = "autocsr.cli:main"
