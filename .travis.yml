@@ -11,6 +11,7 @@ install:
 script:
   - poetry run flake8 autocsr tests
   - poetry run pytest tests
+  - poetry run coverage run --source=autocsr -m unittest discover -b
 before_deploy:
   - poetry build
   - poetry config pypi-token.pypi $PYPI_TOKEN
