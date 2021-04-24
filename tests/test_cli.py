@@ -33,11 +33,11 @@ class TestCli(TestCase):
         with open(self.config_file, "w") as config:
             config.write(yaml.dump(self.config))
 
-    def test_from_config(self):
+    def test_build(self):
         """Test creating CSRs from config files."""
         result = self.cli.invoke(
             app,
-            [self.config_file],
+            ["build", self.config_file],
         )
         output_path = self.config[0]["output_path"]
 
@@ -52,7 +52,7 @@ class TestCli(TestCase):
             "Should print success to user",
         )
 
-    def test_from_common_name(self):
+    def test_create(self):
         """Test creating CSRs from a common name."""
         test_common_name = self.config[0]["subject"]["common_name"]
         test_key_path = NamedTemporaryFile().name
@@ -61,7 +61,7 @@ class TestCli(TestCase):
         result = self.cli.invoke(
             app,
             [
-                "--create",
+                "create",
                 test_common_name,
             ],
             input=f"{test_key_path}\n{test_output_path}",
@@ -76,6 +76,46 @@ class TestCli(TestCase):
             result.output,
             f"Where to store the new key? [./{test_common_name}.pem]: {test_key_path}\n"
             f"Where to store the new csr? [./{test_common_name}.csr]: {test_output_path}\n"
+            f"Created new CSR at {test_output_path}\n",
+            "Should print success to user",
+        )
+
+    def test_prompt(self):
+        """Test creating CSRs from a user prompt."""
+        test_common_name = self.config[0]["subject"]["common_name"]
+        test_key_path = NamedTemporaryFile().name
+        test_output_path = self.config[0]["output_path"]
+
+        result = self.cli.invoke(
+            app,
+            [
+                "prompt",
+                test_common_name,
+            ],
+            input=f"{test_key_path}\n{test_output_path}",
+        )
+
+        self.maxDiff = None  # Helps with debugging long asserts
+        self.assertEqual(
+            result.exit_code,
+            0,
+            "Should successfully create a Certificate Signing Request",
+        )
+        self.assertEqual(
+            result.output,
+            f"Where to store the new key? [./{test_common_name}.pem]: {test_key_path}\n"
+            f"Where to store the new csr? [./{test_common_name}.csr]: {test_output_path}\n"
+            "What is your country identifier? (2 characters) []: \n"
+            "What is your state or province name? []: \n"
+            "What is your locality name? []: \n"
+            "What is your organization name? []: \n"
+            "What is your organizational unit name? []: \n"
+            "What is your email address? []: \n"
+            "What is the desired hash algorithm to use? (SHA256, SHA224, SHA384,"
+            " SHA512, SHA512_224, SHA512_256, BLAKE2b, BLAKE2s, SHA3_224, SHA3_256,"
+            " SHA3_384, SHA3_512, SHAKE128, SHAKE256) [SHA256]: \n"
+            "What is the desired type of key? (RSA, DSA, EC) [RSA]: \n"
+            "What is the desired key size? (1024, 2048, 4096) [2048]: \n"
             f"Created new CSR at {test_output_path}\n",
             "Should print success to user",
         )
