@@ -42,7 +42,13 @@ class Hsm(abc.ABC):
         """Sign a message with a predefined key from the HSM."""
 
     def pkcs11_to_crypto_key(self, pkcs11_public_key: pkcs11.KeyType) -> PublicKey:
-        """Convert a pkcs11 public key to a cryptography public key."""
+        """
+        Convert a `pkcs11` public key to a `cryptography` public key.
+
+        :param pkcs11.KeyType pkcs11_public_key: A `pkcs11` format public key.
+        :return: A `cryptography` format public key.
+        :rtype: :class:`PublicKey`
+        """
         if self.pkcs11_key_type == pkcs11.KeyType.RSA:
             der_public_key = encode_rsa_public_key(pkcs11_public_key)
         elif self.pkcs11_key_type == pkcs11.KeyType.DSA:
@@ -94,7 +100,12 @@ class SoftHsm(Hsm):
 
     @property
     def public_key(self) -> PublicKey:
-        """Get the public key from SoftHSM."""
+        """
+        Get the public key from SoftHSM.
+
+        :return: A public key stored in SoftHSM.
+        :rtype: :class:`PublicKey`
+        """
         with self.token.open(user_pin=self.user_pin) as session:
             public_key = session.get_key(
                 label=self.key_label,
@@ -105,7 +116,13 @@ class SoftHsm(Hsm):
             return self.pkcs11_to_crypto_key(public_key)
 
     def sign(self, message: bytes) -> bytes:
-        """Sign a message with a key from SoftHSM."""
+        """
+        Sign a message with a key from SoftHSM.
+
+        :param bytes message: The data to sign.
+        :return: The signed data using a private key in SoftHSM.
+        :rtype: bytes
+        """
         with self.token.open(rw=True, user_pin=self.user_pin) as session:
             private_key = session.get_key(
                 label=self.key_label,
@@ -117,7 +134,14 @@ class SoftHsm(Hsm):
 
     @classmethod
     def from_proto(cls, hsm_info: HsmInfo, hash_type: HashType):
-        """Create a SoftHSM instance from a protobuf."""
+        """
+        Create a :class:`SoftHsm` instance from a protobuf.
+
+        :param HsmInfo hsm_info: A protobuf representation of HSM details.
+        :param HashType hash_type: A protobuf representation of signing information.
+        :return: A structure for interacting with keys in SoftHSM.
+        :rtype: :class:`SoftHsm`
+        """
         softhsm = hsm_info.softhsm
 
         return cls(
@@ -139,7 +163,14 @@ class HsmFactory:
 
     @staticmethod
     def from_hsm_info(hsm_info: HsmInfo, hash_type: HashType):
-        """Create an HSM instance from hsm_info protobuf."""
+        """
+        Create an HSM instance from hsm_info protobuf.
+
+        :param HsmInfo hsm_info: A protobuf representation of HSM details.
+        :param HashType hash_type: A protobuf representation of signing information.
+        :return: A structure for interacting with keys in the selected HSM.
+        :rtype: :class:`Hsm`
+        """
         return HsmFactory.hsms.get(hsm_info.WhichOneof("hsm")).from_proto(
             hsm_info=hsm_info,
             hash_type=hash_type,

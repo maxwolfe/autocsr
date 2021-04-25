@@ -75,7 +75,7 @@ class TestSubject(TestCase):
     config = {
         "subject": TestAttribute.subject_dict,
         "key_info": {
-            "key_path": "/tmp/create_test.key",
+            "key_path": NamedTemporaryFile().name,
             "create": True,
         },
         "output_path": "./fixtures/test.csr",
