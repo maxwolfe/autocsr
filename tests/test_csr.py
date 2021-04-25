@@ -22,7 +22,7 @@ from autocsr.csr import (
     Subject,
 )
 from autocsr.oid import ObjectIdentifier
-from autocsr.utils import load_csr
+from autocsr.utils import _load_csr as load_csr
 
 HashType = protos.CertificateSigningRequest.HashType
 KeyType = protos.CertificateSigningRequest.KeyType
