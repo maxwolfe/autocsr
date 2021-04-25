@@ -311,7 +311,11 @@ class CertificateSigningRequest(_CertificateSigningRequest):
 
 
 class MyBackend(Backend):
-    """A custom backend to override Certificate Signing Request building."""
+    """
+    A custom backend to override Certificate Signing Request building.
+
+    :meta private:
+    """
 
     def create_x509_csr(
         self,

@@ -476,6 +476,7 @@ Validate Jinja Templated CSR
    :maxdepth: 2
    :caption: Contents:
 
+   autocsr
    license
 
 

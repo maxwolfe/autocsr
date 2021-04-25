@@ -16,7 +16,11 @@ app = typer.Typer()
 
 
 class HashType(str, Enum):
-    """Command line inputs for possible hash types."""
+    """
+    Command line inputs for possible hash types.
+
+    :meta private:
+    """
 
     sha256 = "SHA256"
     sha224 = "SHA224"
@@ -35,7 +39,11 @@ class HashType(str, Enum):
 
 
 class KeyType(str, Enum):
-    """Command line inputs for possible key types."""
+    """
+    Command line inputs for possible key types.
+
+    :meta private:
+    """
 
     rsa = "RSA"
     dsa = "DSA"
@@ -43,7 +51,11 @@ class KeyType(str, Enum):
 
 
 class Curve(str, Enum):
-    """Command line inputs for possible elliptic curve."""
+    """
+    Command line inputs for possible elliptic curve.
+
+    :meta private:
+    """
 
     secp256r1 = "SECP256R1"
     secp384r1 = "SECP384R1"
@@ -67,7 +79,11 @@ class Curve(str, Enum):
 
 @dataclass
 class OptionalParams:
-    """A collection of optional parameters for CSRs."""
+    """
+    A collection of optional parameters for CSRs.
+
+    :meta private:
+    """
 
     hash_type: HashType
     country_name: str
@@ -98,7 +114,11 @@ def create_csr(
     organizational_unit_name: str,
     email_address: str,
 ) -> x509.CertificateSigningRequest:
-    """Create certificate signing requests from scratch."""
+    """
+    Create certificate signing requests from scratch.
+
+    :meta private:
+    """
     csr_proto = proto.CertificateSigningRequest()
     csr_proto.output_path = output_path
     csr_proto.hash_type = getattr(proto.CertificateSigningRequest.HashType, hash_type)
@@ -131,7 +151,11 @@ def create_csr(
 def prompt_mandatory(
     common_name: str, key_path: str, output_path: str
 ) -> Tuple[str, str]:
-    """Prompt the mandatory data for creating CSRs."""
+    """
+    Prompt the mandatory data for creating CSRs.
+
+    :meta private:
+    """
     if not key_path:
         key_path = typer.prompt(
             "Where to store the new key?",
@@ -156,7 +180,11 @@ def prompt_optional(
     organizational_unit_name: str,
     email_address: str,
 ) -> OptionalParams:
-    """Prompt the optional data for creating CSRs."""
+    """
+    Prompt the optional data for creating CSRs.
+
+    :meta private:
+    """
     if not country_name:
         country_name = typer.prompt(
             "What is your country identifier? (2 characters)",
@@ -257,7 +285,11 @@ def prompt(
     ),
     email_address: str = typer.Option("", help="Email address for CSR"),
 ):
-    """Prompt the user for Certificate Signing Request fields."""
+    """
+    Prompt the user for Certificate Signing Request fields.
+
+    :meta private:
+    """
     key_path, output_path = prompt_mandatory(common_name, key_path, output_path)
     create_key = not Path(key_path).exists()
     params = prompt_optional(
@@ -313,7 +345,11 @@ def create(
     ),
     email_address: str = typer.Option("", help="Email address for CSR"),
 ):
-    """Create a new Certificate Signing Request with little customization."""
+    """
+    Create a new Certificate Signing Request with little customization.
+
+    :meta private:
+    """
     key_path, output_path = prompt_mandatory(common_name, key_path, output_path)
     create_key = not Path(key_path).exists()
 
@@ -341,7 +377,11 @@ def create(
 def build(
     config_file: str,
 ):
-    """Create certificate signing requests from a config file."""
+    """
+    Create certificate signing requests from a config file.
+
+    :meta private:
+    """
     csr_list = load_csrs_from_file(config_file)
 
     for csr_proto in csr_list:
@@ -351,5 +391,9 @@ def build(
 
 
 def main():
-    """Entrypoint to executable script."""
+    """
+    Entrypoint to executable script.
+
+    :meta private:
+    """
     app()
