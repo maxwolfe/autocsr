@@ -1,8 +1,8 @@
 """Command line utilities for autocsr."""
 
-import pathlib
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
 from typing import Tuple
 
 import click
@@ -259,7 +259,7 @@ def prompt(
 ):
     """Prompt the user for Certificate Signing Request fields."""
     key_path, output_path = prompt_mandatory(common_name, key_path, output_path)
-    create_key = not pathlib.Path(key_path).exists()
+    create_key = not Path(key_path).exists()
     params = prompt_optional(
         create_key,
         country_name,
@@ -315,7 +315,7 @@ def create(
 ):
     """Create a new Certificate Signing Request with little customization."""
     key_path, output_path = prompt_mandatory(common_name, key_path, output_path)
-    create_key = not pathlib.Path(key_path).exists()
+    create_key = not Path(key_path).exists()
 
     create_csr(
         common_name=common_name,
