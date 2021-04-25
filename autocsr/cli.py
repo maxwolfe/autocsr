@@ -122,7 +122,7 @@ def create_csr(
     key_info.curve = getattr(proto.CertificateSigningRequest.Curve, curve)
     csr_proto.key_info.CopyFrom(key_info)
 
-    csr = CertificateSigningRequestBuilder.from_csr(csr_proto)
+    csr = CertificateSigningRequestBuilder.from_proto(csr_proto)
     csr.export(csr_proto.output_path)
 
     return csr
@@ -345,7 +345,7 @@ def build(
     csr_list = load_csrs_from_file(config_file)
 
     for csr_proto in csr_list:
-        csr = CertificateSigningRequestBuilder.from_csr(csr_proto)
+        csr = CertificateSigningRequestBuilder.from_proto(csr_proto)
         csr.export(csr_proto.output_path)
         typer.echo(f"Created new CSR at {csr_proto.output_path}")
 

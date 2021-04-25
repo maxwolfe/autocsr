@@ -104,9 +104,9 @@ class TestSubject(TestCase):
             "Attribute must be an instance of x509 NameAttribute",
         )
 
-    def test_from_subject(self):
+    def test_from_proto(self):
         """Test creation of an x509.Name from a config file."""
-        subject = Subject.from_subject(self.proto.subject)
+        subject = Subject.from_proto(self.proto.subject)
 
         self.validate_subject(subject)
 
@@ -282,9 +282,9 @@ class TestSigningKey(TestCase):
     def test_from_path(self):
         """Test the creation of a SigningKey from a key file."""
         for hash_type in self.approved_hashes:
-            rsa_signing_key = SigningKey.from_path(self.rsa_key_path, hash_type)
-            dsa_signing_key = SigningKey.from_path(self.dsa_key_path, hash_type)
-            ec_signing_key = SigningKey.from_path(self.ec_key_path, hash_type)
+            rsa_signing_key = SigningKey._from_path(self.rsa_key_path, hash_type)
+            dsa_signing_key = SigningKey._from_path(self.dsa_key_path, hash_type)
+            ec_signing_key = SigningKey._from_path(self.ec_key_path, hash_type)
 
             self.validate_signing_key(rsa_signing_key, self.rsa_private_key, hash_type)
             self.validate_signing_key(dsa_signing_key, self.dsa_private_key, hash_type)
@@ -300,19 +300,19 @@ class TestCertificateSigningRequest(TestCase):
         proto.output_path = NamedTemporaryFile().name
 
         proto.key_info.key_type = KeyType.RSA
-        self.rsa_csr = CertificateSigningRequestBuilder.from_csr(proto)
+        self.rsa_csr = CertificateSigningRequestBuilder.from_proto(proto)
         self.rsa_private_key = rsa.generate_private_key(
             public_exponent=65537, key_size=2048
         )
 
         proto.key_info.key_type = KeyType.DSA
-        self.dsa_csr = CertificateSigningRequestBuilder.from_csr(proto)
+        self.dsa_csr = CertificateSigningRequestBuilder.from_proto(proto)
         self.dsa_private_key = dsa.generate_private_key(
             key_size=2048,
         )
 
         proto.key_info.key_type = KeyType.EC
-        self.ec_csr = CertificateSigningRequestBuilder.from_csr(proto)
+        self.ec_csr = CertificateSigningRequestBuilder.from_proto(proto)
         self.ec_private_key = ec.generate_private_key(
             ec.SECP256R1(),
         )
@@ -445,9 +445,9 @@ class TestMyBackend(TestCase):
         csr.key_info.key_path = TestCertificateSigningRequest.create_rsa_key_file()
 
         builder = x509.CertificateSigningRequestBuilder()
-        self.builder = builder.subject_name(Subject.from_subject(csr.subject))
+        self.builder = builder.subject_name(Subject.from_proto(csr.subject))
 
-        self.signing_key = SigningKey.from_path(csr.key_info.key_path, csr.hash_type)
+        self.signing_key = SigningKey._from_path(csr.key_info.key_path, csr.hash_type)
         self.backend = MyBackend()
 
     def test_create_x509_csr(self):
@@ -483,13 +483,11 @@ class TestCertificateSigningRequestBuilder(TestCase):
             TestCertificateSigningRequest.create_rsa_key_file()
         )
         self.builder = x509.CertificateSigningRequestBuilder()
-        self.builder = self.builder.subject_name(
-            Subject.from_subject(self.proto.subject)
-        )
+        self.builder = self.builder.subject_name(Subject.from_proto(self.proto.subject))
 
-    def test_from_csr(self):
+    def test_from_proto(self):
         """Test creation of a Certificate Signing Request from config."""
-        csr = CertificateSigningRequestBuilder.from_csr(self.proto)
+        csr = CertificateSigningRequestBuilder.from_proto(self.proto)
 
         self.assertIsInstance(
             csr,
@@ -499,7 +497,7 @@ class TestCertificateSigningRequestBuilder(TestCase):
 
     def test_sign_with_key_info(self):
         """Test signing from key info proto."""
-        csr = CertificateSigningRequestBuilder.sign_with_key_info(
+        csr = CertificateSigningRequestBuilder._sign_with_key_info(
             self.proto, self.builder
         )
 
@@ -531,7 +529,7 @@ class TestCertificateSigningRequestBuilder(TestCase):
 
         self.proto.hsm_info.CopyFrom(hsm_info)
 
-        csr = CertificateSigningRequestBuilder.sign_with_hsm_info(
+        csr = CertificateSigningRequestBuilder._sign_with_hsm_info(
             self.proto, self.builder
         )
 

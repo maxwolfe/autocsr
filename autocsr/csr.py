@@ -49,7 +49,14 @@ class Attribute(x509.NameAttribute):
 
     @classmethod
     def from_field(cls, field: str, value: str):
-        """Create an attribute from each field of subject info."""
+        """
+        Create Subject information from field names and values.
+
+        :param str field: The string name of a subject field.
+        :param str value: The desired value of a subject field.
+        :return: A NameAttribute for the subject field.
+        :rtype: :class:`cryptography.x509.NameAttribute`
+        """
         return cls(getattr(NameOID, field.upper()), value)
 
 
@@ -67,8 +74,14 @@ class Subject(x509.Name):
     ]
 
     @classmethod
-    def from_subject(cls, subject: CsrSubject):
-        """Build a x509 name object from dictionary."""
+    def from_proto(cls, subject: CsrSubject):
+        """
+        Build a x509 name object from Subject metadata.
+
+        :param CsrSubject subject: A protobuf representation of a Subject.
+        :return: An x509 Name representation of a Subject.
+        :rtype: :class:`cryptography.x509.Name`
+        """
         attributes = []
 
         for field in cls.subject_fields:
@@ -131,7 +144,7 @@ class SigningKey:
         self.algorithm = approved_hashes[hash_type]()
 
     @staticmethod
-    def create_rsa_key(key_info: GenericKeyInfo) -> rsa.RSAPrivateKey:
+    def _create_rsa_key(key_info: GenericKeyInfo) -> rsa.RSAPrivateKey:
         """Create an RSA Private Key from a key info structure."""
         if not key_info.key_size:
             key_info.key_size = 2048
@@ -145,7 +158,7 @@ class SigningKey:
         )
 
     @staticmethod
-    def create_dsa_key(key_info: GenericKeyInfo) -> dsa.DSAPrivateKey:
+    def _create_dsa_key(key_info: GenericKeyInfo) -> dsa.DSAPrivateKey:
         """Create a DSA Private Key from a key info structure."""
         if not key_info.key_size:
             key_info.key_size = 2048
@@ -155,21 +168,21 @@ class SigningKey:
         )
 
     @staticmethod
-    def create_ec_key(key_info: GenericKeyInfo) -> ec.EllipticCurvePrivateKey:
+    def _create_ec_key(key_info: GenericKeyInfo) -> ec.EllipticCurvePrivateKey:
         """Create an EC Private Key from a key info structure."""
         return ec.generate_private_key(
             curve=SigningKey.CURVES[key_info.curve](),
         )
 
     @staticmethod
-    def create_key(key_info: KeyInfo) -> PrivateKey:
+    def _create_key(key_info: KeyInfo) -> PrivateKey:
         """Create and export a private key from a key info object."""
         if key_info.key_type == KeyType.RSA:
-            private_key = SigningKey.create_rsa_key(key_info)
+            private_key = SigningKey._create_rsa_key(key_info)
         elif key_info.key_type == KeyType.DSA:
-            private_key = SigningKey.create_dsa_key(key_info)
+            private_key = SigningKey._create_dsa_key(key_info)
         elif key_info.key_type == KeyType.EC:
-            private_key = SigningKey.create_ec_key(key_info)
+            private_key = SigningKey._create_ec_key(key_info)
         else:
             raise TypeError(f"Key type: {key_info.key_type} does not exist")
 
@@ -185,7 +198,7 @@ class SigningKey:
         return private_key
 
     @classmethod
-    def from_path(cls, key_path: str, hash_type: HashType):
+    def _from_path(cls, key_path: str, hash_type: HashType):
         """Build a Signing Key from key type and file path."""
         with open(key_path, "rb") as key_file:
             return cls(
@@ -197,29 +210,43 @@ class SigningKey:
 
     @classmethod
     def from_key_info(cls, key_info: KeyInfo, hash_type: HashType):
-        """Build a Signing Key from key information structure."""
+        """
+        Collect CSR signing information from key and hash metadata.
+
+        :param KeyInfo key_info: A protobuf representation of key information.
+        :param HashType hash_type: A protobuf representation of hash information.
+        :return: A structure with required signing information for CSR.
+        :rtype: :class:`SigningKey`
+        """
         if key_info.create:
             return cls(
-                private_key=cls.create_key(key_info),
+                private_key=cls._create_key(key_info),
                 hash_type=hash_type,
             )
 
-        return cls.from_path(
+        return cls._from_path(
             key_path=key_info.key_path,
             hash_type=hash_type,
         )
 
     @classmethod
     def from_hsm_info(cls, hsm_info: HsmInfo, hash_type: HashType):
-        """Build a Dummy Signing Key from hsm information structure."""
+        """
+        Collect signing information for creating dummy CSR for HSM signing.
+
+        :param HsmInfo hsm_info: A protobuf representation of key information.
+        :param HashType hash_type: A protobuf representation of hash information.
+        :return: A structure with signing information for a dummy CSR.
+        :rtype: :class:`SigningKey`
+        """
         if hsm_info.key_type == KeyType.RSA:
-            return cls(SigningKey.create_rsa_key(hsm_info), hash_type=hash_type)
+            return cls(SigningKey._create_rsa_key(hsm_info), hash_type=hash_type)
 
         if hsm_info.key_type == KeyType.DSA:
-            return cls(SigningKey.create_dsa_key(hsm_info), hash_type=hash_type)
+            return cls(SigningKey._create_dsa_key(hsm_info), hash_type=hash_type)
 
         if hsm_info.key_type == KeyType.EC:
-            return cls(SigningKey.create_ec_key(hsm_info), hash_type=hash_type)
+            return cls(SigningKey._create_ec_key(hsm_info), hash_type=hash_type)
 
         raise TypeError(f"Key type: {hsm_info.key_type} does not exist")
 
@@ -237,7 +264,12 @@ class CertificateSigningRequest(_CertificateSigningRequest):
         )
 
     def set_pubkey(self, public_key: PublicKey):
-        """Modify the public key of a CSR."""
+        """
+        Modify the public key of a CSR.
+
+        :param PublicKey public_key: The new public key for a CSR.
+        :rtype: None
+        """
         openssl_req = openssl.X509Req.from_cryptography(self)
 
         key_pem = public_key.public_bytes(
@@ -251,7 +283,12 @@ class CertificateSigningRequest(_CertificateSigningRequest):
         self._x509_req = openssl_req.to_cryptography()._x509_req
 
     def set_signature(self, signature: bytes):
-        """Return a new CSR with modified signature."""
+        """
+        Modify the signature of a CSR.
+
+        :param bytes signature: the new signature for a CSR.
+        :rtype: None
+        """
         der_csr = self.public_bytes(serialization.Encoding.DER)
         asn1_csr, _ = asn1_decode(
             der_csr,
@@ -263,7 +300,12 @@ class CertificateSigningRequest(_CertificateSigningRequest):
         self._x509_req = x509.load_der_x509_csr(asn1_encode(asn1_csr))._x509_req
 
     def export(self, filename: str):
-        """Export CSR to a file."""
+        """
+        Export the CSR to a file in PEM encoding.
+
+        :param str filename: The filename to export to.
+        :rtype: None
+        """
         with open(filename, "wb") as output_file:
             output_file.write(self.public_bytes(serialization.Encoding.PEM))
 
@@ -277,7 +319,11 @@ class MyBackend(Backend):
         private_key: _PRIVATE_KEY_TYPES,
         algorithm: Optional[hashes.HashAlgorithm],
     ) -> _CertificateSigningRequest:
-        """Create custom Certificate Signing Requests."""
+        """
+        Create custom Certificate Signing Requests.
+
+        :meta private:
+        """
         csr = super().create_x509_csr(builder, private_key, algorithm)
 
         return CertificateSigningRequest(backend=self, x509_req=csr._x509_req)
@@ -287,7 +333,7 @@ class CertificateSigningRequestBuilder:
     """An x509 certificate signing request created from configs."""
 
     @staticmethod
-    def sign_with_key_info(
+    def _sign_with_key_info(
         csr: proto.CertificateSigningRequest,
         builder: x509.CertificateSigningRequestBuilder,
     ):
@@ -301,7 +347,7 @@ class CertificateSigningRequestBuilder:
         )
 
     @staticmethod
-    def sign_with_hsm_info(
+    def _sign_with_hsm_info(
         csr: proto.CertificateSigningRequest,
         builder: x509.CertificateSigningRequestBuilder,
     ):
@@ -322,10 +368,17 @@ class CertificateSigningRequestBuilder:
         return base_csr
 
     @staticmethod
-    def from_csr(csr: proto.CertificateSigningRequest):
-        """Build an x509 Certificate Signing Request Object from a config."""
+    def from_proto(csr: proto.CertificateSigningRequest) -> CertificateSigningRequest:
+        """
+        Build an x509 Certificate Signing Request from CSR metadata.
+
+        :param proto.CertificateSigningRequest csr: A protobuf representation of a CSR.
+        :return: A Certificate Signing Request.
+        :rtype: :class:`CertificateSigningRequest`
+
+        """
         builder = x509.CertificateSigningRequestBuilder()
-        builder = builder.subject_name(Subject.from_subject(csr.subject))
+        builder = builder.subject_name(Subject.from_proto(csr.subject))
 
         for attribute in csr.attributes:
             builder = builder.add_attribute(
@@ -340,8 +393,8 @@ class CertificateSigningRequestBuilder:
             )
 
         if csr.WhichOneof("key") == "key_info":
-            return CertificateSigningRequestBuilder.sign_with_key_info(csr, builder)
+            return CertificateSigningRequestBuilder._sign_with_key_info(csr, builder)
         elif csr.WhichOneof("key") == "hsm_info":
-            return CertificateSigningRequestBuilder.sign_with_hsm_info(csr, builder)
+            return CertificateSigningRequestBuilder._sign_with_hsm_info(csr, builder)
         else:
             raise TypeError("Neither filesystem key nor HSM key selected")

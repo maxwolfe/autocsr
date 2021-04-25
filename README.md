@@ -201,7 +201,7 @@ EC With Explicit Key Parameters:
   output_path: /tmp/my_ec_autocsr.csr
 ```
 
-Running `autocsr` on this template will generate three Certificate Signing Requests:
+Running `autocsr build` on this template will generate three Certificate Signing Requests:
 
 #### RSA Example CSR
 ```
