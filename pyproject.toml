@@ -32,6 +32,8 @@ python-language-server = {extras = ["all"], version = "^0.36.2"}
 flake8 = "3.8.4"
 coverage = "^5.5"
 Sphinx  = "^3.5.4"
+sphinx-rtd-theme = "^0.5.2"
+autodoc = "^0.5.0"
 
 [tool.poetry.scripts]
 autocsr = "autocsr.cli:main"

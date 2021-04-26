@@ -10,7 +10,7 @@ AutoCSR: Automatic Certificate Signing Request Generation
 
 ``AutoCSR`` is a command-line tool and library for automatically
 generating Certificate Signing Requests from easy to define
-configuration files.
+templates.
 
 ``AutoCSR`` was developed to empower non-security professionals to
 quickly and easily generate their own simple Certificate Signing
@@ -34,13 +34,72 @@ Usage
 
 ::
 
-    Usage: autocsr [OPTIONS] CONFIG_FILE
+    Usage: autocsr [OPTIONS] COMMAND [ARGS]...
+
+    Commands:
+      build   Create certificate signing requests from a config file.
+      create  Create a new Certificate Signing Request with little customization.
+      prompt  Prompt the user for Certificate Signing Request fields.
 
 Quickstart
 ----------
 
-Create a Config File
-~~~~~~~~~~~~~~~~~~~~
+Create a simple CSR with a Common Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The easiest way to generate a Certificate Signing Request is by specifying the
+common name and letting ``autocsr create`` handle the rest! This is perfect for
+simple Certificate Signing Requests that don't require any custom attributes,
+extensions, or specific key formats.
+
+::
+
+  max@wolfetop:/app# autocsr create "My Common Name"
+  Where to store the new key? [./My Common Name.pem]:
+  Where to store the new csr? [./My Common Name.csr]:
+  Created new CSR at ./My Common Name.csr
+
+You can also specify the ``key-path`` and ``output-path`` to avoid the mandatory
+prompts.
+
+::
+
+  max@wolfetop:/app# autocsr create "My Common Name" --key-path my_common_name.pem --output-path my_common_name.csr
+  Created new CSR at my_common_name.csr
+
+Create a simple CSR with a Prompt
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you need to generate a Certificate Signing Request without custom attributes
+or extensions, but still want to customize the subject and signing information,
+``autocsr prompt`` can guide you through the process while offering you safe
+defaults and a list of options where applicable.
+
+::
+
+  max@wolfetop:/app# autocsr prompt "My Prompted CSR"
+  Where to store the new key? [./My Prompted CSR.pem]:
+  Where to store the new csr? [./My Prompted CSR.csr]:
+  What is your country identifier? (2 characters) []:
+  What is your state or province name? []:
+  What is your locality name? []:
+  What is your organization name? []:
+  What is your organizational unit name? []:
+  What is your email address? []:
+  What is the desired hash algorithm to use? (SHA256, SHA224, SHA384, SHA512, SHA512_224, SHA512_256, BLAKE2b, BLAKE2s, SHA3_224, SHA3_256, SHA3_384, SHA3_512, SHAKE128, SHAKE256) [SHA256]:
+  What is the desired type of key? (RSA, DSA, EC) [RSA]:
+  What is the desired key size? (1024, 2048, 4096) [2048]:
+  Created new CSR at ./My Prompted CSR.csr
+
+Create a CSR with a Template
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For more customized Certificate Signing Requests and those that need to be
+repeatedly generated in a consistent way, it will often be desirable to add the
+details of your Certificate Signing Request inside a template. ``autocsr build``
+can be used to construct one or many Certificate Signing Requests from the
+details present in a template.
+
+Create a Template
+^^^^^^^^^^^^^^^^^
 
 ::
 
@@ -54,15 +113,15 @@ Create a Config File
       output_path: /tmp/my_first_autocsr.csr
 
 Run AutoCSR
-~~~~~~~~~~~
+^^^^^^^^^^^
 
 ::
 
-    max@wolfetop:/app# autocsr quick_csr.yaml
+    max@wolfetop:/app# autocsr build quick_csr.yaml
     Created new CSR at /tmp/my_first_autocsr.csr
 
 Validate New CSR
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^
 
 ::
 
@@ -196,7 +255,7 @@ signing.
       hash_type: SHA512
       output_path: /tmp/my_ec_autocsr.csr
 
-Running ``autocsr`` on this configuration file will generate three
+Running ``autocsr build`` on this template will generate three
 Certificate Signing Requests:
 
 RSA Example CSR
@@ -260,8 +319,8 @@ Attributes
 
 Certificates can optionally contain a plethora of pre-defined and custom
 attributes which map an ``oid`` to a binary value. Because we primarily
-use YAML for our configuration files, we require that attribute values
-are base64 encoded in the config file when defining attributes.
+use YAML for our templates, we require that attribute values
+are base64 encoded in the template when defining attributes.
 Optionally for predefined attributes, a string name can be used instead
 of the dotted-string ``oid``.
 
@@ -306,7 +365,7 @@ Certificate Signing Requests offer a plethora of predefined extensions.
 An exhaustive list of the available extensions are available
 `here <https://cryptography.io/en/latest/x509/reference/#x-509-extensions>`__,
 but I will provide a few examples of modeling extensions in
-configuration files below. Keep in mind that like attributes, extensions
+templates below. Keep in mind that like attributes, extensions
 that require bytes as input will need to have their data represented in
 base64.
 
@@ -417,6 +476,7 @@ Validate Jinja Templated CSR
    :maxdepth: 2
    :caption: Contents:
 
+   autocsr
    license
 
 

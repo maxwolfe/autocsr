@@ -1,7 +1,6 @@
 """Wrappers to turn configs into x509 Extensions."""
 
 from base64 import b64decode
-from datetime import datetime
 from ipaddress import ip_address
 from typing import Iterable
 
@@ -11,8 +10,6 @@ from cryptography.x509 import name as x509_name
 import autocsr.protos.csr_pb2 as proto
 from autocsr.oid import ObjectIdentifier
 
-DATE_FMT = "%d/%m/%Y %H:%M:%S"
-
 CsrExtension = proto.CertificateSigningRequest.Extension
 
 
@@ -21,7 +18,13 @@ class ExtensionType:
 
     @staticmethod
     def from_proto(extension: CsrExtension) -> extensions.ExtensionType:
-        """Return an extension instance based on enum extension type."""
+        """
+        Return an extension instance based on enum extension type.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a CSR Extension.
+        :rtype: :class:`cryptography.x509.extensions.ExtensionType`
+        """
         this_extension = extension.extension_type
 
         if this_extension == extension.ExtensionType.OCSPNoCheck:
@@ -33,26 +36,18 @@ class ExtensionType:
         raise TypeError(f"No known extension: {this_extension}")
 
 
-# Unsupported by cryptography
-class CRLNumber(extensions.CRLNumber):
-    """Wrapper for CRLNumber Extension from config file."""
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """Create a CRLNumber extension from a protobuf."""
-        this_extension = extension.crl_number
-
-        return cls(
-            crl_number=this_extension.crl_number,
-        )
-
-
 class SubjectKeyIdentifier(extensions.SubjectKeyIdentifier):
     """Wrapper for SubjectKeyIdentifier Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a SubjectKeyIdentifier extension from a protobuf."""
+        """
+        Create a SubjectKeyIdentifier extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a SubjectKeyIdentifier Extension.
+        :rtype: :class:`cryptography.x509.extensions.SubjectKeyIdentifier`
+        """
         this_extension = extension.subject_key_identifier
 
         return cls(digest=b64decode(this_extension.b64_digest.encode()))
@@ -63,7 +58,13 @@ class BasicConstraints(extensions.BasicConstraints):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a BasicConstraints extension from a protobuf."""
+        """
+        Create a BasicConstraints extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a BasicConstraints Extension.
+        :rtype: :class:`cryptography.x509.extensions.BasicConstraints`
+        """
         this_extension = extension.basic_constraints
 
         path_length = this_extension.path_length
@@ -77,24 +78,18 @@ class BasicConstraints(extensions.BasicConstraints):
         )
 
 
-# Unsupported by cryptography
-class DeltaCRLIndicator(extensions.DeltaCRLIndicator):
-    """Wrapper for DeltaCRLIndicator Extension from config file."""
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """Create a DeltaCRLIndicator extension from a protobuf."""
-        this_extension = extension.delta_crl_indicator
-
-        return cls(crl_number=this_extension.crl_number)
-
-
 class PolicyConstraints(extensions.PolicyConstraints):
     """Wrapper for PolicyConstraints Extension from config file."""
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a PolicyConstraints Extension from a protobuf."""
+        """
+        Create a PolicyConstraints Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a PolicyConstraints Extension.
+        :rtype: :class:`cryptography.x509.extensions.PolicyConstraints`
+        """
         this_extension = extension.policy_constraints
 
         require_explicit_policy = this_extension.require_explicit_policy
@@ -117,7 +112,13 @@ class NoticeReference(extensions.NoticeReference):
 
     @classmethod
     def from_proto(cls, notice: CsrExtension.NoticeReference):
-        """Create a Noticereference from a protobuf."""
+        """
+        Create a NoticeReference from a protobuf.
+
+        :param CsrExtension.NoticeReference notice: A protobuf representation of a NoticeReference.
+        :return: A `cryptography` representation of a NoticeReference.
+        :rtype: :class:`cryptography.x509.extensions.NoticeReference`
+        """
         organization = notice.organization
 
         if not organization:
@@ -133,8 +134,16 @@ class UserNotice(extensions.UserNotice):
     """Wrapper for UserNotice from config file."""
 
     @classmethod
-    def from_proto(cls, notices: Iterable[CsrExtension.UserNotice]):
-        """Create a list of UserNotice form a protobuf."""
+    def from_proto(
+        cls, notices: Iterable[CsrExtension.UserNotice]
+    ) -> Iterable[extensions.UserNotice]:
+        """
+        Create a list of UserNotice form a protobuf.
+
+        :param Iterable[CsrExtension.UserNotice] notices: A protobuf representation of UserNotices.
+        :return: A `cryptography` representation of UserNotices.
+        :rtype: Iterable[:class:`cryptography.x509.extensions.UserNotice`]
+        """
         information_list = []
 
         for notice in notices:
@@ -162,7 +171,13 @@ class PolicyInformation(extensions.PolicyInformation):
 
     @classmethod
     def from_proto(cls, policies: Iterable[CsrExtension.PolicyInformation]):
-        """Create a list of PolicyInformation from a protobuf."""
+        """
+        Create a list of PolicyInformation from a protobuf.
+
+        :param Iterable[CsrExtension.PolicyInformation] policies: A protobuf of PolicyInformations
+        :return: A `cryptography` representation of PolicyInformations.
+        :rtype: Iterable[:class:`cryptography.x509.extensions.PolicyInformation`]
+        """
         information_list = []
 
         for policy in policies:
@@ -191,7 +206,13 @@ class CertificatePolicies(extensions.CertificatePolicies):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a CertificatePolicies extension from a protobuf."""
+        """
+        Create a CertificatePolicies Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a CertificatePolicies Extension.
+        :rtype: :class:`cryptography.x509.extensions.CertificatePolicies`
+        """
         this_extension = extension.certificate_policies
 
         return cls(policies=PolicyInformation.from_proto(this_extension.policies))
@@ -202,7 +223,13 @@ class ExtendedKeyUsage(extensions.ExtendedKeyUsage):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a ExtendedKeyUsage extension from a protobuf."""
+        """
+        Create a ExtendedKeyUsage Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a ExtendedKeyUsage Extension.
+        :rtype: :class:`cryptography.x509.extensions.ExtendedKeyUsage`
+        """
         this_extension = extension.extended_key_usage
 
         return cls(
@@ -215,7 +242,13 @@ class TLSFeature(extensions.TLSFeature):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a TLSFeature extension from a protobuf."""
+        """
+        Create a TLSFeature Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a TLSFeature Extension.
+        :rtype: :class:`cryptography.x509.extensions.TLSFeature`
+        """
         this_extension = extension.tls_feature
 
         return cls(
@@ -231,7 +264,13 @@ class InhibitAnyPolicy(extensions.InhibitAnyPolicy):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a InhibitAnyPolicy extension from a protobuf."""
+        """
+        Create a InhibitAnyPolicy Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a InhibitAnyPolicy Extension.
+        :rtype: :class:`cryptography.x509.extensions.InhibitAnyPolicy`
+        """
         this_extension = extension.inhibit_any_policy
 
         return cls(
@@ -244,7 +283,13 @@ class KeyUsage(extensions.KeyUsage):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a KeyUsage extension from a protobuf."""
+        """
+        Create a KeyUsage Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a KeyUsage Extension.
+        :rtype: :class:`cryptography.x509.extensions.KeyUsage`
+        """
         this_extension = extension.key_usage
 
         return cls(
@@ -280,83 +325,14 @@ class ReasonFlags:
 
     @staticmethod
     def from_proto(reason: ProtoFlag) -> ExtFlag:
-        """Convert a protobuf version ReasonFlag into the extensions version."""
+        """
+        Convert a protobuf version ReasonFlag into the `cryptography` version.
+
+        :param ProtoFlag reason: A protobuf representation of a ReasonFlag.
+        :return: A `cryptography` representation of a ReasonFlag.
+        :rtype: :class:`cryptography.x509.extensions.ReasonFlags`
+        """
         return ReasonFlags.flags[reason]
-
-
-# Unsupported by cryptography
-class CRLReason(extensions.CRLReason):
-    """Wrapper for CRLReason Extension from config file."""
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """Create a CRLReason extension from a protobuf."""
-        this_extension = extension.crl_reason
-
-        return cls(
-            reason=ReasonFlags.from_proto(this_extension.reason),
-        )
-
-
-# Unsupported by cryptography
-class InvalidityDate(extensions.InvalidityDate):
-    """Wrapper for InvalidityDate Extension from config file."""
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """Create a InvalidityDate from a protobuf."""
-        this_extension = extension.invalidity_date
-
-        return cls(
-            invalidity_date=datetime.strptime(this_extension.invalidity_date, DATE_FMT),
-        )
-
-
-# Currently unsupported by autocsr
-class PrecertificateSignedCertificateTimestamps(
-    extensions.PrecertificateSignedCertificateTimestamps
-):
-    """
-    Wrapper for PrecertificateSignedCertificateTimestamps.
-
-    Wrapper for PrecertificateSignedCertificateTimestamps Extension from config
-    file.
-    """
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """
-        Create a PrecertificateSignedCertificateTimestamps.
-
-        Create a PrecertificateSignedCertificateTimestamps from a protobuf.
-        """
-        raise TypeError(
-            "autocsr currently does not support signed certificate timestamps"
-        )
-
-
-# Currently unsupported by autocsr
-class SignedCertificateTimestamps(extensions.SignedCertificateTimestamps):
-    """Wrapper for SignedCertificateTimestamps Extension from config file."""
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """Create a SignedCertificateTimestamps from a protobuf."""
-        raise TypeError(
-            "autocsr currently does not support signed certificate timestamps"
-        )
-
-
-# Unsupported by cryptography
-class OCSPNonce(extensions.OCSPNonce):
-    """Wrapper for OCSPNonce Extension from config file."""
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """Create a OCSPNonce from a protobuf."""
-        this_extension = extension.ocsp_nonce
-
-        return cls(nonce=b64decode(this_extension.b64_nonce.encode()))
 
 
 class RFC822Name(general_name.RFC822Name):
@@ -364,7 +340,13 @@ class RFC822Name(general_name.RFC822Name):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.GeneralName):
-        """Create a RFC822Name from a protobuf."""
+        """
+        Create a RFC822Name from a protobuf.
+
+        :param CsrExtension.GeneralName name: A protobuf representation of a RFC822Name.
+        :return: A `cryptography` representation of a RFC822Name.
+        :rtype: :class:`cryptography.x509.general_name.RFC822Name`
+        """
         this_name = name.rfc_822_name
 
         return cls(value=this_name.value)
@@ -375,7 +357,13 @@ class DNSName(general_name.DNSName):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.GeneralName):
-        """Create a DNSName from a protobuf."""
+        """
+        Create a DNSName from a protobuf.
+
+        :param CsrExtension.GeneralName name: A protobuf representation of a DNSName.
+        :return: A `cryptography` representation of a DNSName.
+        :rtype: :class:`cryptography.x509.general_name.DNSName`
+        """
         this_name = name.dns_name
 
         return cls(value=this_name.value)
@@ -386,7 +374,13 @@ class UniformResourceIdentifier(general_name.UniformResourceIdentifier):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.GeneralName):
-        """Create a UniformResourceIdentifier from a protobuf."""
+        """
+        Create a UniformResourceIdentifier from a protobuf.
+
+        :param CsrExtension.GeneralName name: A protobuf of a UniformResourceIdentifier.
+        :return: A `cryptography` representation of a UniformResourceIdentifier.
+        :rtype: :class:`cryptography.x509.general_name.UniformResourceIdentifier`
+        """
         this_name = name.uniform_resource_identifier
 
         return cls(value=this_name.value)
@@ -397,7 +391,13 @@ class NameAttribute(x509_name.NameAttribute):
 
     @classmethod
     def from_proto(cls, attribute: CsrExtension.NameAttribute):
-        """Create a NameAttribute from a config file."""
+        """
+        Create a NameAttribute from a config file.
+
+        :param CsrExtension.NameAttribute attribute: A protobuf representation of a NameAttribute.
+        :return: A `cryptography` representation of a NameAttribute.
+        :rtype: :class:`cryptography.x509.name.NameAttribute`
+        """
         return cls(
             oid=ObjectIdentifier.from_string(attribute.oid),
             value=attribute.value,
@@ -409,7 +409,13 @@ class Name(x509_name.Name):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.Name):
-        """Create a Name from a config file."""
+        """
+        Create a Name from a config file.
+
+        :param CsrExtension.Name name: A protobuf representation of a Name.
+        :return: A `cryptography` representation of a Name.
+        :rtype: :class:`cryptography.x509.name.Name`
+        """
         return cls(
             attributes=(
                 NameAttribute.from_proto(attribute) for attribute in name.attributes
@@ -422,7 +428,13 @@ class RelativeDistinguishedName(x509_name.RelativeDistinguishedName):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.Name):
-        """Create a Name from a config file."""
+        """
+        Create a RelativeDistinguishedName from a config file.
+
+        :param CsrExtension.Name name: A protobuf representation of a RelativeDistinguishedName.
+        :return: A `cryptography` representation of a RelativeDistinguishedName.
+        :rtype: :class:`cryptography.x509.name.RelativeDistinguishedName`
+        """
         return cls(
             attributes=(
                 NameAttribute.from_proto(attribute) for attribute in name.attributes
@@ -435,7 +447,13 @@ class DirectoryName(general_name.DirectoryName):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.GeneralName):
-        """Create a DirectoryName from a protobuf."""
+        """
+        Create a DirectoryName from a protobuf.
+
+        :param CsrExtension.GeneralName name: A protobuf representation of a DirectoryName.
+        :return: A `cryptography` representation of a DirectoryName.
+        :rtype: :class:`cryptography.x509.general_name.DirectoryName`
+        """
         this_name = name.directory_name
 
         return cls(value=Name.from_proto(this_name.value))
@@ -446,7 +464,13 @@ class RegisteredID(general_name.RegisteredID):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.GeneralName):
-        """Create a RegisteredID from a protobuf."""
+        """
+        Create a RegisteredID from a protobuf.
+
+        :param CsrExtension.GeneralName name: A protobuf representation of a RegisteredID.
+        :return: A `cryptography` representation of a RegisteredID.
+        :rtype: :class:`cryptography.x509.general_name.RegisteredID`
+        """
         this_name = name.registered_id
 
         return cls(value=ObjectIdentifier.from_string(this_name.oid))
@@ -457,7 +481,13 @@ class IPAddress(general_name.IPAddress):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.GeneralName):
-        """Create a IPAddress from a protobuf."""
+        """
+        Create a IPAddress from a protobuf.
+
+        :param CsrExtension.GeneralName name: A protobuf representation of a IPAddress.
+        :return: A `cryptography` representation of a IPAddress.
+        :rtype: :class:`cryptography.x509.general_name.IPAddress`
+        """
         this_name = name.ip_address
 
         return cls(value=ip_address(this_name.value))
@@ -469,7 +499,13 @@ class OtherName(general_name.OtherName):
 
     @classmethod
     def from_proto(cls, name: CsrExtension.GeneralName):
-        """Create a OtherName from a protobuf."""
+        """
+        Create a OtherName from a protobuf.
+
+        :param CsrExtension.GeneralName name: A protobuf representation of a OtherName.
+        :return: A `cryptography` representation of a OtherName.
+        :rtype: :class:`cryptography.x509.general_name.OtherName`
+        """
         this_name = name.other_name
 
         return cls(
@@ -493,7 +529,13 @@ class GeneralName:
 
     @staticmethod
     def from_proto(name: CsrExtension.GeneralName) -> general_name.GeneralName:
-        """Create a GeneralName instance from a protobuf."""
+        """
+        Create a GeneralName instance from a protobuf.
+
+        :param CsrExtension.GeneralName name: A protobuf representation of a GeneralName.
+        :return: A `cryptography` representation of a GeneralName.
+        :rtype: :class:`cryptography.x509.general_name.GeneralName`
+        """
         return GeneralName.name_types.get(name.WhichOneof("name")).from_proto(name)
 
 
@@ -502,7 +544,13 @@ class AuthorityKeyIdentifier(extensions.AuthorityKeyIdentifier):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a AuthorityKeyIdentifier from a protobuf."""
+        """
+        Create a AuthorityKeyIdentifier Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a AuthorityKeyIdentifier Extension.
+        :rtype: :class:`cryptography.x509.extensions.AuthorityKeyIdentifier`
+        """
         this_extension = extension.authority_key_identifier
 
         key_identifier = this_extension.key_identifier
@@ -529,7 +577,13 @@ class AccessDescription(extensions.AccessDescription):
 
     @classmethod
     def from_proto(cls, description: CsrExtension.AccessDescription):
-        """Create a AccessDescription from a protobuf."""
+        """
+        Create a AccessDescription from a protobuf.
+
+        :param CsrExtension.AccessDescription description: A protobuf of a AccessDescription.
+        :return: A `cryptography` representation of a AccessDescription.
+        :rtype: :class:`cryptography.x509.extensions.AccessDescription`
+        """
         return cls(
             access_method=ObjectIdentifier.from_string(description.access_method),
             access_location=GeneralName.from_proto(description.access_location),
@@ -541,7 +595,13 @@ class AuthorityInformationAccess(extensions.AuthorityInformationAccess):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a AuthorityInformationAccess from a protobuf."""
+        """
+        Create a AuthorityInformationAccess Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a AuthorityInformationAccess Extension.
+        :rtype: :class:`cryptography.x509.extensions.AuthorityInformationAccess`
+        """
         this_extension = extension.authority_information_access
 
         return cls(
@@ -557,7 +617,13 @@ class SubjectInformationAccess(extensions.SubjectInformationAccess):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a SubjectInformationAccess from a protobuf."""
+        """
+        Create a SubjectInformationAccess Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a SubjectInformationAccess Extension.
+        :rtype: :class:`cryptography.x509.extensions.SubjectInformationAccess`
+        """
         this_extension = extension.subject_information_access
 
         return cls(
@@ -573,7 +639,13 @@ class DistributionPoint(extensions.DistributionPoint):
 
     @classmethod
     def from_proto(cls, dist: CsrExtension.DistributionPoint):
-        """Create a DistributionPoint from a protobuf."""
+        """
+        Create a DistributionPoint from a protobuf.
+
+        :param CsrExtension.DistributionPoint dist: A protobuf of a DistributionPoint.
+        :return: A `cryptography` representation of a DistributionPoint.
+        :rtype: :class:`cryptography.x509.extensions.DistributionPoint`
+        """
         full_name = [GeneralName.from_proto(name) for name in dist.full_name]
         relative_name = RelativeDistinguishedName.from_proto(dist.relative_name)
         reasons = frozenset((ReasonFlags.from_proto(reason) for reason in dist.reasons))
@@ -604,7 +676,13 @@ class CRLDistributionPoints(extensions.CRLDistributionPoints):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a CRLDistributionPoints from a protobuf."""
+        """
+        Create a CRLDistributionPoints Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a CRLDistributionPoints Extension.
+        :rtype: :class:`cryptography.x509.extensions.CRLDistributionPoints`
+        """
         this_extension = extension.crl_distribution_points
 
         return cls(
@@ -620,7 +698,13 @@ class FreshestCRL(extensions.FreshestCRL):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a FreshestCRL from a protobuf."""
+        """
+        Create a FreshestCRL Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a FreshestCRL Extension.
+        :rtype: :class:`cryptography.x509.extensions.FreshestCRL`
+        """
         this_extension = extension.freshest_crl
 
         return cls(
@@ -636,7 +720,13 @@ class NameConstraints(extensions.NameConstraints):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a NameConstraints from a protobuf."""
+        """
+        Create a NameConstraints Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a NameConstraints Extension.
+        :rtype: :class:`cryptography.x509.extensions.NameConstraints`
+        """
         this_extension = extension.name_constraints
 
         return cls(
@@ -656,7 +746,13 @@ class SubjectAlternativeName(extensions.SubjectAlternativeName):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a SubjectAlternativeName from a protobuf."""
+        """
+        Create a SubjectAlternativeName Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a SubjectAlternativeName Extension.
+        :rtype: :class:`cryptography.x509.extensions.SubjectAlternativeName`
+        """
         this_extension = extension.subject_alternative_name
 
         return cls(
@@ -671,69 +767,19 @@ class IssuerAlternativeName(extensions.IssuerAlternativeName):
 
     @classmethod
     def from_proto(cls, extension: CsrExtension):
-        """Create a IssuerAlternativeName from a protobuf."""
+        """
+        Create a IssuerAlternativeName Extension from a protobuf.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a IssuerAlternativeName Extension.
+        :rtype: :class:`cryptography.x509.extensions.IssuerAlternativeName`
+        """
         this_extension = extension.issuer_alternative_name
 
         return cls(
             general_names=(
                 GeneralName.from_proto(name) for name in this_extension.general_names
             ),
-        )
-
-
-# Unsupported by cryptography
-class CertificateIssuer(extensions.CertificateIssuer):
-    """Wrapper for CertificateIssuer Extension from config file."""
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """Create a CertificateIssuer from a protobuf."""
-        this_extension = extension.certificate_issuer
-
-        return cls(
-            general_names=(
-                GeneralName.from_proto(name) for name in this_extension.general_names
-            ),
-        )
-
-
-# Unsupported by cryptography
-class IssuingDistributionPoint(extensions.IssuingDistributionPoint):
-    """Wrapper for IssuingDistributionPoint Extension from config file."""
-
-    @classmethod
-    def from_proto(cls, extension: CsrExtension):
-        """Create a IssuingDistributionPoint from a protobuf."""
-        this_extension = extension.issuing_distribution_point
-
-        full_name = [GeneralName.from_proto(name) for name in this_extension.full_name]
-        relative_name = RelativeDistinguishedName.from_proto(
-            this_extension.relative_name
-        )
-        reasons = frozenset(
-            (
-                ReasonFlags.from_proto(reason)
-                for reason in this_extension.only_some_reasons
-            )
-        )
-
-        if not full_name:
-            full_name = None
-
-        if not relative_name:
-            relative_name = None
-
-        if not reasons:
-            reasons = None
-
-        return cls(
-            full_name=full_name,
-            relative_name=relative_name,
-            only_contains_user_certs=this_extension.only_contains_user_certs,
-            only_contains_ca_certs=this_extension.only_contains_ca_certs,
-            only_some_reasons=reasons,
-            indirect_crl=this_extension.indirect_crl,
-            only_contains_attribute_certs=this_extension.only_contains_attribute_certs,
         )
 
 
@@ -770,13 +816,19 @@ class Extension:
     }
 
     @staticmethod
-    def get_extension_type(extension: CsrExtension) -> extensions.ExtensionType:
+    def _get_extension_type(extension: CsrExtension) -> extensions.ExtensionType:
         """Get the custom extension wrapper for an extension protobuf."""
         return Extension.extension_list.get(extension.WhichOneof("extension"))
 
     @staticmethod
     def from_proto(extension: CsrExtension) -> extensions.ExtensionType:
-        """Create extensions from an extension proto."""
-        extension_type = Extension.get_extension_type(extension)
+        """
+        Create a `cryptography` Extension from a protobuf representation.
+
+        :param CsrExtension extension: A protobuf representation of a CSR Extension.
+        :return: A `cryptography` representation of a CSR Extension.
+        :rtype: :class:`cryptography.x509.extensions.ExtensionType`
+        """
+        extension_type = Extension._get_extension_type(extension)
 
         return extension_type.from_proto(extension)

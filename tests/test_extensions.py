@@ -1,11 +1,9 @@
-"""
-Unit tests for extensions
-"""
+"""Unit tests for extensions."""
 
 from cryptography import x509
 
 from autocsr.extensions import Extension
-from autocsr.utils import load_csr
+from autocsr.utils import _load_csr as load_csr
 
 example_extension_config = {
     "subject": {"common_name": "test common name"},
@@ -151,10 +149,7 @@ example_extension_config = {
 
 
 def test_extension():
-    """
-    Test all extensions in example config
-    """
-
+    """Test all extensions in example config."""
     proto = load_csr(example_extension_config)
 
     for extension in proto.extensions:
