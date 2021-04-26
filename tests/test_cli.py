@@ -275,7 +275,7 @@ class TestExamples(TestCase):
                 dsa_key.private_bytes(
                     encoding=serialization.Encoding.PEM,
                     format=serialization.PrivateFormat.PKCS8,
-                    encryption_algorithm=serialization.NoEncryption,
+                    encryption_algorithm=serialization.NoEncryption(),
                 )
             )
 
