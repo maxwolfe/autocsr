@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, Mock, patch
 import pkcs11
 
 import autocsr.protos.csr_pb2 as proto
-from autocsr.hsm import Hsm, HsmFactory, SoftHsm
+from autocsr.hsm import DSA, Hsm, HsmFactory, SoftHsm
 
 KeyType = proto.CertificateSigningRequest.KeyType
 HashType = proto.CertificateSigningRequest.HashType
@@ -98,27 +98,27 @@ class TestSoftHsm(TestCase):
 
     @patch("autocsr.hsm.load_der_public_key")
     @patch("autocsr.hsm.encode_ec_public_key")
-    @patch("autocsr.hsm.encode_dsa_public_key")
+    @patch.object(DSA, "construct")
     @patch("autocsr.hsm.encode_rsa_public_key")
     def test_pkcs11_to_crypto_key(
         self,
         mock_encode_rsa,
-        mock_encode_dsa,
+        mock_construct_dsa,
         mock_encode_ec,
         mock_load_pubkey,
     ):
         """Test conversion of pkcs11 key to crypto key."""
         self.softhsm.pkcs11_key_type = pkcs11.KeyType.RSA
-        self.softhsm.pkcs11_to_crypto_key(Mock())
+        self.softhsm.pkcs11_to_crypto_key(MagicMock())
         mock_encode_rsa.assert_called_once()
-        mock_encode_dsa.assert_not_called()
+        mock_construct_dsa.assert_not_called()
         mock_encode_ec.assert_not_called()
         mock_load_pubkey.assert_called_once()
 
         self.softhsm.pkcs11_key_type = pkcs11.KeyType.DSA
-        self.softhsm.pkcs11_to_crypto_key(Mock())
+        self.softhsm.pkcs11_to_crypto_key(MagicMock())
         mock_encode_rsa.assert_called_once()
-        mock_encode_dsa.assert_called_once()
+        mock_construct_dsa.assert_called_once()
         mock_encode_ec.assert_not_called()
         self.assertEqual(
             mock_load_pubkey.call_count,
@@ -127,9 +127,9 @@ class TestSoftHsm(TestCase):
         )
 
         self.softhsm.pkcs11_key_type = pkcs11.KeyType.EC
-        self.softhsm.pkcs11_to_crypto_key(Mock())
+        self.softhsm.pkcs11_to_crypto_key(MagicMock())
         mock_encode_rsa.assert_called_once()
-        mock_encode_dsa.assert_called_once()
+        mock_construct_dsa.assert_called_once()
         mock_encode_ec.assert_called_once()
         self.assertEqual(
             mock_load_pubkey.call_count,
