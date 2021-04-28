@@ -10,7 +10,7 @@ env:
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y softhsm2 gnutls-bin
-  - softhsm2-util --init-token --slot 0 --label "token" --so-pin 1234 --pin 1234
+  - sudo softhsm2-util --init-token --slot 0 --label "token" --so-pin 1234 --pin 1234
   - pip install poetry
 install:
   - poetry install
