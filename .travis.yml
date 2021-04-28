@@ -18,7 +18,7 @@ before_script:
 script:
   - poetry run flake8 autocsr tests
   - poetry run pytest tests
-  - poetry run python tests/functional/create_key.py
+  - sudo poetry run python tests/functional/create_key.py
   - sudo poetry run python tests/functional/functional_test.py
 before_deploy:
   - poetry build
