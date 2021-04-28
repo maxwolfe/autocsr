@@ -10,22 +10,22 @@ env:
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y softhsm2 gnutls-bin
-  - pip install poetry
+  - sudo pip install poetry
 install:
-  - poetry install
+  - sudo poetry install
 before_script:
   - sudo softhsm2-util --init-token --free --slot 0 --label "token" --so-pin 1234 --pin 1234
 script:
-  - poetry run flake8 autocsr tests
-  - poetry run pytest tests
-  - poetry run sudo python tests/functional/create_key.py
-  - poetry run sudo python tests/functional/functional_test.py
+  - sudo poetry run flake8 autocsr tests
+  - sudo poetry run pytest tests
+  - sudo poetry run python tests/functional/create_key.py
+  - sudo poetry run python tests/functional/functional_test.py
 before_deploy:
-  - poetry build
-  - poetry config pypi-token.pypi $PYPI_TOKEN
+  - sudo poetry build
+  - sudo poetry config pypi-token.pypi $PYPI_TOKEN
 deploy:
   provider: script
-  script: poetry publish
+  script: sudo poetry publish
   skip_cleanup: true
   on:
     tags: true
