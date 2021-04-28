@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, Mock, patch
 import pkcs11
 
 import autocsr.protos.csr_pb2 as proto
-from autocsr.hsm import Hsm, HsmFactory, SoftHsm
+from autocsr.hsm import DSA, Hsm, HsmFactory, SoftHsm
 
 KeyType = proto.CertificateSigningRequest.KeyType
 HashType = proto.CertificateSigningRequest.HashType
@@ -55,12 +55,13 @@ class TestSoftHsm(TestCase):
             )
         )
 
-    def test_sign(self):
+    def signing_helper(self, key_type: KeyType, mock_hash=None):
         """Test signing a message from SoftHSM."""
         test_message = b"test message"
         mock_key = Mock()
         self.mock_session.get_key.return_value = mock_key
 
+        self.softhsm.key_type = key_type
         self.softhsm.sign(test_message)
 
         self.mock_token.open.assert_called_once_with(
@@ -71,9 +72,34 @@ class TestSoftHsm(TestCase):
             key_type=self.softhsm.pkcs11_key_type,
             object_class=pkcs11.ObjectClass.PRIVATE_KEY,
         )
-        mock_key.sign.assert_called_once_with(
-            test_message, mechanism=self.softhsm.pkcs11_hash_type
-        )
+
+        if key_type == KeyType.EC:
+            mock_key.sign.assert_called_once_with(
+                mock_hash(self.softhsm.pkcs11_hash_type()).finalize(),
+                mechanism=pkcs11.Mechanism.ECDSA,
+            )
+        else:
+            mock_key.sign.assert_called_once_with(
+                test_message, mechanism=self.softhsm.pkcs11_hash_type
+            )
+
+    def test_rsa_signing(self):
+        """Test signing for RSA Keys."""
+        self.signing_helper(KeyType.RSA)
+
+    @patch("autocsr.hsm.encode_dsa_signature")
+    def test_dsa_signing(self, mock_encode_dsa):
+        """Test signing for DSA Keys."""
+        self.signing_helper(KeyType.DSA)
+        mock_encode_dsa.assert_called_once()
+
+    @patch("autocsr.hsm.hashes.Hash")
+    @patch("autocsr.hsm.encode_ecdsa_signature")
+    def test_ec_signing(self, mock_encode_ecdsa, mock_hash):
+        """Test signing for EC Keys."""
+        self.signing_helper(KeyType.EC, mock_hash)
+        mock_encode_ecdsa.assert_called_once()
+        mock_hash.assert_called()
 
     def test_from_proto(self):
         """Test the creation of SoftHsm from a protobuf."""
@@ -98,27 +124,27 @@ class TestSoftHsm(TestCase):
 
     @patch("autocsr.hsm.load_der_public_key")
     @patch("autocsr.hsm.encode_ec_public_key")
-    @patch("autocsr.hsm.encode_dsa_public_key")
+    @patch.object(DSA, "construct")
     @patch("autocsr.hsm.encode_rsa_public_key")
     def test_pkcs11_to_crypto_key(
         self,
         mock_encode_rsa,
-        mock_encode_dsa,
+        mock_construct_dsa,
         mock_encode_ec,
         mock_load_pubkey,
     ):
         """Test conversion of pkcs11 key to crypto key."""
         self.softhsm.pkcs11_key_type = pkcs11.KeyType.RSA
-        self.softhsm.pkcs11_to_crypto_key(Mock())
+        self.softhsm.pkcs11_to_crypto_key(MagicMock())
         mock_encode_rsa.assert_called_once()
-        mock_encode_dsa.assert_not_called()
+        mock_construct_dsa.assert_not_called()
         mock_encode_ec.assert_not_called()
         mock_load_pubkey.assert_called_once()
 
         self.softhsm.pkcs11_key_type = pkcs11.KeyType.DSA
-        self.softhsm.pkcs11_to_crypto_key(Mock())
+        self.softhsm.pkcs11_to_crypto_key(MagicMock())
         mock_encode_rsa.assert_called_once()
-        mock_encode_dsa.assert_called_once()
+        mock_construct_dsa.assert_called_once()
         mock_encode_ec.assert_not_called()
         self.assertEqual(
             mock_load_pubkey.call_count,
@@ -127,9 +153,9 @@ class TestSoftHsm(TestCase):
         )
 
         self.softhsm.pkcs11_key_type = pkcs11.KeyType.EC
-        self.softhsm.pkcs11_to_crypto_key(Mock())
+        self.softhsm.pkcs11_to_crypto_key(MagicMock())
         mock_encode_rsa.assert_called_once()
-        mock_encode_dsa.assert_called_once()
+        mock_construct_dsa.assert_called_once()
         mock_encode_ec.assert_called_once()
         self.assertEqual(
             mock_load_pubkey.call_count,

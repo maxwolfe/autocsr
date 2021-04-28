@@ -25,6 +25,38 @@ HsmCSR:
 
   output_path: "/tmp/hsm.csr"
 
+DsaHsmCsr:
+  subject:
+    common_name: "DsaHsmCSR"
+
+  hsm_info:
+    softhsm:
+      token_label: "token"
+      key_label: "dsa_key"
+      user_pin: "1234"
+      so_file: "/usr/lib/softhsm/libsofthsm2.so"
+
+    key_type: "DSA"
+    key_size: 2048
+
+  output_path: "/tmp/dsa_hsm.csr"
+
+EcHsmCsr:
+  subject:
+    common_name: "EcHsmCSR"
+
+  hsm_info:
+    softhsm:
+      token_label: "token"
+      key_label: "ec_key"
+      user_pin: "1234"
+      so_file: "/usr/lib/softhsm/libsofthsm2.so"
+
+    key_type: "EC"
+    curve: SECP256R1
+
+  output_path: "/tmp/ec_hsm.csr"
+
 EverythingCSR:
   subject:
     common_name: "Max's Test CSR"
