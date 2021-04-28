@@ -456,7 +456,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 name = "pycryptodome"
 version = "3.10.1"
 description = "Cryptographic library for Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -959,7 +959,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "860758ef9f2f9eead17b988ee2e7140539377140376fe69782cae84cd64884be"
+content-hash = "9afe3cbe91e0e977038e592290510ed8a448f448c01d8558bcff15eb49bfd68d"
 
 [metadata.files]
 alabaster = [
