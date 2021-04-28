@@ -18,8 +18,8 @@ before_script:
 script:
   - poetry run flake8 autocsr tests
   - poetry run pytest tests
-  - sudo poetry run python tests/functional/create_key.py
-  - sudo poetry run python tests/functional/functional_test.py
+  - poetry run sudo python tests/functional/create_key.py
+  - poetry run sudo python tests/functional/functional_test.py
 before_deploy:
   - poetry build
   - poetry config pypi-token.pypi $PYPI_TOKEN
