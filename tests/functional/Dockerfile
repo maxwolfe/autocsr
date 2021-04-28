@@ -12,6 +12,6 @@ RUN softhsm2-util --init-token --slot 0 --label "token" --so-pin 1234 --pin 1234
 RUN poetry run pytest tests
 RUN poetry run python tests/functional/create_key.py
 
-ENTRYPOINT ["python3"]
+ENTRYPOINT ["poetry"]
 
-CMD ["tests/functional/functional_test.py"]
+CMD ["run", "python", "tests/functional/functional_test.py"]
