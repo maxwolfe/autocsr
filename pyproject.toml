@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "autocsr"
-version = "1.0.10"
+version = "1.0.11"
 description = "AutoCSR is a command-line tool and library for automatically generating Certificate Signing Requests from easy to define configuration files."
 authors = ["Max Wolfe <max@securitywolfe.com>"]
 readme = "README.md"
