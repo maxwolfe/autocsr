@@ -384,10 +384,10 @@ Certificate Request:
 ### HSM Support
 `AutoCSR` offers theoretical support for creating Certificate Signing Requests with HSM keys instead of filesystem keys. A proof of concept implementation is currently present utilizing `SoftHSM` and can be extended to support other HSM providers in the future.
 
+An exhaustive list of the supported HSMs are available [here](https://autocsr.readthedocs.io/en/latest/hsms.html).
+
 #### SoftHSM Example
 Utilizing an HSM requires giving `AutoCSR` the information it needs to access the desired key in your HSM. Specifically `AutoCSR` needs to know the `key_type`, `token_label`, `key_label`, `user_pin`, and the `so_file` containing the `PKCS#11` abstractions for the HSM.
-
-An exhaustive list of the supported HSMs are available [here](https://autocsr.readthedocs.io/en/latest/hsms.html).
 
 ```
 # softhsm_example.yaml
