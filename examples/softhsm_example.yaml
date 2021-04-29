@@ -1,0 +1,15 @@
+# softhsm_example.yaml
+My CSR from an HSM (SoftHSM):
+  subject:
+    common_name: A CSR Signed by SoftHSM
+
+  hsm_info:
+    softhsm:
+      token_label: token
+      key_label: small_rsa_key
+      user_pin: "1234"
+      so_file: /usr/lib/softhsm/libsofthsm2.so
+
+    key_type: RSA
+
+  output_path: /tmp/my_softhsm_autocsr.csr
