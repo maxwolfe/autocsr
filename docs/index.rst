@@ -362,8 +362,8 @@ Extensions
 ~~~~~~~~~~
 
 Certificate Signing Requests offer a plethora of predefined extensions.
-An exhaustive list of the available extensions are available
-`here <https://cryptography.io/en/latest/x509/reference/#x-509-extensions>`__,
+An exhaustive list of the supported extensions are available
+`here <https://autocsr.readthedocs.io/en/latest/extensions.html>`__,
 but I will provide a few examples of modeling extensions in
 templates below. Keep in mind that like attributes, extensions
 that require bytes as input will need to have their data represented in
@@ -484,6 +484,9 @@ Utilizing an HSM requires giving ``AutoCSR`` the information it needs to access
 the desired key in your HSM. Specifically ``AutoCSR`` needs to know the
 ``key_type``, ``token_label``, ``key_label``, ``user_pin``, and the ``so_file``
 containing the ``PKCS#11`` abstractions for the HSM.
+
+An exhaustive list of the supported HSMs are available
+`here <https://autocsr.readthedocs.io/en/latest/hsms.html>`__.
 
   ::
 
