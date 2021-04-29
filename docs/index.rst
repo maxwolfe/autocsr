@@ -362,8 +362,8 @@ Extensions
 ~~~~~~~~~~
 
 Certificate Signing Requests offer a plethora of predefined extensions.
-An exhaustive list of the available extensions are available
-`here <https://cryptography.io/en/latest/x509/reference/#x-509-extensions>`__,
+An exhaustive list of the supported extensions are available
+`here <https://autocsr.readthedocs.io/en/latest/extensions.html>`__,
 but I will provide a few examples of modeling extensions in
 templates below. Keep in mind that like attributes, extensions
 that require bytes as input will need to have their data represented in
@@ -451,7 +451,7 @@ Run AutoCSR on a Jinja Template
 
 ::
 
-    max@wolfetop:/app# NAME=Max autocsr quick_csr.jinja2
+    max@wolfetop:/app# NAME=Max autocsr build quick_csr.jinja2
     Created new CSR at /tmp/Maxs_first_autocsr.csr
 
 Validate Jinja Templated CSR
@@ -469,6 +469,52 @@ Validate Jinja Templated CSR
                 Public Key Algorithm: rsaEncryption
                     RSA Public-Key: (2048 bit)
 
+HSM Support
+~~~~~~~~~~~
+
+``AutoCSR`` offers theoretical support for creating Certificate Signing Requests
+with HSM keys instead of filesystem keys. A proof of concept implementation is
+currently present utilizing ``SoftHSM`` and can be extended to support other HSM
+providers in the future.
+
+SoftHSM Example
+^^^^^^^^^^^^^^^
+
+Utilizing an HSM requires giving ``AutoCSR`` the information it needs to access
+the desired key in your HSM. Specifically ``AutoCSR`` needs to know the
+``key_type``, ``token_label``, ``key_label``, ``user_pin``, and the ``so_file``
+containing the ``PKCS#11`` abstractions for the HSM.
+
+An exhaustive list of the supported HSMs are available
+`here <https://autocsr.readthedocs.io/en/latest/hsms.html>`__.
+
+  ::
+
+    # softhsm_example.yaml
+    My CSR from an HSM (SoftHSM):
+      subject:
+        common_name: A CSR Signed by SoftHSM
+
+      hsm_info:
+        softhsm:
+          token_label: token
+          key_label: small_rsa_key
+          user_pin: "1234"
+          so_file: /usr/lib/softhsm/libsofthsm2.so
+
+        key_type: RSA
+
+      output_path: /tmp/my_softhsm_autocsr.csr
+
+Requesting Specific HSM Support
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you have a request to support a specific HSM, please submit an issue
+`here <https://github.com/maxwolfe/autocsr/issues/>`__ and label the request as
+an ``enhancement``. If a issue already exists for your requested HSM, please
+comment or react to the current issue so that we can better prioritize feature
+requests.
+
 .. |Build Status| image:: https://travis-ci.com/maxwolfe/autocsr.svg?token=qz3Kxzoztoakrxm4CFDZ&branch=master
    :target: https://travis-ci.com/maxwolfe/autocsr
 
@@ -476,7 +522,8 @@ Validate Jinja Templated CSR
    :maxdepth: 2
    :caption: Contents:
 
-   autocsr
+   extensions
+   hsms
    license
 
 
