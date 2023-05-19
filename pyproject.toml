@@ -30,7 +30,7 @@ yamllint = "^1.26.1"
 black = "^20.8b1"
 isort = "^5.8.0"
 python-language-server = {extras = ["all"], version = "^0.36.2"}
-flake8 = "3.8.4"
+flake8 = "3.9.2"
 coverage = "^5.5"
 Sphinx  = "^3.5.4"
 sphinx-rtd-theme = "^0.5.2"
