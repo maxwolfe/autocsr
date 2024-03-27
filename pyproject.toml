@@ -20,7 +20,7 @@ PyYAML = "^5.4.1"
 typer = "^0.3.2"
 Jinja2 = "^2.11.3"
 pyOpenSSL = "^20.0.1"
-pyasn1-modules = "^0.2.8"
+pyasn1-modules = "^0.4.0"
 python-pkcs11 = "^0.7.0"
 pycryptodome = "^3.10.1"
 
