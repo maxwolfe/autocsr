@@ -204,6 +204,6 @@ pyyaml==5.4.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (p
 six==1.15.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" \
     --hash=sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced \
     --hash=sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259
-typer==0.3.2; python_version >= "3.6" \
-    --hash=sha256:ba58b920ce851b12a2d790143009fa00ac1d05b3ff3257061ff69dbdfc3d161b \
-    --hash=sha256:5455d750122cff96745b0dec87368f56d023725a7ebc9d2e54dd23dc86816303
+typer==0.27.2; python_version >= "3.6" \
+    --hash=sha256:269b7eb9d3c202ca84b4bc9618cb04ebb43d3d4d1e567e4c768607232c05f945 \
+    --hash=sha256:b3a5fc4342d5fc8fda8fc3010b1cf117e9249aab7fae800c2eff62fd3842d97d
